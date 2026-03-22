@@ -2,6 +2,8 @@
 
 This document describes every environment variable used by the **AlgoPay** SDK and its **examples**. Values can usually be overridden in code via `Config(...)` or `AlgoPay(..., config=...)`.
 
+**Testing note:** Automated **unit tests** should **not** depend on these variables (use mocks). For **live testnet / x402** checks, see **[TESTING_ROADMAP.md](TESTING_ROADMAP.md)** (integration markers, how to obtain ALGO/USDC URLs, Redis, etc.).
+
 ## Core SDK (`Config.from_env`)
 
 | Variable | Required | Default / behavior | Purpose |

@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "algopay"
-version = "0.1.0"
-description = "Payment infrastructure for AI agents on Algorand (x402, USDC/ASA, guards)"
+name = "algopay-sdk"
+version = "0.1.0a1"
+description = "AlgoPay SDK — payment infrastructure for AI agents on Algorand (x402, USDC/ASA, guards)"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "AlgoPay contributors" }]
-keywords = ["algorand", "x402", "payments", "ai", "agent", "usdc", "asa"]
+keywords = ["algopay", "algopay-sdk", "algorand", "x402", "payments", "ai", "agent", "usdc", "asa"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -19,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
@@ -39,6 +40,12 @@ dev = [
     "ruff>=0.14.0",
     "mypy>=1.19.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Algodev-Studio/algopay-sdk"
+Documentation = "https://github.com/Algodev-Studio/algopay-sdk#readme"
+Repository = "https://github.com/Algodev-Studio/algopay-sdk"
+Issues = "https://github.com/Algodev-Studio/algopay-sdk/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/algopay"]
