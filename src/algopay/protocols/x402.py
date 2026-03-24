@@ -24,7 +24,43 @@ if TYPE_CHECKING:
 
 HEADER_PAYMENT_SIGNATURE = "PAYMENT-SIGNATURE"
 HEADER_PAYMENT_RESPONSE = "PAYMENT-RESPONSE"
+HEADER_PAYMENT_REQUIRED = "payment-required"
 URL_PATTERN = re.compile(r"^https?://")
+
+
+def _payment_required_dict_from_402(response: httpx.Response) -> dict[str, Any]:
+    """
+    x402 servers may return requirements in the JSON body or in a base64 ``payment-required`` header.
+    """
+    body: dict[str, Any] = {}
+    try:
+        raw = response.json()
+        if isinstance(raw, dict) and raw.get("x402Version") is not None:
+            body = raw
+    except Exception:
+        pass
+    if not body or body.get("x402Version") is None:
+        pr_hdr: str | None = None
+        for key, val in response.headers.items():
+            if key.lower() == HEADER_PAYMENT_REQUIRED:
+                pr_hdr = val
+                break
+        if pr_hdr:
+            body = json.loads(base64.b64decode(pr_hdr))
+    return body
+
+
+def _payment_required_for_network(body: dict[str, Any], network_caip2: str) -> dict[str, Any]:
+    """Keep only ``accepts`` entries for this chain (multi-chain responses are common)."""
+    acc = body.get("accepts")
+    if not isinstance(acc, list):
+        return body
+    filtered = [
+        a for a in acc if isinstance(a, dict) and str(a.get("network")) == network_caip2
+    ]
+    if not filtered:
+        raise ValueError(f"No x402 accept for network {network_caip2!r}")
+    return {**body, "accepts": filtered}
 
 
 def _payment_payload_to_header(payload: Any) -> str:
@@ -106,7 +142,9 @@ class X402Adapter(ProtocolAdapter):
                 )
 
             try:
-                body = response.json()
+                body = _payment_required_dict_from_402(response)
+                body = _payment_required_for_network(body, self._config.network_caip2)
+                payment_required = parse_payment_required(body)
             except Exception as e:
                 return PaymentResult(
                     success=False,
@@ -116,10 +154,8 @@ class X402Adapter(ProtocolAdapter):
                     recipient=url,
                     method=self.method,
                     status=PaymentStatus.FAILED,
-                    error=f"Invalid 402 JSON body: {e}",
+                    error=f"Invalid 402 payment requirements: {e}",
                 )
-
-            payment_required = parse_payment_required(body)
             x402_client = self._build_x402_client(wallet_id, amount)
             payment_payload = await x402_client.create_payment_payload(payment_required)
 
@@ -233,7 +269,8 @@ class X402Adapter(ProtocolAdapter):
                 result["http_status"] = response.status_code
                 result["reason"] = "Resource does not require payment"
                 return result
-            body = response.json()
+            body = _payment_required_dict_from_402(response)
+            body = _payment_required_for_network(body, self._config.network_caip2)
             pr = parse_payment_required(body)
             req0 = pr.accepts[0]
             required_usdc = Decimal(int(req0.amount)) / Decimal(10**6)

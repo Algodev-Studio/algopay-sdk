@@ -39,6 +39,8 @@ dev = [
     "pytest-cov>=7.0.0",
     "ruff>=0.14.0",
     "mypy>=1.19.0",
+    "fakeredis[lua]>=2.23.0",
+    "respx>=0.22.0",
 ]
 
 [project.urls]
@@ -59,7 +61,19 @@ sources = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-v --tb=short"
+addopts = "-v --tb=short -m \"not integration\""
+markers = [
+    "integration: hits live testnet or external HTTP (run with ALGOPAY_LIVE_TESTNET=1 where noted)",
+]
+
+[tool.coverage.run]
+source_pkgs = ["algopay"]
+branch = true
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
 
 [tool.ruff]
 line-length = 100

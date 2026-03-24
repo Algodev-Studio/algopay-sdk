@@ -30,7 +30,8 @@ class AlgorandWalletSigner:
         for i in indexes_to_sign:
             b64 = base64.b64encode(unsigned_txns[i]).decode()
             txn = encoding.msgpack_decode(b64)
-            stxn = txn.sign(self._private_key)
+            sk_b64 = base64.b64encode(self._private_key).decode()
+            stxn = txn.sign(sk_b64)
             sb64 = encoding.msgpack_encode(stxn)
             out[i] = base64.b64decode(sb64)
         return out

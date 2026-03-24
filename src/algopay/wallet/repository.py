@@ -102,3 +102,32 @@ class WalletRepository:
         if not w:
             raise KeyError(wallet_id)
         return w.private_key
+
+    def register_wallet(
+        self,
+        *,
+        wallet_set_id: str,
+        wallet_id: str,
+        address: str,
+        private_key: bytes,
+        network_caip2: str,
+        name: str | None = None,
+    ) -> WalletRecord:
+        """
+        Register an existing account (e.g. restored from a local demo export).
+
+        Creates the wallet set row if ``wallet_set_id`` is not yet known.
+        """
+        if wallet_set_id not in self._sets:
+            now = datetime.now(timezone.utc)
+            self._sets[wallet_set_id] = {"name": "imported", "created": now}
+        rec = WalletRecord(
+            id=wallet_id,
+            address=address,
+            private_key=private_key,
+            wallet_set_id=wallet_set_id,
+            network_caip2=network_caip2,
+            name=name,
+        )
+        self._wallets[wallet_id] = rec
+        return rec

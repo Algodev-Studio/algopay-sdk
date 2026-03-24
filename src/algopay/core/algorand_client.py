@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 from typing import Any
 
 from algosdk.error import AlgodHTTPError
@@ -40,9 +41,15 @@ class AlgorandClient:
                 details={"address": address, "error": str(e)},
             ) from e
 
-    def send_transaction(self, signed_txn: bytes) -> str:
+    def send_transaction(self, signed_txn: bytes | str) -> str:
+        """Submit signed txn. Pass either raw msgpack bytes or a base64 string (algosdk ``msgpack_encode`` output)."""
         try:
-            return self._algod.send_raw_transaction(signed_txn)
+            payload = (
+                base64.b64encode(signed_txn).decode()
+                if isinstance(signed_txn, bytes)
+                else signed_txn
+            )
+            return self._algod.send_raw_transaction(payload)
         except Exception as e:
             raise NetworkError(f"send_raw_transaction failed: {e}", details={"error": str(e)}) from e
 

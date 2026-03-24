@@ -125,6 +125,11 @@ class WalletService:
     def get_private_key(self, wallet_id: str) -> bytes:
         return self._repo.get_private_key(wallet_id)
 
+    def _private_key_b64_for_signing(self, wallet_id: str) -> str:
+        """algosdk transaction.sign expects a base64-encoded key string."""
+        raw = self.get_private_key(wallet_id)
+        return base64.b64encode(raw).decode()
+
     # --- balances ---
     def _micro_algo(self, wallet_id: str) -> int:
         w = self.get_wallet(wallet_id)
@@ -179,7 +184,7 @@ class WalletService:
     def opt_in_usdc(self, wallet_id: str, fee_level: FeeLevel = FeeLevel.MEDIUM) -> str:
         """Submit 0-amount axfer to opt in to configured USDC ASA. Returns txid."""
         w = self.get_wallet(wallet_id)
-        sk = self.get_private_key(wallet_id)
+        sk_b64 = self._private_key_b64_for_signing(wallet_id)
         sp = self._chain.suggested_params()
         mf = sp.min_fee or 1000
         fee = mf * _fee_level_multiplier(fee_level)
@@ -199,9 +204,8 @@ class WalletService:
             amt=0,
             index=self._config.usdc_asa_id,
         )
-        stxn = txn.sign(sk)
-        raw = base64.b64decode(encoding.msgpack_encode(stxn))
-        txid = self._chain.send_transaction(raw)
+        stxn = txn.sign(sk_b64)
+        txid = self._chain.send_transaction(encoding.msgpack_encode(stxn))
         return txid
 
     def transfer(
@@ -220,7 +224,7 @@ class WalletService:
             self.ensure_sufficient_balance(wallet_id, amount_decimal)
 
         w = self.get_wallet(wallet_id)
-        sk = self.get_private_key(wallet_id)
+        sk_b64 = self._private_key_b64_for_signing(wallet_id)
         sp = self._chain.suggested_params()
         mf = sp.min_fee or 1000
         fee = mf * _fee_level_multiplier(fee_level)
@@ -241,9 +245,8 @@ class WalletService:
             amt=micro,
             index=self._config.usdc_asa_id,
         )
-        stxn = txn.sign(sk)
-        raw = base64.b64decode(encoding.msgpack_encode(stxn))
-        txid = self._chain.send_transaction(raw)
+        stxn = txn.sign(sk_b64)
+        txid = self._chain.send_transaction(encoding.msgpack_encode(stxn))
         tx_info = TransactionInfo(
             id=txid,
             state=TransactionState.PENDING,
