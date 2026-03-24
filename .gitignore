@@ -14,3 +14,4 @@ venv/
 local/
 .coverage
 htmlcov/
+site/

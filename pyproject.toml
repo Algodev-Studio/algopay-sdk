@@ -33,6 +33,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+docs = [
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.27.0",
+]
 dev = [
     "pytest>=9.0.0",
     "pytest-asyncio>=1.3.0",
@@ -45,7 +49,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/Algodev-Studio/algopay-sdk"
-Documentation = "https://github.com/Algodev-Studio/algopay-sdk#readme"
+Documentation = "https://algodev-studio.github.io/algopay-sdk/"
 Repository = "https://github.com/Algodev-Studio/algopay-sdk"
 Issues = "https://github.com/Algodev-Studio/algopay-sdk/issues"
 

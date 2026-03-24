@@ -55,6 +55,7 @@ asyncio.run(main())
 
 ## Documentation
 
+- **Site (guides + API):** [algodev-studio.github.io/algopay-sdk](https://algodev-studio.github.io/algopay-sdk/) — build locally with `pip install -e ".[docs]"` then `mkdocs serve`
 - [Environment variables](docs/ENVIRONMENT.md)
 - [Publishing (alpha → PyPI)](docs/PUBLISHING.md)
 - [Testing roadmap & enterprise readiness](docs/TESTING_ROADMAP.md)
