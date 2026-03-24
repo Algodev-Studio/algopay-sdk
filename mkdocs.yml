@@ -65,6 +65,9 @@ plugins:
             separate_signature: true
 
 markdown_extensions:
+  # Required so Material "grid cards" and other HTML blocks parse inner Markdown
+  # (icons :material-*:, lists, links). Without this, raw syntax shows on the page.
+  - md_in_html
   - attr_list
   - admonition
   - pymdownx.details

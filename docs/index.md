@@ -2,7 +2,7 @@
 
 Python library for **AI agent payments on [Algorand](https://www.algorand.com/)**: local wallets, **USDC (ASA)** transfers, **[x402](https://github.com/coinbase/x402)** HTTP 402 flows, spending **guards**, **ledger**, and **payment intents**.
 
-<div class="grid cards" markdown>
+<div class="grid cards" markdown="1">
 
 -   :material-package-variant:{ .lg .middle } __PyPI package__
 
