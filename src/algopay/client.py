@@ -723,6 +723,37 @@ class AlgoPay:
         guard = ConfirmGuard(threshold=t_threshold, always_confirm=always_confirm, name=name)
         await self._guard_manager.add_guard_for_set(wallet_set_id, guard)
 
+    async def add_justification_guard(
+        self,
+        wallet_id: str,
+        min_length: int = 1,
+        name: str = "justification",
+    ) -> None:
+        """
+        Require a non-empty payment ``purpose`` (justification), Locus-style.
+
+        Args:
+            wallet_id: Target wallet ID
+            min_length: Minimum stripped length of ``purpose`` (default: 1)
+            name: Guard name
+        """
+        from algopay.guards.justification import JustificationGuard
+
+        guard = JustificationGuard(min_length=min_length, name=name)
+        await self._guard_manager.add_guard(wallet_id, guard)
+
+    async def add_justification_guard_for_set(
+        self,
+        wallet_set_id: str,
+        min_length: int = 1,
+        name: str = "justification",
+    ) -> None:
+        """Require justification for every wallet in the set."""
+        from algopay.guards.justification import JustificationGuard
+
+        guard = JustificationGuard(min_length=min_length, name=name)
+        await self._guard_manager.add_guard_for_set(wallet_set_id, guard)
+
     async def add_rate_limit_guard_for_set(
         self,
         wallet_set_id: str,

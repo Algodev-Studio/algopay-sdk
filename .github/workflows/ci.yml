@@ -27,3 +27,27 @@ jobs:
       - name: Mypy (informational)
         run: mypy src/algopay
         continue-on-error: true
+
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Build TypeScript SDK
+        run: npm run build --workspace=@algodev-studio/algopay
+      - name: Test TypeScript SDK
+        run: npm run test:js
+      - name: Prisma generate + Next build
+        env:
+          DATABASE_URL: "file:./ci.db"
+          SESSION_SECRET: "0123456789abcdef0123456789abcdef"
+          ALGOPAY_VAULT_MASTER_KEY: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        run: |
+          npx prisma generate --schema=apps/web/prisma/schema.prisma
+          npm run build --workspace=algopay-web

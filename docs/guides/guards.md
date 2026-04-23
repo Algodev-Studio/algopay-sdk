@@ -11,7 +11,7 @@ On **`pay()`**, AlgoPay builds a [`PaymentContext`](https://github.com/Algodev-S
 - **Wallet-scoped** — Applies to one `wallet_id`.
 - **Set-scoped** — Applies to **every wallet** in a `wallet_set_id` (shared limits / policies).
 
-AlgoPay exposes helpers such as `add_budget_guard` / `add_budget_guard_for_set`, `add_rate_limit_guard` / `add_rate_limit_guard_for_set`, etc. See the [API reference](../reference/api.md).
+AlgoPay exposes helpers such as `add_budget_guard` / `add_budget_guard_for_set`, `add_rate_limit_guard` / `add_rate_limit_guard_for_set`, `add_justification_guard` / `add_justification_guard_for_set`, etc. See the [API reference](../reference/api.md).
 
 ## Built-in guard types
 
@@ -22,6 +22,7 @@ AlgoPay exposes helpers such as `add_budget_guard` / `add_budget_guard_for_set`,
 | **Recipient** | Allowlist or denylist for addresses, regex patterns, **domains** (x402 URLs) |
 | **Rate limit** | Max payments per minute / hour / day |
 | **Confirm** | Human-in-the-loop above a threshold or for all payments |
+| **Justification** | Require a non-empty `purpose` (min length after trim) — Locus-style justification |
 
 ## Listing guards
 

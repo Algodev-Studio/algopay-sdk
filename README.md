@@ -22,6 +22,25 @@ pip install "algopay-sdk==0.1.0a1"
 pip install -e ".[dev]"
 ```
 
+## Monorepo (TypeScript SDK + hosted console)
+
+This repository also contains:
+
+- **`packages/algopay`** — npm package **`@algodev-studio/algopay`** (wallets, USDC transfer, balance).
+- **`apps/web`** — Next.js **control plane** (Locus-style): dashboard, encrypted key **vault**, API keys, workspace policies, **`POST /api/agent/pay`** for server-assisted signing.
+
+From the repo root (Node 20+):
+
+```bash
+npm install
+cp apps/web/.env.example apps/web/.env
+# Set SESSION_SECRET (32+ chars), ALGOPAY_VAULT_MASTER_KEY (base64 32 bytes), DATABASE_URL=file:./dev.db
+npm run db:push --workspace=algopay-web
+npm run dev
+```
+
+Docs: [docs/ecosystem/CONTROL_PLANE.md](docs/ecosystem/CONTROL_PLANE.md).
+
 ## Requirements
 
 - Python 3.10+

@@ -1,0 +1,16 @@
+{
+  "name": "algopay-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=@algodev-studio/algopay && npm run build --workspace=algopay-web",
+    "dev": "npm run dev --workspace=algopay-web",
+    "test:js": "npm run test --workspace=@algodev-studio/algopay"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

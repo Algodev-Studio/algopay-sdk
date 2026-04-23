@@ -30,6 +30,7 @@ class GuardType(str, Enum):
     RECIPIENT = "recipient"
     RATE_LIMIT = "rate_limit"
     CONFIRM = "confirm"
+    JUSTIFICATION = "justification"
 
 
 @dataclass
@@ -62,6 +63,9 @@ class GuardConfig:
     confirm_threshold: Decimal | None = None
     always_confirm: bool = False
 
+    # Justification guard params
+    justification_min_length: int | None = None
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
@@ -84,6 +88,8 @@ class GuardConfig:
             # Confirm
             "confirm_threshold": str(self.confirm_threshold) if self.confirm_threshold else None,
             "always_confirm": self.always_confirm,
+            # Justification
+            "justification_min_length": self.justification_min_length,
         }
 
     @classmethod
@@ -111,6 +117,9 @@ class GuardConfig:
             if data.get("confirm_threshold")
             else None,
             always_confirm=data.get("always_confirm", False),
+            justification_min_length=int(data["justification_min_length"])
+            if data.get("justification_min_length") is not None
+            else None,
         )
 
     @classmethod
@@ -156,6 +165,9 @@ class GuardConfig:
         if hasattr(guard, "_always_confirm"):
             config.always_confirm = guard._always_confirm
 
+        if hasattr(guard, "_min_length"):
+            config.justification_min_length = guard._min_length
+
         return config
 
     @staticmethod
@@ -168,6 +180,7 @@ class GuardConfig:
             "RecipientGuard": GuardType.RECIPIENT,
             "RateLimitGuard": GuardType.RATE_LIMIT,
             "ConfirmGuard": GuardType.CONFIRM,
+            "JustificationGuard": GuardType.JUSTIFICATION,
         }
         return mapping.get(class_name, GuardType.BUDGET)
 
@@ -177,6 +190,7 @@ class GuardConfig:
         from algopay.guards.confirm import ConfirmGuard
         from algopay.guards.rate_limit import RateLimitGuard
         from algopay.guards.recipient import RecipientGuard
+        from algopay.guards.justification import JustificationGuard
         from algopay.guards.single_tx import SingleTxGuard
 
         if self.guard_type == GuardType.BUDGET:
@@ -211,6 +225,9 @@ class GuardConfig:
                 threshold=self.confirm_threshold,
                 always_confirm=self.always_confirm,
             )
+        elif self.guard_type == GuardType.JUSTIFICATION:
+            min_len = self.justification_min_length or 1
+            guard = JustificationGuard(min_length=min_len, name=self.name)
         else:
             raise ValueError(f"Unknown guard type: {self.guard_type}")
 

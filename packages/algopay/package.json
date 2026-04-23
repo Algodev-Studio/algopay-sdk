@@ -1,0 +1,41 @@
+{
+  "name": "@algodev-studio/algopay",
+  "version": "0.1.0-alpha.1",
+  "description": "AlgoPay TypeScript SDK — Algorand agent payments (USDC ASA, x402-ready client)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "algosdk": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Algodev-Studio/algopay-sdk"
+  },
+  "keywords": [
+    "algopay",
+    "algorand",
+    "x402",
+    "usdc",
+    "agent"
+  ]
+}

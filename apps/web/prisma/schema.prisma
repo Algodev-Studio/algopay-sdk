@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  passwordHash String
+  createdAt    DateTime    @default(now())
+  workspaces   Workspace[]
+}
+
+model Workspace {
+  id                  String      @id @default(cuid())
+  name                String
+  userId              String
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// testnet | mainnet — Algorand network for this workspace (Locus-style env separation).
+  network             String      @default("testnet")
+  maxDailyUsdc        String?
+  maxSingleTxUsdc     String?
+  requireJustification Boolean    @default(false)
+  recipientAllowlist  String?     // JSON array of Algorand addresses, optional
+  createdAt           DateTime    @default(now())
+  walletSets          WalletSet[]
+  apiKeys             ApiKey[]
+  ledgerEntries       LedgerEntry[]
+}
+
+model WalletSet {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  wallets     Wallet[]
+}
+
+model Wallet {
+  id              String    @id @default(cuid())
+  walletSetId     String
+  set             WalletSet @relation(fields: [walletSetId], references: [id], onDelete: Cascade)
+  address         String
+  /// AES-256-GCM vault blob (base64): salt(16) | iv(12) | tag(16) | ciphertext
+  vaultBlob       String
+  createdAt       DateTime  @default(now())
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  keyHash     String    @unique
+  prefix      String
+  createdAt   DateTime  @default(now())
+}
+
+model LedgerEntry {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  walletId    String
+  recipient   String
+  amount      String
+  purpose     String?
+  status      String
+  txHash      String?
+  createdAt   DateTime  @default(now())
+}

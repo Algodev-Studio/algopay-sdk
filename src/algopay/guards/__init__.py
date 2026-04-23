@@ -34,6 +34,7 @@ from algopay.guards.base import (
 )
 from algopay.guards.budget import BudgetGuard
 from algopay.guards.confirm import ConfirmGuard
+from algopay.guards.justification import JustificationGuard
 from algopay.guards.manager import GuardConfig, GuardManager, GuardType
 from algopay.guards.rate_limit import RateLimitGuard
 from algopay.guards.recipient import RecipientGuard
@@ -55,4 +56,5 @@ __all__ = [
     "RecipientGuard",
     "RateLimitGuard",
     "ConfirmGuard",
+    "JustificationGuard",
 ]

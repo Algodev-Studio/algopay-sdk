@@ -46,6 +46,13 @@ nav:
   - Reference:
       - API: reference/api.md
       - Environment variables: ENVIRONMENT.md
+  - Ecosystem:
+      - Control plane (hosted web): ecosystem/CONTROL_PLANE.md
+      - Algorand wallet UX: ecosystem/algorand-wallet-ux.md
+      - Checkout & facilitator: ecosystem/checkout-and-facilitator.md
+      - Wrapped APIs strategy: ecosystem/wrapped-apis.md
+      - x402 stack: ecosystem/x402-stack.md
+      - On-chain policy (AlgoKit): ecosystem/on-chain-policy.md
   - Project:
       - Publishing (PyPI): PUBLISHING.md
       - Testing roadmap: TESTING_ROADMAP.md
