@@ -7,6 +7,7 @@ This document explains **what “thoroughly tested” means** for AlgoPay, a **m
 | Layer | Env vars needed? | Notes |
 | ----- | ---------------- | ----- |
 | **Unit tests** (default CI) | **No** | Mock HTTP (`httpx`, `respx`), mock or stub Algod/Indexer responses, use **fakeredis** or **in-memory** storage. |
+| **TypeScript SDK unit tests** (`packages/algopay/`) | **No** (typical) | From repo root: `npm run test:js`. Chain/integration tests are a separate concern, same as Python. |
 | **Integration tests (testnet)** | **Optional** | Funded testnet account, optional Redis URL, optional real x402 HTTPS URL. Use `pytest -m "not integration"` in CI without env. |
 | **Staging / production** | **Yes** | Real Algod/Indexer (or your node), Redis if shared storage, merchant x402 URLs. |
 

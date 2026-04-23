@@ -1,3 +1,9 @@
+import algosdk from "algosdk";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { toClientAvmSigner } from "@x402-avm/avm";
+import { wrapFetchWithPayment } from "@x402-avm/fetch";
+import { x402Client } from "@x402-avm/core/client";
+import type { Config } from "../config.js";
 import type { WalletService } from "../wallet/service.js";
 import { PaymentMethod, PaymentStatus, type PaymentResult } from "../types.js";
 
@@ -16,8 +22,21 @@ function isX402Url(recipient: string): boolean {
   }
 }
 
+function algodToken(): string {
+  return process.env.ALGOD_TOKEN ?? process.env.ALGOPAY_ALGOD_TOKEN ?? "";
+}
+
+/** Base64-encode algosdk 64-byte secret key for `toClientAvmSigner`. */
+function skToBase64(mnemonic: string): string {
+  const sk = algosdk.mnemonicToSecretKey(mnemonic).sk;
+  return Buffer.from(sk).toString("base64");
+}
+
 export class PaymentRouter {
-  constructor(private readonly _wallets: WalletService) {}
+  constructor(
+    private readonly _config: Config,
+    private readonly _wallets: WalletService,
+  ) {}
 
   detectMethod(recipient: string): PaymentMethod | null {
     if (isLikelyAlgorandAddress(recipient)) return PaymentMethod.TRANSFER;
@@ -47,17 +66,7 @@ export class PaymentRouter {
     }
 
     if (method === PaymentMethod.X402) {
-      return {
-        success: false,
-        status: PaymentStatus.FAILED,
-        method: PaymentMethod.X402,
-        amount: params.amount,
-        recipient: params.recipient,
-        blockchainTx: null,
-        transactionId: null,
-        error:
-          "x402 client not bundled in this release — use Python algopay-sdk with x402-avm or add @x402-avm fetch client",
-      };
+      return this._payX402(params);
     }
 
     const dec = params.amount.includes(".") ? params.amount : `${params.amount}.0`;
@@ -99,6 +108,94 @@ export class PaymentRouter {
         method: PaymentMethod.TRANSFER,
         amount: params.amount,
         recipient: params.recipient,
+        blockchainTx: null,
+        transactionId: null,
+        error: msg,
+      };
+    }
+  }
+
+  private async _payX402(params: {
+    walletId: string;
+    recipient: string;
+    amount: string;
+    purpose?: string | null;
+  }): Promise<PaymentResult> {
+    const url = params.recipient;
+    let mnemonic: string;
+    try {
+      mnemonic = this._wallets.getMnemonic(params.walletId);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return {
+        success: false,
+        status: PaymentStatus.FAILED,
+        method: PaymentMethod.X402,
+        amount: params.amount,
+        recipient: url,
+        blockchainTx: null,
+        transactionId: null,
+        error: msg,
+      };
+    }
+
+    try {
+      const signer = toClientAvmSigner(skToBase64(mnemonic));
+      const client = new x402Client();
+      registerExactAvmScheme(client, {
+        signer,
+        algodConfig: {
+          algodUrl: this._config.algodUrl,
+          algodToken: algodToken(),
+        },
+        networks: [this._config.networkCaip2 as `${string}:${string}`],
+      });
+      const fetchPay = wrapFetchWithPayment(globalThis.fetch, client);
+      const response = await fetchPay(url, { method: "GET" });
+
+      const payHdr = response.headers.get("PAYMENT-RESPONSE");
+      let txId: string | null = null;
+      if (payHdr) {
+        try {
+          const decoded = JSON.parse(Buffer.from(payHdr, "base64").toString("utf8")) as {
+            transaction?: string;
+          };
+          txId = decoded.transaction ?? null;
+        } catch {
+          /* ignore */
+        }
+      }
+
+      if (response.ok) {
+        return {
+          success: true,
+          status: PaymentStatus.COMPLETED,
+          method: PaymentMethod.X402,
+          amount: params.amount,
+          recipient: url,
+          blockchainTx: txId,
+          transactionId: txId,
+        };
+      }
+
+      return {
+        success: false,
+        status: PaymentStatus.FAILED,
+        method: PaymentMethod.X402,
+        amount: params.amount,
+        recipient: url,
+        blockchainTx: null,
+        transactionId: null,
+        error: `HTTP ${response.status} after x402 flow`,
+      };
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      return {
+        success: false,
+        status: PaymentStatus.FAILED,
+        method: PaymentMethod.X402,
+        amount: params.amount,
+        recipient: url,
         blockchainTx: null,
         transactionId: null,
         error: msg,

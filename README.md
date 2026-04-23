@@ -27,17 +27,19 @@ pip install -e ".[dev]"
 This repository also contains:
 
 - **`packages/algopay`** — npm package **`@algodev-studio/algopay`** (wallets, USDC transfer, balance).
-- **`apps/web`** — Next.js **control plane** (Locus-style): dashboard, encrypted key **vault**, API keys, workspace policies, **`POST /api/agent/pay`** for server-assisted signing.
+- **`apps/console`** — Next.js **control plane**: dashboard, encrypted key **vault**, APIs & keys, workspace policies, **`POST /api/agent/pay`** for server-assisted signing.
 
 From the repo root (Node 20+):
 
 ```bash
 npm install
-cp apps/web/.env.example apps/web/.env
+cp apps/console/.env.example apps/console/.env
 # Set SESSION_SECRET (32+ chars), ALGOPAY_VAULT_MASTER_KEY (base64 32 bytes), DATABASE_URL=file:./dev.db
-npm run db:push --workspace=algopay-web
+npm run db:push --workspace=algopay-console
 npm run dev
 ```
+
+See [REPOSITORY_LAYOUT.md](REPOSITORY_LAYOUT.md) and [docs/PLATFORM_FEATURE_MATRIX.md](docs/PLATFORM_FEATURE_MATRIX.md).
 
 Docs: [docs/ecosystem/CONTROL_PLANE.md](docs/ecosystem/CONTROL_PLANE.md).
 
@@ -74,9 +76,11 @@ asyncio.run(main())
 
 ## Documentation
 
+- **[Documentation map](docs/DOCUMENTATION_MAP.md)** — repo navigation for humans and LLMs (paths, naming, task routing)
+- **[AGENTS.md](AGENTS.md)** — concise instructions for AI coding agents (Cursor, bots)
 - **Site (guides + API):** [algodev-studio.github.io/algopay-sdk](https://algodev-studio.github.io/algopay-sdk/) — build locally with `pip install -e ".[docs]"` then `mkdocs serve`
 - [Environment variables](docs/ENVIRONMENT.md)
-- [Publishing (alpha → PyPI)](docs/PUBLISHING.md)
+- [Publishing (PyPI + npm)](docs/PUBLISHING.md) — optional **`Publish`** workflow in `.github/workflows/publish.yml`
 - [Testing roadmap & enterprise readiness](docs/TESTING_ROADMAP.md)
 - [Legacy OmniAgentPay / arc-merchant reference](docs/REFERENCE_LEGACY_OMNIAGENTPAY_AND_ARC_MERCHANT.md)
 - `examples/` and the [Algorand x402 scheme](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md)

@@ -6,7 +6,7 @@ Merchant-side pieces stay **outside** the Python `algopay` package (see [REFEREN
 
 1. **Resource server** — HTTP routes return `402 Payment Required` with `scheme_exact_algo` requirements ([Algorand x402 guide](https://algorand.co/agentic-commerce/x402/developers)).
 2. **Facilitator** — Verifies `paymentGroup`, optional fee payer, submits to Algorand. Use a **managed facilitator** for speed or **self-hosted** for custom policy.
-3. **Checkout (Locus-shaped)** — Session model: `PENDING` → `PAID` | `EXPIRED` | `CANCELLED`; webhook on confirmation; optional React embed package alongside `@algodev-studio/algopay`.
+3. **Checkout** — Session model: `PENDING` → `PAID` | `EXPIRED` | `CANCELLED`; webhook on confirmation; optional React embed package alongside `@algodev-studio/algopay`.
 
 ## Scaffold status
 

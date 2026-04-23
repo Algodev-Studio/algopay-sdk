@@ -35,6 +35,7 @@ theme:
 
 nav:
   - Home: index.md
+  - Documentation map: DOCUMENTATION_MAP.md
   - Getting started: getting-started.md
   - User guide:
       - Wallets: guides/wallets.md
@@ -47,6 +48,7 @@ nav:
       - API: reference/api.md
       - Environment variables: ENVIRONMENT.md
   - Ecosystem:
+      - Platform feature matrix: PLATFORM_FEATURE_MATRIX.md
       - Control plane (hosted web): ecosystem/CONTROL_PLANE.md
       - Algorand wallet UX: ecosystem/algorand-wallet-ux.md
       - Checkout & facilitator: ecosystem/checkout-and-facilitator.md

@@ -49,5 +49,5 @@ jobs:
           SESSION_SECRET: "0123456789abcdef0123456789abcdef"
           ALGOPAY_VAULT_MASTER_KEY: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
         run: |
-          npx prisma generate --schema=apps/web/prisma/schema.prisma
-          npm run build --workspace=algopay-web
+          npx prisma generate --schema=apps/console/prisma/schema.prisma
+          npm run build --workspace=algopay-console

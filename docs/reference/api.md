@@ -1,6 +1,6 @@
 # API reference
 
-Generated from docstrings in the **`algopay`** package (install **`algopay-sdk`** from [PyPI](https://pypi.org/project/algopay-sdk/)). For narrative guides, see [Getting started](../getting-started.md) and the [user guide](../guides/wallets.md).
+Generated from docstrings in the **`algopay`** package (install **`algopay-sdk`** from [PyPI](https://pypi.org/project/algopay-sdk/)). For narrative guides, see [Getting started](../getting-started.md) and the [user guide](../guides/wallets.md). **Repo navigation:** [Documentation map](../DOCUMENTATION_MAP.md) (includes TypeScript package path — this page is Python-only).
 
 ## `AlgoPay`
 

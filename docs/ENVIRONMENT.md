@@ -51,3 +51,11 @@ ALGOPAY_NETWORK=algorand-testnet
 ```
 
 Load with `python-dotenv` in your app if desired; the SDK does not auto-load `.env` files.
+
+---
+
+## Hosted console (`apps/console`)
+
+The **Next.js control plane** uses a **separate** env file: **`apps/console/.env`** (template: **`apps/console/.env.example`**). Variables include `DATABASE_URL`, `SESSION_SECRET`, `ALGOPAY_VAULT_MASTER_KEY`, and optional `REDIS_URL`.
+
+They are **not** read by Python `Config.from_env`. See **[Control plane](ecosystem/CONTROL_PLANE.md)** for semantics and security notes.

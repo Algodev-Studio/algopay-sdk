@@ -17,9 +17,20 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "@x402-avm/avm": "~2.6.1",
+    "@x402-avm/core": "~2.6.1",
+    "@x402-avm/fetch": "^2.6.1",
     "algosdk": "^3.0.0"
   },
   "devDependencies": {

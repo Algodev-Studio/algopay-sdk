@@ -1,6 +1,6 @@
-# Algorand wallet UX vs Locus (fee payer, subwallets)
+# Algorand wallet UX (fee payer, subwallets)
 
-Locus uses ERC-4337 **paymasters** and **subwallet** contracts on Base. On Algorand the closest patterns are:
+On EVM stacks, **account abstraction** often uses paymasters and contract subwallets. On Algorand the closest patterns are:
 
 | Goal | Approach |
 |------|----------|

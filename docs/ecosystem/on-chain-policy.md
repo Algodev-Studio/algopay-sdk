@@ -4,7 +4,7 @@
 
 **When to add AlgoKit contracts**
 
-- **Subwallet escrows** with on-chain disburse deadlines (Locus subwallet pattern).
+- **Subwallet escrows** with on-chain disburse deadlines (isolated spend buckets pattern).
 - **Payment router** contract for composable checkout splits.
 - **Immutable policy** commitments where auditors must see rules on-chain.
 

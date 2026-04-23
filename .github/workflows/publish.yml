@@ -1,0 +1,54 @@
+# Manual publish for PyPI and npm. Set repository secrets: PYPI_API_TOKEN, NPM_TOKEN.
+# See docs/PUBLISHING.md for local publishes and release checklist.
+
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_python:
+        description: "Publish algopay-sdk to PyPI"
+        type: boolean
+        default: false
+      publish_npm:
+        description: "Publish @algodev-studio/algopay to npm"
+        type: boolean
+        default: false
+
+jobs:
+  publish-pypi:
+    if: inputs.publish_python == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build tools
+        run: pip install build twine
+      - name: Build
+        run: python -m build
+      - name: Check
+        run: twine check dist/*
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: twine upload dist/*
+
+  publish-npm:
+    if: inputs.publish_npm == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run build --workspace=@algodev-studio/algopay
+      - run: npm publish --workspace=@algodev-studio/algopay --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -22,7 +22,7 @@ AlgoPay exposes helpers such as `add_budget_guard` / `add_budget_guard_for_set`,
 | **Recipient** | Allowlist or denylist for addresses, regex patterns, **domains** (x402 URLs) |
 | **Rate limit** | Max payments per minute / hour / day |
 | **Confirm** | Human-in-the-loop above a threshold or for all payments |
-| **Justification** | Require a non-empty `purpose` (min length after trim) — Locus-style justification |
+| **Justification** | Require a non-empty `purpose` (min length after trim) — structured agent justification |
 
 ## Listing guards
 

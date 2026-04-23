@@ -54,3 +54,4 @@ Validation and business failures surface as **`ValidationError`**, **`PaymentErr
 - [x402 HTTP payments](x402.md)
 - [Guards](guards.md)
 - [Ledger & storage](ledger-storage.md)
+- [Documentation map](../DOCUMENTATION_MAP.md) — TypeScript `pay()` parity and repo paths

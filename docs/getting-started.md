@@ -100,9 +100,21 @@ result = await client.pay(wallet_id, "https://api.example.com/paid-resource", "1
 
 See [x402 HTTP payments](guides/x402.md) and `examples/x402_client_demo.py`.
 
+## TypeScript SDK and hosted console (same repository)
+
+If you are building agents in **Node** or need the **hosted control-plane dashboard** (vault, API keys, policies):
+
+| Piece | Location | Docs |
+| ----- | -------- | ---- |
+| TypeScript client | `packages/algopay/` — **`@algodev-studio/algopay`** | [README on GitHub](https://github.com/Algodev-Studio/algopay-sdk/blob/main/packages/algopay/README.md) |
+| Next.js control plane | `apps/console/` — workspace **`algopay-console`** | [Control plane](ecosystem/CONTROL_PLANE.md), [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md) |
+
+From repo root (Node 20+): `npm install`, configure `apps/console/.env` from `.env.example`, `npm run db:push --workspace=algopay-console`, `npm run dev`. Full command list: root **`README.md`** and **[Documentation map](DOCUMENTATION_MAP.md)**.
+
 ## Next steps
 
 - [Wallets](guides/wallets.md) — sets, balances, opt-in, signing
 - [Payments & routing](guides/payments.md) — `pay`, `simulate`, idempotency, fees
 - [Guards](guides/guards.md) — budgets, allowlists, rate limits
 - [API reference](reference/api.md) — `AlgoPay`, `Config`, types, exceptions
+- [Documentation map](DOCUMENTATION_MAP.md) — repo layout, task routing, naming conventions

@@ -1,5 +1,10 @@
 import { Network } from "./types.js";
-import { USDC_MAINNET_ASA_ID, USDC_TESTNET_ASA_ID } from "./constants.js";
+import {
+  ALGORAND_MAINNET_CAIP2,
+  ALGORAND_TESTNET_CAIP2,
+  USDC_MAINNET_ASA_ID,
+  USDC_TESTNET_ASA_ID,
+} from "./constants.js";
 
 function env(name: string, fallback?: string): string | undefined {
   return process.env[name] ?? fallback;
@@ -35,6 +40,13 @@ export class Config {
 
     this.algodUrl = algod;
     this.indexerUrl = indexer;
+  }
+
+  /** Algorand network as x402 CAIP-2 (for `@x402-avm` registration). */
+  get networkCaip2(): string {
+    return this.network === Network.ALGORAND_MAINNET
+      ? ALGORAND_MAINNET_CAIP2
+      : ALGORAND_TESTNET_CAIP2;
   }
 
   static fromEnv(overrides: ConfigOptions = {}): Config {

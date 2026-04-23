@@ -17,7 +17,7 @@ export class AlgoPay {
   constructor(options: ConfigOptions = {}) {
     this._config = Config.fromEnv(options);
     this._walletService = new WalletService(this._config);
-    this._router = new PaymentRouter(this._walletService);
+    this._router = new PaymentRouter(this._config, this._walletService);
   }
 
   get config(): Config {

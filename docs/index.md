@@ -1,6 +1,8 @@
 # AlgoPay SDK
 
-Python library for **AI agent payments on [Algorand](https://www.algorand.com/)**: local wallets, **USDC (ASA)** transfers, **[x402](https://github.com/coinbase/x402)** HTTP 402 flows, spending **guards**, **ledger**, and **payment intents**.
+**AlgoPay** is **AI-agent payment infrastructure on [Algorand](https://www.algorand.com/)**: wallets, **USDC (ASA)** transfers, **[x402](https://github.com/coinbase/x402)** HTTP 402 flows, **guards**, **ledger**, and **payment intents**.
+
+This repository is a **polyglot monorepo**: the **Python** SDK (PyPI `algopay-sdk`) lives at the repo root; **TypeScript** (`@algodev-studio/algopay`) and the **hosted console** (Next.js, `apps/console`) live under `packages/` and `apps/`. See **[Documentation map](DOCUMENTATION_MAP.md)** and **[Repository layout](../REPOSITORY_LAYOUT.md)** for paths and naming.
 
 <div class="grid cards" markdown="1">
 
@@ -11,6 +13,12 @@ Python library for **AI agent payments on [Algorand](https://www.algorand.com/)*
     Install **`algopay-sdk`**, import **`algopay`**:
 
     [`pip install "algopay-sdk==0.1.0a1"`](https://pypi.org/project/algopay-sdk/0.1.0a1/)
+
+-   :material-language-typescript:{ .lg .middle } __npm (TypeScript)__
+
+    ---
+
+    Package **`@algodev-studio/algopay`** in **`packages/algopay/`** — wallets, `pay()`, x402 via `@x402-avm/*`. See [package README](https://github.com/Algodev-Studio/algopay-sdk/blob/main/packages/algopay/README.md).
 
 -   :material-book-open-variant:{ .lg .middle } __Guides__
 
@@ -23,6 +31,12 @@ Python library for **AI agent payments on [Algorand](https://www.algorand.com/)*
     ---
 
     [API](reference/api.md) · [Environment](ENVIRONMENT.md)
+
+-   :material-sitemap:{ .lg .middle } __Navigate the repo__
+
+    ---
+
+    [Documentation map — humans & LLMs](DOCUMENTATION_MAP.md) · [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md) · [Control plane](ecosystem/CONTROL_PLANE.md)
 
 </div>
 
@@ -76,3 +90,4 @@ asyncio.run(main())
 - **Source:** [github.com/Algodev-Studio/algopay-sdk](https://github.com/Algodev-Studio/algopay-sdk)
 - **PyPI:** [pypi.org/project/algopay-sdk](https://pypi.org/project/algopay-sdk/)
 - **Algorand x402 scheme:** [scheme_exact_algo.md](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md)
+- **Repo navigation:** [DOCUMENTATION_MAP.md](DOCUMENTATION_MAP.md) (task routing, paths, naming)

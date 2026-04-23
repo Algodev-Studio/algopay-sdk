@@ -1,6 +1,6 @@
 # @algodev-studio/algopay
 
-TypeScript client for **AlgoPay** on Algorand: wallet sets, USDC (ASA) transfers, balances. **x402** payment routing returns a clear “not bundled” message in this alpha; use the Python SDK with `x402-avm` for full x402 until TS wiring lands.
+TypeScript client for **AlgoPay** on Algorand: wallet sets, USDC (ASA) transfers, balances. **x402:** `pay()` uses `@x402-avm/fetch` + `@x402-avm/avm` (`registerExactAvmScheme`, `wrapFetchWithPayment`) for HTTP 402 flows on Algorand, aligned with the Python `X402Adapter`.
 
 ## Install
 
@@ -31,4 +31,4 @@ Same as Python: `ALGOPAY_NETWORK`, `ALGOD_URL`, `INDEXER_URL`, `ALGOPAY_USDC_ASA
 
 ## Hosted control plane
 
-For **Locus-style** server-assisted signing and dashboard, run `apps/web` in this repository (vault + API keys + `POST /api/agent/pay`).
+For **server-assisted signing** and the hosted dashboard, run `apps/console` in this repository (vault + API keys + `POST /api/agent/pay`).
