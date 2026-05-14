@@ -1,10 +1,10 @@
-# Control plane (hosted Next.js console)
+# Control plane (hosted Next.js dashboard)
 
-The Next.js app under **`apps/console`** (npm workspace **`algopay-console`**) is the **hosted control plane**: users, workspaces, encrypted wallet keys (vault), API keys, and server-side signing on `POST /api/agent/pay`.
+The Next.js app under **`pay/`** (npm workspace **`algopay-console`**) is the **hosted control plane**: users, workspaces, encrypted wallet keys (vault), API keys, and server-side signing on `POST /api/agent/pay`.
 
 ## Environment
 
-See `apps/console/.env.example`. Required:
+See `pay/.env.example`. Required:
 
 - `DATABASE_URL` — SQLite file for local dev; use Postgres in production.
 - `SESSION_SECRET` — min 32 chars for JWT session cookies.

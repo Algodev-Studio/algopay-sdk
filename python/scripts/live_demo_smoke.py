@@ -4,9 +4,14 @@ Live testnet smoke: load local/live_demo_wallet.json, check chain + USDC, option
 Prerequisites:
   - Wallet funded with testnet ALGO + USDC (and opted in to USDC ASA).
 
-Usage (repo root):
-  pip install -e .
+Usage:
+  cd python && pip install -e ".[dev]"
   python scripts/live_demo_smoke.py
+
+Or from the repository root:
+
+  pip install -e "./python[dev]"
+  python python/scripts/live_demo_smoke.py
 
 Optional env:
   ALGOPAY_X402_URL   default: https://x402.goplausible.xyz/examples/weather
@@ -25,6 +30,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from algopay import AlgoPay  # noqa: E402
@@ -32,9 +38,9 @@ from algopay.core.types import Network  # noqa: E402
 
 
 def _load_demo_wallet() -> dict:
-    path = ROOT / "local" / "live_demo_wallet.json"
+    path = REPO_ROOT / "local" / "live_demo_wallet.json"
     if not path.is_file():
-        raise SystemExit(f"Missing {path} — run scripts/generate_live_demo_wallet.py first.")
+        raise SystemExit(f"Missing {path} — run python/scripts/generate_live_demo_wallet.py first.")
     return json.loads(path.read_text(encoding="utf-8"))
 
 

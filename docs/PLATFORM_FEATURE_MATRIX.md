@@ -43,7 +43,7 @@ Typical platform documentation groups **quick start**, **wallets**, **USDC trans
 
 ---
 
-## Console (`apps/console`) vs dashboard patterns
+## Console (`pay/`) vs dashboard patterns
 
 | Dashboard pattern | AlgoPay console | Python `algopay-sdk` |
 | ----------------- | --------------- | -------------------- |
@@ -84,6 +84,6 @@ Typical platform documentation groups **quick start**, **wallets**, **USDC trans
 
 ## Deployment surface
 
-- **Python:** PyPI package **`algopay-sdk`** — see [Publishing](PUBLISHING.md).
-- **TypeScript:** npm **`@algodev-studio/algopay`** — same document (npm section).
-- **Console:** Deploy as a standard Next.js app (env vars in [Control plane](ecosystem/CONTROL_PLANE.md)); not published to PyPI/npm as a library.
+- **Python:** PyPI **`algopay-sdk`** (`python/` subtree) — [Publishing](PUBLISHING.md).
+- **TypeScript:** npm **`@algodev-studio/algopay`** (**`typescript/`**) — same document (npm section).
+- **Dashboard:** Deploy **`pay/`** as a standard Next.js app ([Control plane](ecosystem/CONTROL_PLANE.md)); not published to PyPI/npm as a library.

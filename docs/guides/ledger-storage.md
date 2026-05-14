@@ -26,7 +26,7 @@ Set **`ALGOPAY_REDIS_URL`** when using Redis.
 
 On `AlgoPay`:
 
-- **`client.ledger`** — [`Ledger`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/src/algopay/ledger/ledger.py) instance
+- **`client.ledger`** — [`Ledger`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/src/algopay/ledger/ledger.py) instance
 - **`client.config`** — [`Config`](../reference/api.md#algopay.core.config.Config)
 
 ## Related

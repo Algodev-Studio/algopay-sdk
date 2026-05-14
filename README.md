@@ -16,24 +16,25 @@ pip install "algopay-sdk==0.1.0a1"
 # or: pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
 ```
 
-**From a clone (development):**
+**From a clone (development)** — editable install targets the **`python/`** subtree:
 
 ```bash
-pip install -e ".[dev]"
+pip install -e "./python[dev]"
 ```
 
-## Monorepo (TypeScript SDK + hosted console)
+## Monorepo layout
 
-This repository also contains:
-
-- **`packages/algopay`** — npm package **`@algodev-studio/algopay`** (wallets, USDC transfer, balance).
-- **`apps/console`** — Next.js **control plane**: dashboard, encrypted key **vault**, APIs & keys, workspace policies, **`POST /api/agent/pay`** for server-assisted signing.
+| Directory | Contents |
+|-----------|----------|
+| **`python/`** | PyPI **`algopay-sdk`** (import **`algopay`**) · `python/examples/` · `python/tests/` · `python/scripts/` |
+| **`typescript/`** | npm **`@algodev-studio/algopay`** |
+| **`pay/`** | Next.js dashboard (**`algopay-console`**) · vault · `POST /api/agent/pay` |
 
 From the repo root (Node 20+):
 
 ```bash
 npm install
-cp apps/console/.env.example apps/console/.env
+cp pay/.env.example pay/.env
 # Set SESSION_SECRET (32+ chars), ALGOPAY_VAULT_MASTER_KEY (base64 32 bytes), DATABASE_URL=file:./dev.db
 npm run db:push --workspace=algopay-console
 npm run dev
@@ -78,12 +79,12 @@ asyncio.run(main())
 
 - **[Documentation map](docs/DOCUMENTATION_MAP.md)** — repo navigation for humans and LLMs (paths, naming, task routing)
 - **[AGENTS.md](AGENTS.md)** — concise instructions for AI coding agents (Cursor, bots)
-- **Site (guides + API):** [algodev-studio.github.io/algopay-sdk](https://algodev-studio.github.io/algopay-sdk/) — build locally with `pip install -e ".[docs]"` then `mkdocs serve`
+- **Site (guides + API):** [algodev-studio.github.io/algopay-sdk](https://algodev-studio.github.io/algopay-sdk/) — build locally with `pip install -e "./python[docs]"` then `mkdocs serve` (repo root)
 - [Environment variables](docs/ENVIRONMENT.md)
 - [Publishing (PyPI + npm)](docs/PUBLISHING.md) — optional **`Publish`** workflow in `.github/workflows/publish.yml`
 - [Testing roadmap & enterprise readiness](docs/TESTING_ROADMAP.md)
 - [Legacy OmniAgentPay / arc-merchant reference](docs/REFERENCE_LEGACY_OMNIAGENTPAY_AND_ARC_MERCHANT.md)
-- `examples/` and the [Algorand x402 scheme](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md)
+- `python/examples/` and the [Algorand x402 scheme](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md)
 
 ## License
 

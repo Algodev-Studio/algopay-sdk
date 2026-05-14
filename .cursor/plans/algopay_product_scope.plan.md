@@ -1,6 +1,6 @@
 ---
 name: AlgoPay product scope
-overview: Polyglot monorepo — Python (`algopay-sdk`) and TypeScript (`@algodev-studio/algopay`) SDKs for Algorand agent payments, plus a hosted Next.js control plane (`apps/console`). Roadmap toward full **agent payment platform** capabilities (wrapped API gateway, checkout, approvals UI) without tying docs to any single competitor.
+overview: Polyglot monorepo — Python (`algopay-sdk`) and TypeScript (`@algodev-studio/algopay`) SDKs for Algorand agent payments, plus a hosted Next.js control plane (`pay/`). Roadmap toward full **agent payment platform** capabilities (wrapped API gateway, checkout, approvals UI) without tying docs to any single competitor.
 todos: []
 ---
 

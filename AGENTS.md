@@ -4,26 +4,26 @@ Use this file as the **fastest orientation** for automated helpers. Humans can i
 
 ## Read first
 
-1. **[docs/DOCUMENTATION_MAP.md](docs/DOCUMENTATION_MAP.md)** — **Task routing**, canonical paths, naming (`algopay-sdk` vs `algopay`, `algopay-console` vs obsolete `algopay-web`).
+1. **[docs/DOCUMENTATION_MAP.md](docs/DOCUMENTATION_MAP.md)** — **Task routing**, canonical paths, naming (`algopay-sdk` vs `algopay`, `algopay-console`).
 2. **[REPOSITORY_LAYOUT.md](REPOSITORY_LAYOUT.md)** — Directory tree and workspace names.
 
 ## Code locations
 
 | Concern | Path |
 | ------- | ---- |
-| Python SDK | `src/algopay/` |
-| Python tests | `tests/` |
-| TypeScript SDK | `packages/algopay/` → npm `@algodev-studio/algopay` |
-| Hosted console | `apps/console/` → workspace `algopay-console` |
+| Python SDK | **`python/src/algopay/`** (PyPI `algopay-sdk`, `import algopay`) |
+| Python tests · examples · scripts | **`python/tests/`**, **`python/examples/`**, **`python/scripts/`** |
+| TypeScript SDK | **`typescript/`** → npm **`@algodev-studio/algopay`** |
+| Hosted dashboard | **`pay/`** → workspace **`algopay-console`** |
 
 ## Common mistakes to avoid
 
-- Do not reference **`apps/web`** or **`algopay-web`**; the app is **`apps/console`** / **`algopay-console`**.
-- Python **PyPI name** is **`algopay-sdk`**; **import** is **`algopay`**.
-- Console **environment** is separate from Python `ALGOPAY_*` vars — see **`apps/console/.env.example`** and [docs/ecosystem/CONTROL_PLANE.md](docs/ecosystem/CONTROL_PLANE.md).
+- Do not reference **`apps/web`**, **`apps/console`**, **`packages/algopay`**, or **`sdk/`** paths; TS lives under **`typescript/`**, dashboard under **`pay/`**.
+- Python **PyPI name** is **`algopay-sdk`**; **import** is **`algopay`**; **`pyproject.toml`** is **`python/pyproject.toml`**.
+- Dashboard **environment** is separate from Python `ALGOPAY_*` vars — **`pay/.env.example`** and [docs/ecosystem/CONTROL_PLANE.md](docs/ecosystem/CONTROL_PLANE.md).
 
 ## Docs and site
 
 - MkDocs sources: **`docs/`**; config: **`mkdocs.yml`**.
-- When changing behavior, update **code** and the relevant **`docs/`** page; prefer linking to **DOCUMENTATION_MAP.md** for navigation updates.
+- Python docstrings indexed from **`python/src`** (mkdocstrings paths in `mkdocs.yml`).
 - Capability status vs typical agent-payment platforms: **[docs/PLATFORM_FEATURE_MATRIX.md](docs/PLATFORM_FEATURE_MATRIX.md)**. Releases: **[docs/PUBLISHING.md](docs/PUBLISHING.md)**.

@@ -8,7 +8,7 @@ TypeScript client for **AlgoPay** on Algorand: wallet sets, USDC (ASA) transfers
 npm install @algodev-studio/algopay
 ```
 
-(From this monorepo: `npm install` at repo root, then `npm run build --workspace=@algodev-studio/algopay`.)
+(From this monorepo: **`typescript/`** — `npm install` at repo root, then **`npm run build --workspace=@algodev-studio/algopay`**.)
 
 ## Usage
 
@@ -31,4 +31,4 @@ Same as Python: `ALGOPAY_NETWORK`, `ALGOD_URL`, `INDEXER_URL`, `ALGOPAY_USDC_ASA
 
 ## Hosted control plane
 
-For **server-assisted signing** and the hosted dashboard, run `apps/console` in this repository (vault + API keys + `POST /api/agent/pay`).
+For **server-assisted signing** and the hosted dashboard, run **`npm run dev`** from the repo root (workspace **`pay/`** — vault + API keys + `POST /api/agent/pay`).

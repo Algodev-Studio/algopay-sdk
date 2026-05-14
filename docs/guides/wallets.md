@@ -1,9 +1,9 @@
 # Wallets
 
-AlgoPay manages **Algorand accounts** through `AlgoPay.wallet`, a [`WalletService`](../reference/api.md#algopay.wallet.service.WalletService) backed by an in-memory [`WalletRepository`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/src/algopay/wallet/repository.py) unless you inject your own.
+AlgoPay manages **Algorand accounts** through `AlgoPay.wallet`, a [`WalletService`](../reference/api.md#algopay.wallet.service.WalletService) backed by an in-memory [`WalletRepository`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/src/algopay/wallet/repository.py) unless you inject your own.
 
 !!! note "Keys and persistence"
-    By default, **private keys live in process memory** only. For **durable, encrypted storage** and dashboard UX, use the **hosted console** vault (`apps/console`) with **[Control plane](../ecosystem/CONTROL_PLANE.md)** and **`POST /api/agent/pay`**, or implement a **custom `WalletRepository`** — see [Documentation map](../DOCUMENTATION_MAP.md) for paths.
+    By default, **private keys live in process memory** only. For **durable, encrypted storage** and dashboard UX, use the **hosted dashboard** vault (`pay/`) with **[Control plane](../ecosystem/CONTROL_PLANE.md)** and **`POST /api/agent/pay`**, or implement a **custom `WalletRepository`** — see [Documentation map](../DOCUMENTATION_MAP.md) for paths.
 
 ## Wallet sets and wallets
 

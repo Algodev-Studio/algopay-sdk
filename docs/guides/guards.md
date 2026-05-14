@@ -4,7 +4,7 @@
 
 ## Execution model
 
-On **`pay()`**, AlgoPay builds a [`PaymentContext`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/src/algopay/guards/base.py) and runs the **guard chain** from [`GuardManager`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/src/algopay/guards/manager.py). If any guard fails, the payment returns **`PaymentStatus.BLOCKED`** and the ledger is updated accordingly. On success, reservations are **committed**; on failure or exception, they are **released**.
+On **`pay()`**, AlgoPay builds a [`PaymentContext`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/src/algopay/guards/base.py) and runs the **guard chain** from [`GuardManager`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/src/algopay/guards/manager.py). If any guard fails, the payment returns **`PaymentStatus.BLOCKED`** and the ledger is updated accordingly. On success, reservations are **committed**; on failure or exception, they are **released**.
 
 ## Wallet vs wallet set
 

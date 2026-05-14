@@ -2,7 +2,8 @@
 
 **AlgoPay** is **AI-agent payment infrastructure on [Algorand](https://www.algorand.com/)**: wallets, **USDC (ASA)** transfers, **[x402](https://github.com/coinbase/x402)** HTTP 402 flows, **guards**, **ledger**, and **payment intents**.
 
-This repository is a **polyglot monorepo**: the **Python** SDK (PyPI `algopay-sdk`) lives at the repo root; **TypeScript** (`@algodev-studio/algopay`) and the **hosted console** (Next.js, `apps/console`) live under `packages/` and `apps/`. See **[Documentation map](DOCUMENTATION_MAP.md)** and **[Repository layout](../REPOSITORY_LAYOUT.md)** for paths and naming.
+This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-sdk`**; **`typescript/`** ships **`@algodev-studio/algopay`**; **`pay/`** is the hosted **Next.js** dashboard.
+
 
 <div class="grid cards" markdown="1">
 
@@ -18,7 +19,7 @@ This repository is a **polyglot monorepo**: the **Python** SDK (PyPI `algopay-sd
 
     ---
 
-    Package **`@algodev-studio/algopay`** in **`packages/algopay/`** — wallets, `pay()`, x402 via `@x402-avm/*`. See [package README](https://github.com/Algodev-Studio/algopay-sdk/blob/main/packages/algopay/README.md).
+    Package **`@algodev-studio/algopay`** in **`typescript/`** — wallets, `pay()`, x402 via `@x402-avm/*`. See [package README](https://github.com/Algodev-Studio/algopay-sdk/blob/main/typescript/README.md).
 
 -   :material-book-open-variant:{ .lg .middle } __Guides__
 
@@ -65,7 +66,7 @@ pip install "algopay-sdk==0.1.0a1"
 From a clone (development):
 
 ```bash
-pip install -e ".[dev]"
+pip install -e "./python[dev]"
 ```
 
 ## Minimal example

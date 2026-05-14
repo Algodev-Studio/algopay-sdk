@@ -1,11 +1,16 @@
 """
-Live testnet: exercise as much of the SDK as possible using local/live_demo_wallet.json.
+Live testnet: exercise as much of the SDK as possible using local/live_demo_wallet.json at the repository root.
 
 Uses small USDC amounts via self-transfers (same wallet address) so the receiver is already opted into USDC.
 
-Usage (repo root):
-  pip install -e .
+Usage:
+  cd python && pip install -e ".[dev]"
   python scripts/live_demo_exhaustive.py
+
+Or from the repository root:
+
+  pip install -e "./python[dev]"
+  python python/scripts/live_demo_exhaustive.py
 
 Optional env:
   ALGOPAY_X402_URL     (default: GoPlausible weather)
@@ -26,6 +31,7 @@ from decimal import Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from algosdk import account  # noqa: E402
@@ -35,7 +41,7 @@ from algopay.core.types import Network, PaymentRequest, PaymentStatus  # noqa: E
 
 
 def _load_demo_wallet() -> dict:
-    path = ROOT / "local" / "live_demo_wallet.json"
+    path = REPO_ROOT / "local" / "live_demo_wallet.json"
     if not path.is_file():
         raise SystemExit(f"Missing {path}")
     return json.loads(path.read_text(encoding="utf-8"))

@@ -2,8 +2,8 @@
   "name": "algopay-monorepo",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "apps/*"
+    "typescript",
+    "pay"
   ],
   "scripts": {
     "build": "npm run build --workspace=@algodev-studio/algopay && npm run build --workspace=algopay-console",

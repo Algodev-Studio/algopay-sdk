@@ -18,8 +18,13 @@ site/
 
 # Node / monorepo
 node_modules/
-apps/console/.next/
-apps/console/dev.db
-apps/console/dev.db-journal
-packages/algopay/dist/
+pay/.next/
+pay/dev.db
+pay/dev.db-journal
+typescript/dist/
+
+# Python workspace (editable install artifacts)
+python/.eggs/
+python/*.egg-info/
+python/dist/
 .turbo/

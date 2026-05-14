@@ -22,14 +22,14 @@ This document describes every environment variable used by the **AlgoPay** SDK a
 
 ## Example scripts only
 
-These are **not** read by `Config.from_env`; they only configure `examples/*.py`.
+These are **not** read by `Config.from_env`; they only configure `python/examples/*.py`.
 
 | Variable | Used in | Purpose |
 | -------- | ------- | ------- |
-| **`ALGOPAY_TO_ADDRESS`** | `examples/basic_payment.py` | 58-character **receiver** Algorand address for a demo USDC transfer. |
-| **`ALGOPAY_AMOUNT`** | `examples/basic_payment.py` | Demo transfer amount in USDC (string, e.g. `0.01`). |
-| **`ALGOPAY_X402_URL`** | `examples/x402_client_demo.py` | HTTPS URL of a resource that returns **x402** payment requirements (402 flow). |
-| **`ALGOPAY_MAX_USDC`** | `examples/x402_client_demo.py` | Maximum USDC the demo client allows the resource to charge (safety cap). |
+| **`ALGOPAY_TO_ADDRESS`** | `python/examples/basic_payment.py` | 58-character **receiver** Algorand address for a demo USDC transfer. |
+| **`ALGOPAY_AMOUNT`** | `python/examples/basic_payment.py` | Demo transfer amount in USDC (string, e.g. `0.01`). |
+| **`ALGOPAY_X402_URL`** | `python/examples/x402_client_demo.py` | HTTPS URL of a resource that returns **x402** payment requirements (402 flow). |
+| **`ALGOPAY_MAX_USDC`** | `python/examples/x402_client_demo.py` | Maximum USDC the demo client allows the resource to charge (safety cap). |
 
 ## Not configured via environment (today)
 
@@ -54,8 +54,8 @@ Load with `python-dotenv` in your app if desired; the SDK does not auto-load `.e
 
 ---
 
-## Hosted console (`apps/console`)
+## Hosted console (`pay`)
 
-The **Next.js control plane** uses a **separate** env file: **`apps/console/.env`** (template: **`apps/console/.env.example`**). Variables include `DATABASE_URL`, `SESSION_SECRET`, `ALGOPAY_VAULT_MASTER_KEY`, and optional `REDIS_URL`.
+The **Next.js control plane** uses a **separate** env file: **`pay/.env`** (template: **`pay/.env.example`**). Variables include `DATABASE_URL`, `SESSION_SECRET`, `ALGOPAY_VAULT_MASTER_KEY`, and optional `REDIS_URL`.
 
 They are **not** read by Python `Config.from_env`. See **[Control plane](ecosystem/CONTROL_PLANE.md)** for semantics and security notes.

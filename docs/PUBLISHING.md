@@ -4,8 +4,8 @@ This document covers **both** distributables:
 
 | Artifact | Registry | Package name | Version source |
 | -------- | -------- | ------------ | -------------- |
-| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | `pyproject.toml` → **`0.1.0a1`** (PEP 440) |
-| TypeScript SDK | [npm](https://www.npmjs.com/) | **`@algodev-studio/algopay`** | `packages/algopay/package.json` → **`0.1.0-alpha.1`** (semver) |
+| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | **`python/pyproject.toml`** → **`0.1.0a1`** (PEP 440) |
+| TypeScript SDK | [npm](https://www.npmjs.com/) | **`@algodev-studio/algopay`** | **`typescript/package.json`** → **`0.1.0-alpha.1`** (semver) |
 
 Keep these **logically aligned** when cutting a release (same minor/patch story; Python `a1` ↔ npm `alpha.1`).
 
@@ -17,28 +17,32 @@ This package uses **PEP 440** pre-release versioning. **`0.1.0a1`** is the first
 
 ### Current status
 
-- **Version:** `0.1.0a1` (see `pyproject.toml` and `algopay.__version__`)
+- **Version:** `0.1.0a1` (see **`python/pyproject.toml`** and `algopay.__version__`)
 - **Trove:** `Development Status :: 3 - Alpha` — APIs and behavior may change; test coverage is still growing ([testing roadmap](TESTING_ROADMAP.md)).
 
 ### Before the first upload
 
-1. **Repository:** [Algodev-Studio/algopay-sdk](https://github.com/Algodev-Studio/algopay-sdk) — `[project.urls]` in `pyproject.toml` points here.
+1. **Repository:** [Algodev-Studio/algopay-sdk](https://github.com/Algodev-Studio/algopay-sdk) — `[project.urls]` in **`python/pyproject.toml`** points here.
 2. **PyPI account** at [pypi.org](https://pypi.org/account/register/) and an **API token** ([Account settings → API tokens](https://pypi.org/manage/account/token/)) scoped to the project (create the **`algopay-sdk`** project on first upload or use an “entire account” token for the first release only, then narrow scope).
 3. **Project name:** The PyPI distribution is **`algopay-sdk`** ([project on PyPI](https://pypi.org/project/algopay-sdk/)). The importable Python package remains **`algopay`** (`import algopay`).
-4. **`README.md`** is the PyPI long description via `readme = "README.md"`.
+4. **Long description** comes from the repo root **`README.md`** (`readme = "../README.md"` in **`python/pyproject.toml`**).
 
 ### Build artifacts
 
+From **`python/`**:
+
 ```bash
 pip install build twine
+cd python
 python -m build
 ```
 
-This produces `dist/algopay_sdk-0.1.0a1-py3-none-any.whl` and `dist/algopay_sdk-0.1.0a1.tar.gz`.
+This produces `python/dist/algopay_sdk-0.1.0a1-py3-none-any.whl` and `python/dist/algopay_sdk-0.1.0a1.tar.gz`.
 
 Sanity check:
 
 ```bash
+cd python
 twine check dist/*
 ```
 
@@ -47,6 +51,7 @@ twine check dist/*
 Configure `~/.pypirc` or use environment variables for credentials, then:
 
 ```bash
+cd python
 twine upload --repository testpypi dist/*
 ```
 
@@ -63,6 +68,7 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 **Do not commit tokens.** Use an environment variable (works on Windows PowerShell too):
 
 ```bash
+cd python
 python -m build
 twine check dist/*
 # Linux/macOS:
@@ -72,6 +78,7 @@ TWINE_USERNAME=__token__ TWINE_PASSWORD=pypi-AgEI... twine upload dist/*
 PowerShell:
 
 ```powershell
+cd python
 $env:TWINE_USERNAME = "__token__"
 $env:TWINE_PASSWORD = "pypi-AgEIcHlwaS5vcmcvc1Rva2..."
 python -m build
@@ -105,7 +112,7 @@ pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
 
 ## TypeScript (npm)
 
-Package path: **`packages/algopay/`**. Scoped name: **`@algodev-studio/algopay`**.
+Package path: **`typescript/`**. Scoped name: **`@algodev-studio/algopay`**.
 
 ### Prerequisite
 
@@ -137,7 +144,7 @@ npm publish --workspace=@algodev-studio/algopay --access public --dry-run
 npm publish --workspace=@algodev-studio/algopay --access public
 ```
 
-`prepublishOnly` in `packages/algopay/package.json` runs `tsc` so the `dist/` folder is fresh.
+`prepublishOnly` in **`typescript/package.json`** runs `tsc` so the `dist/` folder is fresh.
 
 ### Consumers
 
@@ -164,8 +171,8 @@ Run **Publish** workflow from the Actions tab; enable **Python** and/or **npm** 
 
 ## Release checklist (both SDKs)
 
-1. Update versions in **`pyproject.toml`** and **`packages/algopay/package.json`**; align alpha numbering.
-2. **`python -m build`** + **`twine check`**; **`npm run build`** for the TS workspace.
-3. Run **tests**: `pytest -m "not integration"`; `npm run test:js`.
+1. Update versions in **`python/pyproject.toml`** and **`typescript/package.json`**; align alpha numbering.
+2. **`cd python && python -m build`** + **`twine check`**; **`npm run build`** for the TS workspace.
+3. Run **tests**: `cd python && pytest -m "not integration"`; **`npm run test:js`** from repo root.
 4. Tag git (optional): `v0.1.0-alpha.1` or project convention.
 5. Publish PyPI then npm (or reverse); verify install in a clean directory.

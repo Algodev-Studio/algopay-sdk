@@ -26,7 +26,7 @@ The published package name is **`algopay-sdk`**. You still **`import algopay`** 
     ```bash
     git clone https://github.com/Algodev-Studio/algopay-sdk.git
     cd algopay-sdk
-    pip install -e ".[dev]"
+    pip install -e "./python[dev]"
     ```
 
 ## Configure the network
@@ -66,7 +66,7 @@ client = AlgoPay(
 4. **Acquire** USDC on that address (testnet dispenser, swap, etc.).
 5. Call **`await client.pay(wallet_id, receiver_address, amount)`**.
 
-See `examples/basic_payment.py` in the repository for a script that uses `ALGOPAY_TO_ADDRESS` and `ALGOPAY_AMOUNT`.
+See **`python/examples/basic_payment.py`** in the repository for a script that uses `ALGOPAY_TO_ADDRESS` and `ALGOPAY_AMOUNT`.
 
 ```python
 import asyncio
@@ -98,7 +98,7 @@ If `recipient` is an **https://** URL, the router uses the **x402** adapter (HTT
 result = await client.pay(wallet_id, "https://api.example.com/paid-resource", "1.0")
 ```
 
-See [x402 HTTP payments](guides/x402.md) and `examples/x402_client_demo.py`.
+See [x402 HTTP payments](guides/x402.md) and **`python/examples/x402_client_demo.py`**.
 
 ## TypeScript SDK and hosted console (same repository)
 
@@ -106,10 +106,10 @@ If you are building agents in **Node** or need the **hosted control-plane dashbo
 
 | Piece | Location | Docs |
 | ----- | -------- | ---- |
-| TypeScript client | `packages/algopay/` — **`@algodev-studio/algopay`** | [README on GitHub](https://github.com/Algodev-Studio/algopay-sdk/blob/main/packages/algopay/README.md) |
-| Next.js control plane | `apps/console/` — workspace **`algopay-console`** | [Control plane](ecosystem/CONTROL_PLANE.md), [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md) |
+| TypeScript client | **`typescript/`** — **`@algodev-studio/algopay`** | [README on GitHub](https://github.com/Algodev-Studio/algopay-sdk/blob/main/typescript/README.md) |
+| Next.js control plane | `pay/` — workspace **`algopay-console`** | [Control plane](ecosystem/CONTROL_PLANE.md), [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md) |
 
-From repo root (Node 20+): `npm install`, configure `apps/console/.env` from `.env.example`, `npm run db:push --workspace=algopay-console`, `npm run dev`. Full command list: root **`README.md`** and **[Documentation map](DOCUMENTATION_MAP.md)**.
+From repo root (Node 20+): `npm install`, configure `pay/.env` from `.env.example`, `npm run db:push --workspace=algopay-console`, `npm run dev`. Full command list: root **`README.md`** and **[Documentation map](DOCUMENTATION_MAP.md)**.
 
 ## Next steps
 

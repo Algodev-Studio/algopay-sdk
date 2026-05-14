@@ -7,7 +7,7 @@ This document explains **what “thoroughly tested” means** for AlgoPay, a **m
 | Layer | Env vars needed? | Notes |
 | ----- | ---------------- | ----- |
 | **Unit tests** (default CI) | **No** | Mock HTTP (`httpx`, `respx`), mock or stub Algod/Indexer responses, use **fakeredis** or **in-memory** storage. |
-| **TypeScript SDK unit tests** (`packages/algopay/`) | **No** (typical) | From repo root: `npm run test:js`. Chain/integration tests are a separate concern, same as Python. |
+| **TypeScript SDK unit tests** (`typescript/`) | **No** (typical) | From repo root: `npm run test:js`. Chain/integration tests are a separate concern, same as Python. |
 | **Integration tests (testnet)** | **Optional** | Funded testnet account, optional Redis URL, optional real x402 HTTPS URL. Use `pytest -m "not integration"` in CI without env. |
 | **Staging / production** | **Yes** | Real Algod/Indexer (or your node), Redis if shared storage, merchant x402 URLs. |
 
@@ -91,7 +91,7 @@ Use this as a backlog. File names are suggestions; merge/split as you prefer.
 
 ## Enterprise-ready extras (beyond minimal 1.0)
 
-- **CI:** GitHub Actions / GitLab CI: Python 3.10–3.13, `pytest`, `ruff check`, `mypy` (strict on `src/algopay`), coverage gate (e.g. ≥80% on critical modules).
+- **CI:** GitHub Actions / GitLab CI: Python 3.10–3.13, `pytest` (from **`python/`**), `ruff check`, `mypy` (strict on **`python/src/algopay`**), coverage gate (e.g. ≥80% on critical modules).
 - **Supply chain:** `pip-audit` or `uv pip audit` in CI.
 - **Release:** signed tags, changelog, semantic versioning post-1.0.
 - **Docs:** migration guide when breaking changes ship.
@@ -138,5 +138,5 @@ Use this as a backlog. File names are suggestions; merge/split as you prefer.
 1. All checklist sections **1–8** implemented with **mocks** (no env required in CI).
 2. **Integration** tests documented and runnable with a short “funding + env” doc (this file + [ENVIRONMENT.md](ENVIRONMENT.md)).
 3. **Coverage** target on `client`, `payment/router`, `protocols/*`, `guards/*` agreed and enforced (e.g. ≥75–85%).
-4. **mypy + ruff** clean on `src/algopay`.
+4. **mypy + ruff** clean on **`python/src/algopay`**.
 5. **Changelog** and stable **`1.0.0`** on PyPI.

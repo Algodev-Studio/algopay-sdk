@@ -27,14 +27,16 @@ jobs:
       - name: Install build tools
         run: pip install build twine
       - name: Build
+        working-directory: python
         run: python -m build
       - name: Check
+        working-directory: python
         run: twine check dist/*
       - name: Upload to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+        run: twine upload python/dist/*
 
   publish-npm:
     if: inputs.publish_npm == true

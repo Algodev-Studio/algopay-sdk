@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "algopay-sdk"
 version = "0.1.0a1"
 description = "AlgoPay SDK — payment infrastructure for AI agents on Algorand (x402, USDC/ASA, guards)"
-readme = "README.md"
+readme = "../README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "AlgoPay contributors" }]

@@ -1,9 +1,13 @@
 """
-Generate a testnet wallet for live demos. Writes secrets to local/ (gitignored).
+Generate a testnet wallet for live demos. Writes secrets to `local/` at the repository root (gitignored).
 
-Usage (from repo root):
-  pip install -e .
+Usage:
+  cd python && pip install -e ".[dev]"
   python scripts/generate_live_demo_wallet.py
+
+Or from the repository root (after `pip install -e "./python[dev]"`):
+
+  python python/scripts/generate_live_demo_wallet.py
 """
 
 from __future__ import annotations
@@ -15,6 +19,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from algopay import AlgoPay  # noqa: E402
@@ -22,7 +27,7 @@ from algopay.core.types import Network  # noqa: E402
 
 
 async def main() -> None:
-    out_dir = ROOT / "local"
+    out_dir = REPO_ROOT / "local"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "live_demo_wallet.json"
 

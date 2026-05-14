@@ -25,7 +25,7 @@ Returns **[`PaymentResult`](../reference/api.md#algopay.core.types.PaymentResult
 
 ## Routing
 
-[`PaymentRouter`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/src/algopay/payment/router.py) registers:
+[`PaymentRouter`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/src/algopay/payment/router.py) registers:
 
 - **`X402Adapter`** — HTTPS recipients
 - **`TransferAdapter`** — Algorand address recipients
