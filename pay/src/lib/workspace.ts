@@ -1,15 +1,22 @@
 import { prisma } from "./prisma";
+import { getSessionUserId } from "./session";
 
-export async function getDefaultWorkspace(userId: string) {
-  const ws = await prisma.workspace.findFirst({
+export { prisma };
+
+export async function getWorkspace() {
+  const userId = await getSessionUserId();
+  if (!userId) return null;
+
+  const workspace = await prisma.workspace.findFirst({
     where: { userId },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
   });
-  return ws;
+
+  return workspace;
 }
 
-export async function requireWorkspace(userId: string) {
-  const ws = await getDefaultWorkspace(userId);
-  if (!ws) throw new Error("no_workspace");
-  return ws;
+export async function requireWorkspace() {
+  const workspace = await getWorkspace();
+  if (!workspace) throw new Error("Unauthorized");
+  return workspace;
 }

@@ -10,16 +10,27 @@
     "db:push": "prisma db push"
   },
   "dependencies": {
+    "@agoralabs-sh/avm-web-provider": "^1.7.0",
+    "@blockshake/defly-connect": "^1.2.1",
+    "@perawallet/connect": "^1.5.2",
     "@prisma/client": "^6.3.0",
+    "@txnlab/use-wallet-react": "^4.6.0",
+    "@walletconnect/modal": "^2.7.0",
+    "@walletconnect/sign-client": "^2.23.9",
     "algosdk": "^3.0.0",
     "bcryptjs": "^2.4.3",
+    "framer-motion": "^12.38.0",
     "jose": "^5.9.6",
+    "lucide-react": "^1.16.0",
+    "lute-connect": "^1.7.0",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "tailwindcss": "^4.3.0",
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",

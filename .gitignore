@@ -28,3 +28,6 @@ python/.eggs/
 python/*.egg-info/
 python/dist/
 .turbo/
+
+
+Algopay-main/

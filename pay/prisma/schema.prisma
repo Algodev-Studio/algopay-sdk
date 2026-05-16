@@ -16,20 +16,27 @@ model User {
 }
 
 model Workspace {
-  id                  String      @id @default(cuid())
-  name                String
-  userId              String
-  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  /// testnet | mainnet — Algorand network for this workspace (e.g. beta vs production isolation).
-  network             String      @default("testnet")
-  maxDailyUsdc        String?
-  maxSingleTxUsdc     String?
-  requireJustification Boolean    @default(false)
-  recipientAllowlist  String?     // JSON array of Algorand addresses, optional
-  createdAt           DateTime    @default(now())
-  walletSets          WalletSet[]
-  apiKeys             ApiKey[]
-  ledgerEntries       LedgerEntry[]
+  id                   String           @id @default(cuid())
+  name                 String
+  userId               String
+  user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  network              String           @default("testnet")
+  maxDailyUsdc         String?
+  maxSingleTxUsdc      String?
+  approvalThresholdUsdc String?
+  requireJustification Boolean          @default(false)
+  recipientAllowlist   String?
+  createdAt            DateTime         @default(now())
+  walletSets           WalletSet[]
+  apiKeys              ApiKey[]
+  ledgerEntries        LedgerEntry[]
+  agents               Agent[]
+  merchants            Merchant[]
+  gasPools             GasPool[]
+  payments             Payment[]
+  webhooks             Webhook[]
+  auditLogs            AuditLog[]
+  checkoutSessions     CheckoutSession[]
 }
 
 model WalletSet {
@@ -41,13 +48,12 @@ model WalletSet {
 }
 
 model Wallet {
-  id              String    @id @default(cuid())
-  walletSetId     String
-  set             WalletSet @relation(fields: [walletSetId], references: [id], onDelete: Cascade)
-  address         String
-  /// AES-256-GCM vault blob (base64): salt(16) | iv(12) | tag(16) | ciphertext
-  vaultBlob       String
-  createdAt       DateTime  @default(now())
+  id          String    @id @default(cuid())
+  walletSetId String
+  set         WalletSet @relation(fields: [walletSetId], references: [id], onDelete: Cascade)
+  address     String
+  vaultBlob   String
+  createdAt   DateTime  @default(now())
 }
 
 model ApiKey {
@@ -58,6 +64,7 @@ model ApiKey {
   keyHash     String    @unique
   prefix      String
   createdAt   DateTime  @default(now())
+  gasPool     GasPool?
 }
 
 model LedgerEntry {
@@ -71,4 +78,126 @@ model LedgerEntry {
   status      String
   txHash      String?
   createdAt   DateTime  @default(now())
+}
+
+model Agent {
+  id              String    @id @default(cuid())
+  workspaceId     String
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name            String
+  algoAddress     String
+  dailyLimitCents Int       @default(10000)
+  dailySpentCents Int       @default(0)
+  status          String    @default("active")
+  poolId          String?
+  pool            GasPool?  @relation(fields: [poolId], references: [id])
+  lastResetAt     DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  payments        Payment[]
+}
+
+model Merchant {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  algoAddress String
+  merchantRef String    @unique @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model GasPool {
+  id                 String    @id @default(cuid())
+  workspaceId        String
+  workspace          Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  apiKeyId           String?   @unique
+  apiKey             ApiKey?   @relation(fields: [apiKeyId], references: [id])
+  balanceUsdc        String    @default("0")
+  dailyCapCents      Int       @default(0)
+  alertThresholdUsdc String    @default("0")
+  status             String    @default("empty")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  agents             Agent[]
+  payments           Payment[]
+}
+
+model Payment {
+  id             String    @id @default(cuid())
+  invoiceId      String    @unique
+  workspaceId    String
+  workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  agentId        String
+  agent          Agent     @relation(fields: [agentId], references: [id])
+  poolId         String
+  pool           GasPool   @relation(fields: [poolId], references: [id])
+  merchantId     String?
+  status         String    @default("pending")
+  amountUsdCents Int
+  amountUsdc     String?
+  algoTxnId      String?
+  blockRound     Int?
+  confirmedAt    DateTime?
+  gasSponsored   Boolean   @default(true)
+  gasFeeAlgo     String?
+  network        String    @default("testnet")
+  timeline       String    @default("[]")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Webhook {
+  id          String            @id @default(cuid())
+  workspaceId String
+  workspace   Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  url         String
+  events      String            @default("[]")
+  secret      String
+  active      Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  deliveries  WebhookDelivery[]
+}
+
+model WebhookDelivery {
+  id          String    @id @default(cuid())
+  webhookId   String
+  webhook     Webhook   @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+  paymentId   String?
+  event       String
+  httpStatus  Int?
+  retries     Int       @default(0)
+  success     Boolean   @default(false)
+  payload     String    @default("{}")
+  deliveredAt DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  action      String
+  metadata    String?
+  createdAt   DateTime  @default(now())
+}
+
+model CheckoutSession {
+  id             String    @id @default(cuid())
+  workspaceId    String
+  workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  merchantId     String?
+  amount         String
+  currency       String    @default("USDC")
+  description    String?
+  status         String    @default("pending")
+  expiresAt      DateTime
+  paymentTxHash  String?
+  payerAddress   String?
+  webhookUrl     String?
+  webhookSecret  String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
