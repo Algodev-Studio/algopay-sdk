@@ -44,6 +44,7 @@ nav:
       - Guards: guides/guards.md
       - Intents & batch: guides/intents-batch.md
       - Ledger & storage: guides/ledger-storage.md
+      - TypeScript SDK: guides/typescript.md
   - Reference:
       - API: reference/api.md
       - Environment variables: ENVIRONMENT.md

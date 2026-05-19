@@ -36,7 +36,7 @@
 | Install & first Python `pay()` | [Getting started](getting-started.md) | [Payments](guides/payments.md), [ENVIRONMENT](ENVIRONMENT.md) |
 | x402 HTTP 402 flows (Python) | [x402 guide](guides/x402.md) | [x402 stack](ecosystem/x402-stack.md), **`python/examples/x402_client_demo.py`** |
 | Guards, budgets, confirmations | [Guards](guides/guards.md) | [API — types](reference/api.md) |
-| TypeScript agent client | **`typescript/README.md`** | Same `pay()` semantics; uses `@x402-avm/fetch` for HTTPS recipients |
+| TypeScript agent client | [TypeScript SDK guide](guides/typescript.md) · **`typescript/README.md`** | Full parity with Python `AlgoPay`; `@x402-avm/*` for x402 |
 | Hosted dashboard / vault / API keys | [Control plane](ecosystem/CONTROL_PLANE.md) | [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md), **`pay/`** |
 | Product capabilities vs typical agent-payment platforms | [PLATFORM_FEATURE_MATRIX.md](PLATFORM_FEATURE_MATRIX.md) | — |
 | All env vars (Python SDK) | [ENVIRONMENT.md](ENVIRONMENT.md) | Dashboard vars: Control plane + **`pay/.env.example`** |
@@ -88,6 +88,7 @@ docs/DOCUMENTATION_MAP.md          # This hub
 docs/getting-started.md            # Python quick path
 python/examples/                   # Runnable Python samples
 typescript/README.md               # npm API surface
+docs/guides/typescript.md          # TS install, examples, Python↔TS method map
 pay/.env.example                   # Dashboard secrets template
 python/pyproject.toml              # Python version & deps
 ```

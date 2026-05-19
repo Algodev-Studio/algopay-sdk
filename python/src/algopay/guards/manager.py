@@ -188,9 +188,9 @@ class GuardConfig:
         """Create a Guard instance from this config."""
         from algopay.guards.budget import BudgetGuard
         from algopay.guards.confirm import ConfirmGuard
+        from algopay.guards.justification import JustificationGuard
         from algopay.guards.rate_limit import RateLimitGuard
         from algopay.guards.recipient import RecipientGuard
-        from algopay.guards.justification import JustificationGuard
         from algopay.guards.single_tx import SingleTxGuard
 
         if self.guard_type == GuardType.BUDGET:

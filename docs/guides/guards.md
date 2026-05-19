@@ -1,6 +1,6 @@
 # Guards
 
-**Guards** enforce policy **before** a payment is routed and executed. They can **reserve** capacity (budget, rate limit), **block** invalid recipients, or require **human confirmation**.
+**Guards** enforce policy **before** a payment is routed and executed. They can **reserve** capacity (budget, rate limit), **block** invalid recipients, or require **human confirmation**. Available in **Python** and **TypeScript** (see [TypeScript SDK](typescript.md) for camelCase method names).
 
 ## Execution model
 

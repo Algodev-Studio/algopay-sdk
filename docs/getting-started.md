@@ -12,13 +12,13 @@ The published package name is **`algopay-sdk`**. You still **`import algopay`** 
 === "Pin alpha"
 
     ```bash
-    pip install "algopay-sdk==0.1.0a1"
+    pip install "algopay-sdk==0.1.0a2"
     ```
 
 === "Any pre-release in range"
 
     ```bash
-    pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
+    pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
     ```
 
 === "From repository (editable)"
@@ -100,16 +100,39 @@ result = await client.pay(wallet_id, "https://api.example.com/paid-resource", "1
 
 See [x402 HTTP payments](guides/x402.md) and **`python/examples/x402_client_demo.py`**.
 
-## TypeScript SDK and hosted console (same repository)
+## TypeScript SDK
 
-If you are building agents in **Node** or need the **hosted control-plane dashboard** (vault, API keys, policies):
+Install from npm (Node 20+):
+
+```bash
+npm install @algodev-studio/algopay@0.1.0-alpha.2
+```
+
+```typescript
+import { AlgoPay, Network } from "@algodev-studio/algopay";
+
+const client = new AlgoPay({ network: Network.ALGORAND_TESTNET });
+const set = await client.createWalletSet("demo");
+const w = await client.createWallet(set.id);
+
+await client.addBudgetGuard(w.id, { dailyLimit: "100" });
+const result = await client.pay(w.id, "RECEIVER58CHARALGORANDADDRESSAAAAAAAAAAAA", "0.01", {
+  purpose: "demo",
+});
+console.log(result.success, result.blockchainTx);
+```
+
+Full guide: [TypeScript SDK](guides/typescript.md) · [package README](https://github.com/Algodev-Studio/algopay-sdk/blob/main/typescript/README.md).
+
+## Hosted console (optional)
+
+The **`pay/`** workspace is a **hosted control-plane** (vault, API keys, policies) — not required for in-process SDK use.
 
 | Piece | Location | Docs |
 | ----- | -------- | ---- |
-| TypeScript client | **`typescript/`** — **`@algodev-studio/algopay`** | [README on GitHub](https://github.com/Algodev-Studio/algopay-sdk/blob/main/typescript/README.md) |
-| Next.js control plane | `pay/` — workspace **`algopay-console`** | [Control plane](ecosystem/CONTROL_PLANE.md), [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md) |
+| Next.js control plane | `pay/` — **`algopay-console`** | [Control plane](ecosystem/CONTROL_PLANE.md) |
 
-From repo root (Node 20+): `npm install`, configure `pay/.env` from `.env.example`, `npm run db:push --workspace=algopay-console`, `npm run dev`. Full command list: root **`README.md`** and **[Documentation map](DOCUMENTATION_MAP.md)**.
+From repo root: `npm install`, `cp pay/.env.example pay/.env`, `npm run db:push --workspace=algopay-console`, `npm run dev`.
 
 ## Next steps
 

@@ -21,6 +21,10 @@ node_modules/
 pay/.next/
 pay/dev.db
 pay/dev.db-journal
+pay/prisma/*.db
+pay/prisma/*.db-journal
+
+.cursor/
 typescript/dist/
 
 # Python workspace (editable install artifacts)

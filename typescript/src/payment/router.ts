@@ -5,7 +5,7 @@ import { wrapFetchWithPayment } from "@x402-avm/fetch";
 import { x402Client } from "@x402-avm/core/client";
 import type { Config } from "../config.js";
 import type { WalletService } from "../wallet/service.js";
-import { PaymentMethod, PaymentStatus, type PaymentResult } from "../types.js";
+import { PaymentMethod, PaymentStatus, type PaymentResult, type SimulationResult } from "../types.js";
 
 function isLikelyAlgorandAddress(recipient: string): boolean {
   const s = recipient.trim();
@@ -113,6 +113,50 @@ export class PaymentRouter {
         error: msg,
       };
     }
+  }
+
+  canHandle(recipient: string): boolean {
+    return this.detectMethod(recipient) !== null;
+  }
+
+  async simulate(params: {
+    walletId: string;
+    recipient: string;
+    amount: string;
+  }): Promise<SimulationResult> {
+    const method = this.detectMethod(params.recipient);
+    if (!method) {
+      return {
+        wouldSucceed: false,
+        route: PaymentMethod.TRANSFER,
+        reason: `No adapter found for recipient: ${params.recipient}`,
+      };
+    }
+
+    if (method === PaymentMethod.TRANSFER) {
+      try {
+        const balance = await this._wallets.getUsdcBalanceAmount(params.walletId);
+        const balNum = Number(balance);
+        const amtNum = Number(params.amount);
+        if (balNum >= amtNum) {
+          return {
+            wouldSucceed: true,
+            route: PaymentMethod.TRANSFER,
+            reason: null,
+          };
+        }
+        return {
+          wouldSucceed: false,
+          route: PaymentMethod.TRANSFER,
+          reason: `Insufficient balance: ${balance} < ${params.amount}`,
+        };
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        return { wouldSucceed: false, route: PaymentMethod.TRANSFER, reason: msg };
+      }
+    }
+
+    return { wouldSucceed: true, route: PaymentMethod.X402, reason: null };
   }
 
   private async _payX402(params: {

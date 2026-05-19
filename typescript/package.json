@@ -1,6 +1,6 @@
 {
   "name": "@algodev-studio/algopay",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "AlgoPay TypeScript SDK — Algorand agent payments (USDC ASA, x402-ready client)",
   "license": "MIT",
   "type": "module",
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Algodev-Studio/algopay-sdk"
+    "url": "git+https://github.com/Algodev-Studio/algopay-sdk.git"
   },
   "keywords": [
     "algopay",

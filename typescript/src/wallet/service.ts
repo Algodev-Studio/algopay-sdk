@@ -1,6 +1,6 @@
 import algosdk from "algosdk";
 import type { Config } from "../config.js";
-import type { Network, WalletInfo, WalletSetInfo } from "../types.js";
+import { TransactionState, type Network, type TransactionInfo, type WalletInfo, type WalletSetInfo } from "../types.js";
 import { AlgorandClient } from "../algorand-client.js";
 import { WalletRepository, type WalletRecord } from "./repository.js";
 
@@ -28,6 +28,10 @@ export class WalletService {
 
   get repository(): WalletRepository {
     return this._repo;
+  }
+
+  get chain(): AlgorandClient {
+    return this._chain;
   }
 
   createWalletSet(name?: string | null): WalletSetInfo {
@@ -66,6 +70,31 @@ export class WalletService {
     const row = assets.find((a) => Number(a.assetId) === this._config.usdcAsaId);
     const amount = row ? row.amount : 0n;
     return (Number(amount) / 1e6).toFixed(6);
+  }
+
+  /** Recent USDC asset transfers for a wallet from the indexer (best-effort). */
+  async listTransactions(walletId?: string | null): Promise<TransactionInfo[]> {
+    if (!walletId) return [];
+    const w = this.getWallet(walletId);
+    try {
+      const resp = await this._chain.indexer
+        .searchForTransactions()
+        .address(w.address)
+        .assetID(this._config.usdcAsaId)
+        .limit(20)
+        .do();
+      const txs = resp.transactions ?? [];
+      return txs.map((t) => ({
+        id: String(t.id ?? ""),
+        state: TransactionState.COMPLETE,
+        txHash: t.id ? String(t.id) : null,
+        walletId,
+        sourceAddress: w.address,
+        destinationAddress: null,
+      }));
+    } catch {
+      return [];
+    }
   }
 
   getMnemonic(walletId: string): string {

@@ -4,8 +4,8 @@ This document covers **both** distributables:
 
 | Artifact | Registry | Package name | Version source |
 | -------- | -------- | ------------ | -------------- |
-| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | **`python/pyproject.toml`** → **`0.1.0a1`** (PEP 440) |
-| TypeScript SDK | [npm](https://www.npmjs.com/) | **`@algodev-studio/algopay`** | **`typescript/package.json`** → **`0.1.0-alpha.1`** (semver) |
+| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | **`python/pyproject.toml`** → **`0.1.0a2`** (PEP 440) |
+| TypeScript SDK | [npm](https://www.npmjs.com/) | **`@algodev-studio/algopay`** | **`typescript/package.json`** → **`0.1.0-alpha.2`** (semver) |
 
 Keep these **logically aligned** when cutting a release (same minor/patch story; Python `a1` ↔ npm `alpha.1`).
 
@@ -13,11 +13,11 @@ Keep these **logically aligned** when cutting a release (same minor/patch story;
 
 ## Python (PyPI)
 
-This package uses **PEP 440** pre-release versioning. **`0.1.0a1`** is the first **0.1.0 alpha** (`pip` treats it as older than `0.1.0` and requires an explicit pre-release pin unless using `--pre`).
+This package uses **PEP 440** pre-release versioning. **`0.1.0a2`** is the first **0.1.0 alpha** (`pip` treats it as older than `0.1.0` and requires an explicit pre-release pin unless using `--pre`).
 
 ### Current status
 
-- **Version:** `0.1.0a1` (see **`python/pyproject.toml`** and `algopay.__version__`)
+- **Version:** `0.1.0a2` (see **`python/pyproject.toml`** and `algopay.__version__`)
 - **Trove:** `Development Status :: 3 - Alpha` — APIs and behavior may change; test coverage is still growing ([testing roadmap](TESTING_ROADMAP.md)).
 
 ### Before the first upload
@@ -37,7 +37,7 @@ cd python
 python -m build
 ```
 
-This produces `python/dist/algopay_sdk-0.1.0a1-py3-none-any.whl` and `python/dist/algopay_sdk-0.1.0a1.tar.gz`.
+This produces `python/dist/algopay_sdk-0.1.0a2-py3-none-any.whl` and `python/dist/algopay_sdk-0.1.0a2.tar.gz`.
 
 Sanity check:
 
@@ -58,7 +58,7 @@ twine upload --repository testpypi dist/*
 Install from TestPyPI:
 
 ```bash
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "algopay-sdk==0.1.0a1"
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "algopay-sdk==0.1.0a2"
 ```
 
 (`--extra-index-url` pulls normal dependencies like `py-algorand-sdk` from PyPI.)
@@ -94,13 +94,13 @@ Replace the password value with your [PyPI API token](https://pypi.org/manage/ac
 Stable pin (alpha):
 
 ```bash
-pip install "algopay-sdk==0.1.0a1"
+pip install "algopay-sdk==0.1.0a2"
 ```
 
 Or allow pre-releases in a range:
 
 ```bash
-pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
+pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
 ```
 
 ### After 1.0
@@ -114,9 +114,24 @@ pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
 
 Package path: **`typescript/`**. Scoped name: **`@algodev-studio/algopay`**.
 
+### First-time: create the `@algodev-studio` scope
+
+If you do not own the scope yet:
+
+1. Sign in at [npmjs.com](https://www.npmjs.com/).
+2. Create an **organization** named **`algodev-studio`** (Organizations → Create) **or** ensure your user account is allowed to publish scoped packages under that name.
+3. Under the org (or your profile) → **Access Tokens** → **Generate New Token** → type **Automation** (for CI) or **Publish** (for local `npm publish`).
+4. For CI, add the token as repository secret **`NPM_TOKEN`**. For local publish, use `npm login` or:
+
+   ```bash
+   npm config set //registry.npmjs.org/:_authToken YOUR_NPM_TOKEN
+   ```
+
+If you cannot use `@algodev-studio`, change the `name` field in **`typescript/package.json`** and update README links before the first publish.
+
 ### Prerequisite
 
-- [npm](https://www.npmjs.com/) organization or user that owns the **`@algodev-studio`** scope (or change the scope in `package.json` before first publish).
+- npm account with permission to publish **`@algodev-studio/algopay`**.
 - **Node 20+** for local publish (matches repo `engines`).
 
 ### One-time login
@@ -128,6 +143,15 @@ npm login
 
 Use an [automation token](https://docs.npmjs.com/about-access-tokens) in CI (`NPM_TOKEN`); never commit it.
 
+If your npm account has **2FA for writes** enabled, `npm login` alone is not enough to publish. Either:
+
+- Create a **Granular Access Token** with **Publish** permission and **bypass 2FA** (recommended for CI), or
+- Pass a one-time password from your authenticator app:
+
+  ```bash
+  npm publish --workspace=@algodev-studio/algopay --access public --tag alpha --otp=123456
+  ```
+
 ### Dry run (recommended)
 
 From **repository root**:
@@ -135,21 +159,29 @@ From **repository root**:
 ```bash
 npm install
 npm run build --workspace=@algodev-studio/algopay
-npm publish --workspace=@algodev-studio/algopay --access public --dry-run
+npm publish --workspace=@algodev-studio/algopay --access public --tag alpha --dry-run
 ```
 
 ### Publish
 
 ```bash
-npm publish --workspace=@algodev-studio/algopay --access public
+npm publish --workspace=@algodev-studio/algopay --access public --tag alpha
 ```
 
+For **pre-release** versions (`0.1.0-alpha.2`), npm requires an explicit dist-tag (`--tag alpha`). Without it, `npm publish` fails with “You must specify a tag using --tag when publishing a prerelease version.”
+
 `prepublishOnly` in **`typescript/package.json`** runs `tsc` so the `dist/` folder is fresh.
+
+Dry run (same tag):
+
+```bash
+npm publish --workspace=@algodev-studio/algopay --access public --tag alpha --dry-run
+```
 
 ### Consumers
 
 ```bash
-npm install @algodev-studio/algopay@0.1.0-alpha.1
+npm install @algodev-studio/algopay@0.1.0-alpha.2
 ```
 
 Pre-releases: use an explicit version or `npm install @algodev-studio/algopay@alpha` if you tag dist-tags accordingly.
@@ -174,5 +206,5 @@ Run **Publish** workflow from the Actions tab; enable **Python** and/or **npm** 
 1. Update versions in **`python/pyproject.toml`** and **`typescript/package.json`**; align alpha numbering.
 2. **`cd python && python -m build`** + **`twine check`**; **`npm run build`** for the TS workspace.
 3. Run **tests**: `cd python && pytest -m "not integration"`; **`npm run test:js`** from repo root.
-4. Tag git (optional): `v0.1.0-alpha.1` or project convention.
+4. Tag git (optional): `v0.1.0-alpha.2` or project convention.
 5. Publish PyPI then npm (or reverse); verify install in a clean directory.

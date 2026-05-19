@@ -67,7 +67,17 @@ Typical platform documentation groups **quick start**, **wallets**, **USDC trans
 | Wallet sets / addresses | Yes | Yes |
 | USDC transfer | Yes | Yes |
 | x402 `https://` recipients | Yes (`x402-avm`) | Yes (`@x402-avm/fetch`, `@x402-avm/avm`) |
-| Guards / ledger / intents | Yes | Align where exposed in TS package |
+| Guards (6 types, wallet + set scope) | Yes | Yes |
+| Guard-integrated `pay()` + ledger | Yes | Yes |
+| `simulate` / `can_pay` / `detect_method` | Yes | Yes (`canPay` / `detectMethod`) |
+| Payment intents + batch | Yes | Yes |
+| `sync_transaction` (Indexer) | Yes | Yes |
+| `list_transactions` | Yes | Yes |
+| Storage `memory` | Yes | Yes |
+| Storage `redis` | Yes | No (custom via `registerStorageBackend`) |
+| Error types + logging | Yes | Yes |
+
+TypeScript guide: [guides/typescript.md](guides/typescript.md).
 
 ---
 

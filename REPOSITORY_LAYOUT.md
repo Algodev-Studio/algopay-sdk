@@ -10,8 +10,8 @@ algopay-sdk/
 │   ├── tests/
 │   ├── examples/
 │   └── scripts/              # dev / demo helpers
-├── typescript/               # npm @algodev-studio/algopay
-│   ├── src/
+├── typescript/               # npm @algodev-studio/algopay (mirrors python/src/algopay layout)
+│   ├── src/                  # client, guards, ledger, intents, storage, payment
 │   └── package.json
 ├── pay/                      # Next.js dashboard (workspace algopay-console)
 ├── docs/                     # MkDocs
@@ -41,6 +41,3 @@ npm run dev
 
 **Documentation:** [docs/DOCUMENTATION_MAP.md](docs/DOCUMENTATION_MAP.md) · [PLATFORM_FEATURE_MATRIX.md](docs/PLATFORM_FEATURE_MATRIX.md) · MkDocs entry [docs/index.md](docs/index.md).
 
-## Reference: engxlab Algopay
-
-Their layout is **`backend/`**, **`pay/`**, **`sdk/`**. Here **`pay/`** is the dashboard; **`typescript/`** is the npm client (same role as their `sdk/`). **Python is its own subtree** **`python/`** instead of living at repo root.

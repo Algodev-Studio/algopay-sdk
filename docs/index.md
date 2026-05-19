@@ -13,13 +13,13 @@ This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-
 
     Install **`algopay-sdk`**, import **`algopay`**:
 
-    [`pip install "algopay-sdk==0.1.0a1"`](https://pypi.org/project/algopay-sdk/0.1.0a1/)
+    [`pip install "algopay-sdk==0.1.0a2"`](https://pypi.org/project/algopay-sdk/0.1.0a2/)
 
 -   :material-language-typescript:{ .lg .middle } __npm (TypeScript)__
 
     ---
 
-    Package **`@algodev-studio/algopay`** in **`typescript/`** — wallets, `pay()`, x402 via `@x402-avm/*`. See [package README](https://github.com/Algodev-Studio/algopay-sdk/blob/main/typescript/README.md).
+    Package **`@algodev-studio/algopay`** — guards, ledger, intents, `pay()`, x402. [TypeScript guide](guides/typescript.md) · [npm install](https://www.npmjs.com/package/@algodev-studio/algopay)
 
 -   :material-book-open-variant:{ .lg .middle } __Guides__
 
@@ -54,13 +54,13 @@ This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-
 | **Payments** | `pay()` routes to **direct ASA transfer** or **x402** from the recipient string |
 | **Guards** | Budget, per-tx limits, recipients, rate limits, human confirmation — wallet or wallet-set scoped |
 | **Ledger** | Records attempts; sync with Indexer via `sync_transaction` |
-| **Storage** | `memory` or **Redis** for guards, ledger entries, intents (not wallet keys by default) |
+| **Storage** | `memory` or **Redis** (Python built-in; TS: `memory` + custom backends) for guards, ledger, intents |
 
 ## Quick install
 
 ```bash
-pip install "algopay-sdk==0.1.0a1"
-# pre-releases: pip install --pre "algopay-sdk>=0.1.0a1,<0.2"
+pip install "algopay-sdk==0.1.0a2"
+# pre-releases: pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
 ```
 
 From a clone (development):
