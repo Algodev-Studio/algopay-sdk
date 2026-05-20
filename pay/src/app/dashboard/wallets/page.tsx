@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Wallet, RefreshCw } from "lucide-react";
+import AnimatedSection from "@/components/animations/AnimatedSection";
 
 type WalletSet = { id: string; name: string; walletCount: number };
-type Wallet = {
+type WalletEntry = {
   id: string;
   address: string;
   walletSetId: string;
@@ -13,7 +16,7 @@ type Wallet = {
 
 export default function WalletsPage() {
   const [sets, setSets] = useState<WalletSet[]>([]);
-  const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [wallets, setWallets] = useState<WalletEntry[]>([]);
   const [setName, setSetName] = useState("agents");
   const [selectedSet, setSelectedSet] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -27,7 +30,7 @@ export default function WalletsPage() {
       if (!selectedSet && j.walletSets[0]) setSelectedSet(j.walletSets[0].id);
     }
     if (b.ok) {
-      const j = (await b.json()) as { wallets: Wallet[] };
+      const j = (await b.json()) as { wallets: WalletEntry[] };
       setWallets(j.wallets);
     }
   }
@@ -72,76 +75,93 @@ export default function WalletsPage() {
   }
 
   return (
-    <>
-      <h1>Wallets</h1>
-      {err && <p style={{ color: "#f85149" }}>{err}</p>}
+    <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="space-y-4">
+      <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">Wallets</h1>
+      {err && <p className="rounded-md bg-neopop-red/10 px-3 py-2 text-sm text-neopop-red">{err}</p>}
 
-      <div className="card">
-        <h2 style={{ marginTop: 0 }}>Wallet sets</h2>
-        <form className="row" onSubmit={createSet}>
-          <div>
-            <label>New set name</label>
-            <input value={setName} onChange={(e) => setSetName(e.target.value)} required />
-          </div>
-          <button type="submit">Create set</button>
-        </form>
-        <ul>
-          {sets.map((s) => (
-            <li key={s.id}>
-              {s.name} — {s.walletCount} wallets ({s.id.slice(0, 8)}…)
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="card">
-        <h2 style={{ marginTop: 0 }}>New wallet</h2>
-        <form className="row" onSubmit={createWallet}>
-          <div>
-            <label>Wallet set</label>
-            <select value={selectedSet} onChange={(e) => setSelectedSet(e.target.value)}>
-              <option value="">—</option>
+      <AnimatedSection>
+        <div className="neopop-card p-5">
+          <h2 className="neopop-section-title mb-3">Wallet Sets</h2>
+          <form className="flex flex-wrap items-end gap-3" onSubmit={createSet}>
+            <div className="flex-1">
+              <label className="neopop-section-title mb-1 block">New set name</label>
+              <input value={setName} onChange={(e) => setSetName(e.target.value)} required className="neopop-input w-full" />
+            </div>
+            <button type="submit" className="neopop-btn neopop-btn-primary px-4 py-2 text-sm font-semibold">Create set</button>
+          </form>
+          {sets.length > 0 && (
+            <ul className="mt-4 space-y-1">
               {sets.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
+                <li key={s.id} className="flex items-center gap-2 rounded-md bg-surface-raised px-3 py-2 text-sm text-text-secondary">
+                  <Wallet size={14} className="text-neopop-yellow" />
+                  <span className="font-medium text-text-primary">{s.name}</span>
+                  <span className="text-text-muted">— {s.walletCount} wallets</span>
+                  <span className="ml-auto font-mono text-xs text-text-muted">{s.id.slice(0, 8)}…</span>
+                </li>
               ))}
-            </select>
-          </div>
-          <button type="submit">Generate wallet (vault)</button>
-        </form>
-        <p style={{ fontSize: "0.85rem", color: "var(--muted)" }}>
-          Keys are encrypted at rest (AES-GCM + vault master key). Signing uses server-side decrypt
-          for agent payments (server-assisted signing).
-        </p>
-      </div>
+            </ul>
+          )}
+        </div>
+      </AnimatedSection>
 
-      <div className="card">
-        <h2 style={{ marginTop: 0 }}>Your wallets</h2>
-        <button type="button" className="secondary" onClick={() => void refresh()}>
-          Refresh balances
-        </button>
-        <table style={{ marginTop: "1rem" }}>
-          <thead>
-            <tr>
-              <th>Set</th>
-              <th>Address</th>
-              <th>USDC</th>
-              <th>Id</th>
-            </tr>
-          </thead>
-          <tbody>
-            {wallets.map((w) => (
-              <tr key={w.id}>
-                <td>{w.walletSetName}</td>
-                <td style={{ fontFamily: "monospace", fontSize: "0.8rem" }}>{w.address}</td>
-                <td>{w.usdcBalance}</td>
-                <td style={{ fontFamily: "monospace", fontSize: "0.75rem" }}>{w.id}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+      <AnimatedSection>
+        <div className="neopop-card p-5">
+          <h2 className="neopop-section-title mb-3">New Wallet</h2>
+          <form className="flex flex-wrap items-end gap-3" onSubmit={createWallet}>
+            <div className="flex-1">
+              <label className="neopop-section-title mb-1 block">Wallet set</label>
+              <select value={selectedSet} onChange={(e) => setSelectedSet(e.target.value)} className="neopop-input w-full">
+                <option value="">—</option>
+                {sets.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className="neopop-btn neopop-btn-primary px-4 py-2 text-sm font-semibold">Generate wallet (vault)</button>
+          </form>
+          <p className="mt-3 text-xs text-text-muted">
+            Keys are encrypted at rest (AES-GCM + vault master key). Signing uses server-side decrypt
+            for agent payments (server-assisted signing).
+          </p>
+        </div>
+      </AnimatedSection>
+
+      <AnimatedSection>
+        <div className="neopop-card overflow-hidden">
+          <div className="flex items-center justify-between p-4">
+            <h2 className="neopop-section-title">Your Wallets</h2>
+            <button type="button" onClick={() => void refresh()} className="neopop-btn neopop-btn-secondary flex items-center gap-1.5 px-3 py-1.5 text-xs">
+              <RefreshCw size={12} /> Refresh balances
+            </button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="neopop-table text-left text-sm">
+              <thead className="bg-neopop-yellow text-neopop-black">
+                <tr>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Set</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Address</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">USDC</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Id</th>
+                </tr>
+              </thead>
+              <tbody>
+                {wallets.length === 0 ? (
+                  <tr><td colSpan={4} className="px-3 py-10 text-center text-text-muted">No wallets created yet.</td></tr>
+                ) : wallets.map((w) => (
+                  <tr key={w.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
+                    <td className="px-3 py-3">{w.walletSetName}</td>
+                    <td className="px-3 py-3 font-mono text-xs">{w.address}</td>
+                    <td className="px-3 py-3">{w.usdcBalance}</td>
+                    <td className="px-3 py-3 font-mono text-xs text-text-muted">{w.id}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </AnimatedSection>
+    </motion.section>
   );
 }

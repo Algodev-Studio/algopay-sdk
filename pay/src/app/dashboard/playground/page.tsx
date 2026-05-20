@@ -184,23 +184,23 @@ export default function PlaygroundPage() {
 
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="space-y-4">
-      <h1 className="text-2xl font-bold text-slate-100">API Playground</h1>
+      <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">API Playground</h1>
 
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
         <AnimatedSection>
-          <div className="rounded-lg bg-[#212121] p-3">
-            <p className="mb-2 text-xs uppercase tracking-widest text-slate-400">Commands</p>
+          <div className="neopop-card p-3">
+            <p className="neopop-section-title mb-2">Commands</p>
             {CATEGORIES.map((cat) => (
               <div key={cat.label} className="mb-2">
-                <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">
                   {cat.icon} {cat.label}
                 </div>
                 {cat.commands.map((cmd) => (
                   <button key={cmd.id} type="button" onClick={() => selectCommand(cmd)}
-                    className={`flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm transition ${selectedCmd.id === cmd.id ? "bg-teal-500/20 text-teal-300" : "text-slate-300 hover:bg-slate-800 hover:text-slate-100"}`}>
-                    <ChevronRight size={12} className={selectedCmd.id === cmd.id ? "text-teal-400" : "text-slate-600"} />
+                    className={`flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm transition ${selectedCmd.id === cmd.id ? "bg-neopop-yellow/20 text-neopop-yellow" : "text-text-secondary hover:bg-surface-raised hover:text-text-primary"}`}>
+                    <ChevronRight size={12} className={selectedCmd.id === cmd.id ? "text-neopop-yellow" : "text-text-muted"} />
                     <span className="mr-auto">{cmd.label}</span>
-                    <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${cmd.method === "GET" ? "bg-blue-500/20 text-blue-300" : cmd.method === "POST" ? "bg-emerald-500/20 text-emerald-300" : cmd.method === "DELETE" ? "bg-rose-500/20 text-rose-300" : "bg-amber-500/20 text-amber-300"}`}>
+                    <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${cmd.method === "GET" ? "bg-neopop-blue/20 text-neopop-blue" : cmd.method === "POST" ? "bg-neopop-green/20 text-neopop-green" : cmd.method === "DELETE" ? "bg-neopop-red/20 text-neopop-red" : "bg-neopop-yellow/20 text-neopop-yellow"}`}>
                       {cmd.method}
                     </span>
                   </button>
@@ -212,47 +212,47 @@ export default function PlaygroundPage() {
 
         <div className="space-y-4">
           <AnimatedSection>
-            <div className="rounded-lg bg-[#212121] p-4">
+            <div className="neopop-card p-4">
               <div className="mb-3 flex items-center gap-2">
-                <span className={`rounded px-2 py-0.5 text-xs font-bold ${selectedCmd.method === "GET" ? "bg-blue-500/20 text-blue-300" : selectedCmd.method === "POST" ? "bg-emerald-500/20 text-emerald-300" : selectedCmd.method === "DELETE" ? "bg-rose-500/20 text-rose-300" : "bg-amber-500/20 text-amber-300"}`}>
+                <span className={`rounded px-2 py-0.5 text-xs font-bold ${selectedCmd.method === "GET" ? "bg-neopop-blue/20 text-neopop-blue" : selectedCmd.method === "POST" ? "bg-neopop-green/20 text-neopop-green" : selectedCmd.method === "DELETE" ? "bg-neopop-red/20 text-neopop-red" : "bg-neopop-yellow/20 text-neopop-yellow"}`}>
                   {selectedCmd.method}
                 </span>
-                <span className="font-mono text-sm text-slate-300">{selectedCmd.path}</span>
+                <span className="font-mono text-sm text-text-secondary">{selectedCmd.path}</span>
               </div>
               {selectedCmd.fields && selectedCmd.fields.length > 0 && (
                 <div className="mb-4 space-y-3">
                   {selectedCmd.fields.map((f) => (
                     <div key={f.name}>
-                      <label className="mb-1 block text-xs uppercase tracking-wide text-slate-400">{f.label}{f.required && " *"}</label>
+                      <label className="neopop-section-title mb-1 block">{f.label}{f.required && " *"}</label>
                       <input type={f.type} value={fieldValues[f.name] ?? ""} onChange={(e) => setFieldValues({ ...fieldValues, [f.name]: e.target.value })} placeholder={f.placeholder} required={f.required}
-                        className="w-full rounded-md border border-slate-700 bg-[#1d1f22] px-3 py-2 text-sm text-slate-200 placeholder:text-slate-500" />
+                        className="neopop-input w-full" />
                     </div>
                   ))}
                 </div>
               )}
               <button type="button" onClick={runCommand} disabled={running}
-                className="flex items-center gap-2 rounded-lg bg-btn-gradient px-5 py-2 text-sm font-semibold text-black transition hover:opacity-90 disabled:opacity-50">
+                className="neopop-btn neopop-btn-primary flex items-center gap-2 px-5 py-2 text-sm font-semibold disabled:opacity-50">
                 {running ? <><Loader2 size={16} className="animate-spin" /> Running...</> : <><Play size={16} /> Run</>}
               </button>
             </div>
           </AnimatedSection>
 
           <AnimatedSection>
-            <div className="rounded-lg bg-[#212121] p-4">
-              <p className="mb-2 text-xs uppercase tracking-widest text-slate-400">Output Log</p>
+            <div className="neopop-card p-4">
+              <p className="neopop-section-title mb-2">Output Log</p>
               {logs.length === 0 ? (
-                <p className="py-6 text-center text-sm text-slate-500">Run a command to see results here.</p>
+                <p className="py-6 text-center text-sm text-text-muted">Run a command to see results here.</p>
               ) : (
                 <div className="max-h-[420px] space-y-2 overflow-y-auto">
                   {logs.map((log) => (
-                    <div key={log.id} className={`rounded-md border p-3 ${log.status === "success" ? "border-emerald-500/20 bg-emerald-500/5" : "border-rose-500/20 bg-rose-500/5"}`}>
+                    <div key={log.id} className={`rounded-md border p-3 ${log.status === "success" ? "border-neopop-green/20 bg-neopop-green/5" : "border-neopop-red/20 bg-neopop-red/5"}`}>
                       <div className="mb-1 flex items-center gap-2 text-xs">
-                        {log.status === "success" ? <CheckCircle2 size={14} className="text-emerald-400" /> : <XCircle size={14} className="text-rose-400" />}
-                        <span className="font-semibold text-slate-200">{log.command}</span>
-                        <span className="text-slate-500">{log.method} {log.path}</span>
-                        <span className="ml-auto text-slate-500">{log.duration}ms</span>
+                        {log.status === "success" ? <CheckCircle2 size={14} className="text-neopop-green" /> : <XCircle size={14} className="text-neopop-red" />}
+                        <span className="font-semibold text-text-primary">{log.command}</span>
+                        <span className="text-text-muted">{log.method} {log.path}</span>
+                        <span className="ml-auto text-text-muted">{log.duration}ms</span>
                       </div>
-                      <pre className="max-h-48 overflow-auto rounded bg-black/40 p-2 text-xs text-slate-300">{log.response}</pre>
+                      <pre className="max-h-48 overflow-auto rounded bg-background/60 p-2 text-xs text-text-secondary">{log.response}</pre>
                     </div>
                   ))}
                   <div ref={logEndRef} />

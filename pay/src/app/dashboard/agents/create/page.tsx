@@ -54,33 +54,33 @@ export default function CreateAgentPage() {
 
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="mx-auto max-w-xl space-y-4">
-      <Link href="/dashboard/agents" className="inline-flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-slate-200">
+      <Link href="/dashboard/agents" className="inline-flex items-center gap-1.5 text-sm text-text-secondary transition hover:text-text-primary">
         <ArrowLeft size={14} /> Back to Agents
       </Link>
 
       <AnimatedSection>
-        <div className="rounded-lg bg-[#212121] p-6">
-          <h1 className="mb-6 text-xl font-bold text-slate-100">Create Agent</h1>
-          {error && <p className="mb-4 rounded-md bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{error}</p>}
+        <div className="neopop-card p-6">
+          <h1 className="font-impact mb-6 text-xl uppercase tracking-wider text-text-primary">Create Agent</h1>
+          {error && <p className="mb-4 rounded-md bg-neopop-red/10 px-3 py-2 text-sm text-neopop-red">{error}</p>}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-1 block text-xs uppercase tracking-wide text-slate-400">Name</label>
-              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required placeholder="e.g. Purchase Bot" className="w-full rounded-md border border-slate-700 bg-[#1d1f22] px-3 py-2 text-sm text-slate-200 placeholder:text-slate-500" />
+              <label className="neopop-section-title mb-1 block">Name</label>
+              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required placeholder="e.g. Purchase Bot" className="neopop-input w-full px-3 py-2 text-sm" />
             </div>
             <div>
-              <label className="mb-1 block text-xs uppercase tracking-wide text-slate-400">Algorand Address</label>
-              <input value={form.algoAddress} onChange={(e) => setForm({ ...form, algoAddress: e.target.value })} required placeholder="ALGO..." className="w-full rounded-md border border-slate-700 bg-[#1d1f22] px-3 py-2 font-mono text-sm text-slate-200 placeholder:text-slate-500" />
+              <label className="neopop-section-title mb-1 block">Algorand Address</label>
+              <input value={form.algoAddress} onChange={(e) => setForm({ ...form, algoAddress: e.target.value })} required placeholder="ALGO..." className="neopop-input w-full px-3 py-2 font-mono text-sm" />
             </div>
             <div>
-              <label className="mb-1 block text-xs uppercase tracking-wide text-slate-400">Daily Limit (USD cents)</label>
-              <input type="number" min="1" value={form.dailyLimitCents} onChange={(e) => setForm({ ...form, dailyLimitCents: e.target.value })} required placeholder="e.g. 50000" className="w-full rounded-md border border-slate-700 bg-[#1d1f22] px-3 py-2 text-sm text-slate-200 placeholder:text-slate-500" />
+              <label className="neopop-section-title mb-1 block">Daily Limit (USD cents)</label>
+              <input type="number" min="1" value={form.dailyLimitCents} onChange={(e) => setForm({ ...form, dailyLimitCents: e.target.value })} required placeholder="e.g. 50000" className="neopop-input w-full px-3 py-2 text-sm" />
               {form.dailyLimitCents && (
-                <p className="mt-1 text-xs text-slate-400">${(Number(form.dailyLimitCents) / 100).toFixed(2)} USD per day</p>
+                <p className="mt-1 text-xs text-text-muted">${(Number(form.dailyLimitCents) / 100).toFixed(2)} USD per day</p>
               )}
             </div>
             <div>
-              <label className="mb-1 block text-xs uppercase tracking-wide text-slate-400">Gas Pool</label>
-              <select value={form.poolId} onChange={(e) => setForm({ ...form, poolId: e.target.value })} required className="w-full rounded-md border border-slate-700 bg-[#1d1f22] px-3 py-2 text-sm text-slate-200">
+              <label className="neopop-section-title mb-1 block">Gas Pool</label>
+              <select value={form.poolId} onChange={(e) => setForm({ ...form, poolId: e.target.value })} required className="neopop-input w-full px-3 py-2 text-sm">
                 <option value="">Select a gas pool</option>
                 {pools.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -89,7 +89,7 @@ export default function CreateAgentPage() {
                 ))}
               </select>
             </div>
-            <button type="submit" disabled={submitting} className="flex w-full items-center justify-center gap-2 rounded-lg bg-btn-gradient py-2.5 text-sm font-semibold text-black transition hover:opacity-90 disabled:opacity-50">
+            <button type="submit" disabled={submitting} className="neopop-btn neopop-btn-primary flex w-full items-center justify-center gap-2 py-2.5 text-sm font-semibold disabled:opacity-50">
               {submitting ? <><Loader2 size={16} className="animate-spin" /> Creating...</> : "Create Agent"}
             </button>
           </form>

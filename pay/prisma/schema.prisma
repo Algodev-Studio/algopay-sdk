@@ -37,6 +37,8 @@ model Workspace {
   webhooks             Webhook[]
   auditLogs            AuditLog[]
   checkoutSessions     CheckoutSession[]
+  wrappedApiProviders  WrappedApiProvider[]
+  customEndpoints      CustomEndpoint[]
 }
 
 model WalletSet {
@@ -200,4 +202,33 @@ model CheckoutSession {
   webhookSecret  String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+}
+
+model WrappedApiProvider {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  slug        String
+  name        String
+  description String?
+  endpoints   Int       @default(0)
+  enabled     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@unique([workspaceId, slug])
+}
+
+model CustomEndpoint {
+  id          String    @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  slug        String
+  name        String
+  description String?
+  endpointUrl String
+  httpMethod  String    @default("POST")
+  enabled     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@unique([workspaceId, slug])
 }

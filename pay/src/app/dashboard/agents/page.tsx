@@ -18,9 +18,9 @@ import { api, ApiError } from "@/lib/api-client";
 import type { Agent } from "@/lib/types";
 
 const agentStatusClasses: Record<string, string> = {
-  active: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
-  limit_reached: "bg-amber-500/20 text-amber-300 border-amber-400/30",
-  suspended: "bg-rose-500/20 text-rose-300 border-rose-400/30",
+  active: "bg-neopop-green/15 text-neopop-green border-neopop-green/30",
+  limit_reached: "bg-neopop-yellow/15 text-neopop-yellow border-neopop-yellow/30",
+  suspended: "bg-neopop-red/15 text-neopop-red border-neopop-red/30",
 };
 
 function formatUsd(cents: number): string {
@@ -82,25 +82,25 @@ export default function AgentsPage() {
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-100">Agents</h1>
-        <Link href="/dashboard/agents/create" className="flex items-center gap-2 rounded-lg bg-btn-gradient px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90">
+        <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">Agents</h1>
+        <Link href="/dashboard/agents/create" className="neopop-btn neopop-btn-primary flex items-center gap-2 px-4 py-2 text-sm font-semibold">
           <Plus size={16} /> Create Agent
         </Link>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          { title: "Total Agents", value: agents.length, icon: <Bot size={20} className="text-teal-400" /> },
-          { title: "Active", value: active, icon: <ShieldCheck size={20} className="text-emerald-400" /> },
-          { title: "Suspended", value: suspended, icon: <ShieldOff size={20} className="text-rose-400" /> },
-          { title: "Daily Limit Total", value: formatUsd(totalLimit), icon: <DollarSign size={20} className="text-amber-400" /> },
+          { title: "Total Agents", value: agents.length, icon: <Bot size={20} className="text-neopop-yellow" /> },
+          { title: "Active", value: active, icon: <ShieldCheck size={20} className="text-neopop-green" /> },
+          { title: "Suspended", value: suspended, icon: <ShieldOff size={20} className="text-neopop-red" /> },
+          { title: "Daily Limit Total", value: formatUsd(totalLimit), icon: <DollarSign size={20} className="text-neopop-yellow" /> },
         ].map((card) => (
           <AnimatedSection key={card.title}>
-            <div className="flex items-center gap-3 rounded-lg bg-[#212121] p-4">
+            <div className="neopop-card-flat flex items-center gap-3 p-4">
               {card.icon}
               <div>
-                <p className="text-2xl font-bold text-slate-100">{loading ? "..." : card.value}</p>
-                <p className="text-xs uppercase tracking-wide text-slate-400">{card.title}</p>
+                <p className="text-2xl font-bold text-text-primary">{loading ? "..." : card.value}</p>
+                <p className="neopop-section-title">{card.title}</p>
               </div>
             </div>
           </AnimatedSection>
@@ -108,61 +108,61 @@ export default function AgentsPage() {
       </div>
 
       <AnimatedSection>
-        <div className="overflow-hidden rounded-lg bg-[#212121]">
+        <div className="neopop-card overflow-hidden p-0">
           <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-btn-gradient uppercase text-slate-900">
+            <table className="neopop-table">
+              <thead className="bg-neopop-yellow text-neopop-black">
                 <tr>
-                  <th className="px-3 py-3">Name</th>
-                  <th className="px-3 py-3">Algo Address</th>
-                  <th className="px-3 py-3">Daily Limit</th>
-                  <th className="px-3 py-3">Daily Spent</th>
-                  <th className="px-3 py-3">Status</th>
-                  <th className="px-3 py-3">Created</th>
-                  <th className="px-3 py-3 text-right">Actions</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Name</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Algo Address</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Daily Limit</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Daily Spent</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Status</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Created</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? Array.from({ length: 5 }).map((_, i) => (
-                  <tr key={i} className="border-t border-slate-800">
+                  <tr key={i} className="border-t border-border">
                     {Array.from({ length: 7 }).map((_, j) => (
-                      <td key={j} className="px-3 py-3"><div className="h-3 w-16 animate-pulse rounded bg-slate-800" /></td>
+                      <td key={j} className="px-3 py-3"><div className="h-3 w-16 animate-pulse rounded bg-surface-raised" /></td>
                     ))}
                   </tr>
                 )) : agents.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-3 py-10 text-center text-slate-400">
+                    <td colSpan={7} className="px-3 py-10 text-center text-text-muted">
                       No agents yet.{" "}
-                      <Link href="/dashboard/agents/create" className="text-teal-400 underline">Create one</Link>
+                      <Link href="/dashboard/agents/create" className="text-neopop-yellow underline">Create one</Link>
                     </td>
                   </tr>
                 ) : agents.map((a) => (
-                  <tr key={a.id} className="border-t border-slate-800 text-slate-200 hover:bg-slate-800/40">
+                  <tr key={a.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
                     <td className="px-3 py-3 font-medium">{a.name}</td>
-                    <td className="px-3 py-3 font-mono text-xs text-slate-400">{a.algoAddress.slice(0, 8)}...{a.algoAddress.slice(-4)}</td>
+                    <td className="px-3 py-3 font-mono text-xs text-text-muted">{a.algoAddress.slice(0, 8)}...{a.algoAddress.slice(-4)}</td>
                     <td className="px-3 py-3">{formatUsd(a.dailyLimitCents)}</td>
                     <td className="px-3 py-3">
-                      <span className={a.dailySpentCents >= a.dailyLimitCents ? "text-rose-300" : "text-slate-200"}>
+                      <span className={a.dailySpentCents >= a.dailyLimitCents ? "text-neopop-red" : "text-text-primary"}>
                         {formatUsd(a.dailySpentCents)}
                       </span>
                     </td>
                     <td className="px-3 py-3">
                       <span className={`rounded-full border px-2 py-1 text-xs ${agentStatusClasses[a.status]}`}>{a.status.replace("_", " ")}</span>
                     </td>
-                    <td className="px-3 py-3 text-slate-400">{timeAgo(a.createdAt)}</td>
+                    <td className="px-3 py-3 text-text-secondary">{timeAgo(a.createdAt)}</td>
                     <td className="px-3 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/agents/create?edit=${a.id}`} className="rounded-md p-1.5 text-slate-400 transition hover:bg-slate-800 hover:text-slate-200" title="Edit">
+                        <Link href={`/dashboard/agents/create?edit=${a.id}`} className="rounded-md p-1.5 text-text-muted transition hover:bg-surface-raised hover:text-text-primary" title="Edit">
                           <Pencil size={14} />
                         </Link>
                         {confirmSuspend === a.id ? (
                           <div className="flex items-center gap-1">
-                            <button type="button" onClick={() => toggleSuspend(a)} className="rounded-md bg-rose-500/20 px-2 py-1 text-xs text-rose-300 hover:bg-rose-500/30">Confirm</button>
-                            <button type="button" onClick={() => setConfirmSuspend(null)} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:text-slate-200">Cancel</button>
+                            <button type="button" onClick={() => toggleSuspend(a)} className="rounded-md bg-neopop-red/20 px-2 py-1 text-xs text-neopop-red hover:bg-neopop-red/30">Confirm</button>
+                            <button type="button" onClick={() => setConfirmSuspend(null)} className="rounded-md px-2 py-1 text-xs text-text-muted hover:text-text-primary">Cancel</button>
                           </div>
                         ) : (
                           <button type="button" onClick={() => toggleSuspend(a)} disabled={actionLoading === a.id}
-                            className="rounded-md p-1.5 text-slate-400 transition hover:bg-slate-800 hover:text-slate-200 disabled:opacity-40"
+                            className="rounded-md p-1.5 text-text-muted transition hover:bg-surface-raised hover:text-text-primary disabled:opacity-40"
                             title={a.status === "suspended" ? "Reactivate" : "Suspend"}>
                             {a.status === "suspended" ? <Play size={14} /> : <Pause size={14} />}
                           </button>

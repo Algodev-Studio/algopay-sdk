@@ -10,11 +10,32 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --btn-1: #b3bdbc;
-  --btn-2: #d2d8ee;
-  --btn-3: #bebf85;
+  --background: #0D0D0D;
+  --foreground: #F0F0F0;
+  --surface: #161616;
+  --surface-raised: #1C1C1C;
+  --surface-overlay: #222222;
+  --border: #2A2A2A;
+  --border-strong: #3A3A3A;
+
+  --neopop-yellow: #F5C542;
+  --neopop-white: #FFFFFF;
+  --neopop-black: #0D0D0D;
+  --neopop-red: #EE4D37;
+  --neopop-green: #06C270;
+  --neopop-blue: #3D6DFF;
+  --neopop-purple: #8B5CF6;
+
+  --plunk-yellow: #A38329;
+  --plunk-white: #ADADAD;
+  --plunk-red: #9E3425;
+  --plunk-blue: #2A4AB3;
+  --plunk-green: #048A4E;
+
+  --text-primary: #F0F0F0;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+
   --font-inter: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-impact: "Impact Local", "Impact", "Haettenschweiler", "Arial Narrow Bold", sans-serif;
 }
@@ -22,29 +43,207 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-btn-1: var(--btn-1);
-  --color-btn-2: var(--btn-2);
-  --color-btn-3: var(--btn-3);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-neopop-yellow: var(--neopop-yellow);
+  --color-neopop-white: var(--neopop-white);
+  --color-neopop-black: var(--neopop-black);
+  --color-neopop-red: var(--neopop-red);
+  --color-neopop-green: var(--neopop-green);
+  --color-neopop-blue: var(--neopop-blue);
+  --color-neopop-purple: var(--neopop-purple);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --font-sans: var(--font-inter);
   --font-inter: var(--font-inter);
   --font-impact: var(--font-impact);
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 }
 
-@utility bg-btn-gradient {
-  background-image: linear-gradient(
-    to right,
-    var(--color-btn-1),
-    var(--color-btn-2),
-    var(--color-btn-3)
-  );
+/* NeoPOP 3D Buttons */
+.neopop-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  border: none;
+  outline: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #151515;
-    --foreground: #ededed;
-  }
+.neopop-btn-primary {
+  background-color: var(--neopop-yellow);
+  color: var(--neopop-black);
+  box-shadow:
+    3px 3px 0 0 var(--plunk-yellow),
+    3px 0 0 0 var(--plunk-yellow),
+    0 3px 0 0 var(--plunk-yellow);
+}
+.neopop-btn-primary:hover {
+  transform: translate(1px, 1px);
+  box-shadow:
+    2px 2px 0 0 var(--plunk-yellow),
+    2px 0 0 0 var(--plunk-yellow),
+    0 2px 0 0 var(--plunk-yellow);
+}
+.neopop-btn-primary:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.neopop-btn-white {
+  background-color: var(--neopop-white);
+  color: var(--neopop-black);
+  box-shadow:
+    3px 3px 0 0 var(--plunk-white),
+    3px 0 0 0 var(--plunk-white),
+    0 3px 0 0 var(--plunk-white);
+}
+.neopop-btn-white:hover {
+  transform: translate(1px, 1px);
+  box-shadow:
+    2px 2px 0 0 var(--plunk-white),
+    2px 0 0 0 var(--plunk-white),
+    0 2px 0 0 var(--plunk-white);
+}
+.neopop-btn-white:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.neopop-btn-danger {
+  background-color: var(--neopop-red);
+  color: var(--neopop-white);
+  box-shadow:
+    3px 3px 0 0 var(--plunk-red),
+    3px 0 0 0 var(--plunk-red),
+    0 3px 0 0 var(--plunk-red);
+}
+.neopop-btn-danger:hover {
+  transform: translate(1px, 1px);
+  box-shadow:
+    2px 2px 0 0 var(--plunk-red),
+    2px 0 0 0 var(--plunk-red),
+    0 2px 0 0 var(--plunk-red);
+}
+.neopop-btn-danger:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.neopop-btn-secondary {
+  background-color: transparent;
+  color: var(--neopop-white);
+  border: 1.5px solid var(--border-strong);
+}
+.neopop-btn-secondary:hover {
+  border-color: var(--neopop-white);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* NeoPOP Cards */
+.neopop-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    4px 4px 0 0 var(--border),
+    4px 0 0 0 var(--border),
+    0 4px 0 0 var(--border);
+}
+
+.neopop-card-raised {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  box-shadow:
+    5px 5px 0 0 rgba(245, 197, 66, 0.15),
+    5px 0 0 0 rgba(245, 197, 66, 0.08),
+    0 5px 0 0 rgba(245, 197, 66, 0.08);
+}
+
+.neopop-card-flat {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* NeoPOP Inputs */
+.neopop-input {
+  background-color: var(--neopop-black);
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-primary);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.neopop-input:focus {
+  border-color: var(--neopop-yellow);
+}
+.neopop-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* NeoPOP Toggle */
+.neopop-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.neopop-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.neopop-toggle.active {
+  background: var(--neopop-yellow);
+}
+.neopop-toggle.active::after {
+  transform: translateX(20px);
+  background: var(--neopop-black);
+}
+
+/* NeoPOP Table */
+.neopop-table {
+  width: 100%;
+  text-align: left;
+  font-size: 0.875rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Section heading style */
+.neopop-section-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+/* Legacy gradient preserved for transition */
+@utility bg-btn-gradient {
+  background-color: var(--neopop-yellow);
+  color: var(--neopop-black);
 }
 
 body {
@@ -63,16 +262,16 @@ body {
 
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-btn-3) rgba(255, 255, 255, 0.14);
+  scrollbar-color: var(--neopop-yellow) rgba(255, 255, 255, 0.06);
 }
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--color-btn-2), var(--color-btn-3));
+  background: var(--neopop-yellow);
   border-radius: 9999px;
 }

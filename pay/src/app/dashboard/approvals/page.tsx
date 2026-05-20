@@ -65,18 +65,18 @@ export default function ApprovalsPage() {
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="space-y-4">
       <div className="flex items-center gap-3">
-        <ShieldCheck size={24} className="text-teal-400" />
-        <h1 className="text-2xl font-bold text-slate-100">Approvals</h1>
+        <ShieldCheck size={24} className="text-neopop-yellow" />
+        <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">Approvals</h1>
         {!loading && pending.length > 0 && (
-          <span className="rounded-full bg-amber-500/20 px-2.5 py-0.5 text-xs font-semibold text-amber-300">
+          <span className="rounded-full bg-neopop-yellow/20 px-2.5 py-0.5 text-xs font-semibold text-neopop-yellow">
             {pending.length} pending
           </span>
         )}
       </div>
 
       <AnimatedSection>
-        <div className="rounded-lg bg-[#212121] p-4">
-          <p className="mb-1 text-sm text-slate-400">
+        <div className="neopop-card-flat p-4">
+          <p className="mb-1 text-sm text-text-secondary">
             Payments that exceed the workspace approval threshold appear here for manual review.
           </p>
         </div>
@@ -85,54 +85,54 @@ export default function ApprovalsPage() {
       {loading ? (
         <div className="space-y-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-20 animate-pulse rounded-lg bg-[#212121]" />
+            <div key={i} className="neopop-card-flat h-20 animate-pulse" />
           ))}
         </div>
       ) : pending.length === 0 ? (
         <AnimatedSection>
-          <div className="rounded-lg bg-[#212121] p-10 text-center">
-            <CheckCircle2 size={32} className="mx-auto mb-3 text-emerald-400" />
-            <p className="text-lg font-medium text-slate-200">All clear</p>
-            <p className="mt-1 text-sm text-slate-400">No payments require approval right now.</p>
+          <div className="neopop-card p-10 text-center">
+            <CheckCircle2 size={32} className="mx-auto mb-3 text-neopop-green" />
+            <p className="text-lg font-medium text-text-primary">All clear</p>
+            <p className="mt-1 text-sm text-text-secondary">No payments require approval right now.</p>
           </div>
         </AnimatedSection>
       ) : (
         <AnimatedSection>
-          <div className="overflow-hidden rounded-lg bg-[#212121]">
+          <div className="neopop-card overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead className="bg-btn-gradient uppercase text-slate-900">
+              <table className="neopop-table text-left text-sm">
+                <thead className="bg-neopop-yellow text-neopop-black">
                   <tr>
-                    <th className="px-3 py-3">Invoice ID</th>
-                    <th className="px-3 py-3">Amount</th>
-                    <th className="px-3 py-3">Agent</th>
-                    <th className="px-3 py-3">Network</th>
-                    <th className="px-3 py-3">Requested</th>
-                    <th className="px-3 py-3 text-right">Actions</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Invoice ID</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Amount</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Agent</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Network</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Requested</th>
+                    <th className="px-3 py-3 text-right text-xs font-bold uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {pending.map((p) => (
-                    <tr key={p.id} className="border-t border-slate-800 text-slate-200 hover:bg-slate-800/40">
+                    <tr key={p.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
                       <td className="px-3 py-3 font-mono text-xs">{p.invoiceId}</td>
                       <td className="px-3 py-3">
                         <span className="text-lg font-bold">{formatUsd(p.amountUsdCents)}</span>
                       </td>
                       <td className="px-3 py-3">{p.agent?.name ?? p.agentId.slice(0, 8)}</td>
-                      <td className="px-3 py-3 text-xs uppercase text-slate-400">{p.network}</td>
+                      <td className="px-3 py-3 text-xs uppercase text-text-secondary">{p.network}</td>
                       <td className="px-3 py-3">
-                        <span className="flex items-center gap-1 text-slate-400">
+                        <span className="flex items-center gap-1 text-text-secondary">
                           <Clock size={12} /> {timeAgo(p.createdAt)}
                         </span>
                       </td>
                       <td className="px-3 py-3 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button type="button" onClick={() => handleAction(p.id, "approve")} disabled={actionLoading === p.id}
-                            className="flex items-center gap-1 rounded-md bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition hover:bg-emerald-500/30 disabled:opacity-40">
+                            className="flex items-center gap-1 rounded-md bg-neopop-green/20 px-3 py-1.5 text-xs font-semibold text-neopop-green transition hover:bg-neopop-green/30 disabled:opacity-40">
                             {actionLoading === p.id ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle2 size={12} />} Approve
                           </button>
                           <button type="button" onClick={() => handleAction(p.id, "reject")} disabled={actionLoading === p.id}
-                            className="flex items-center gap-1 rounded-md bg-rose-500/20 px-3 py-1.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/30 disabled:opacity-40">
+                            className="neopop-btn neopop-btn-danger flex items-center gap-1 px-3 py-1.5 text-xs font-semibold disabled:opacity-40">
                             {actionLoading === p.id ? <Loader2 size={12} className="animate-spin" /> : <XCircle size={12} />} Reject
                           </button>
                         </div>

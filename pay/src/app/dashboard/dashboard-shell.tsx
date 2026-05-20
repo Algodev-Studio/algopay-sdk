@@ -8,43 +8,72 @@ import { useWallet } from "@txnlab/use-wallet-react";
 import { useNetwork } from "@/components/providers/NetworkProvider";
 import {
   Home,
+  ArrowLeftRight,
   HandCoins,
   Bot,
   Store,
   Fuel,
+  Wallet,
+  Globe,
+  ShoppingCart,
   FlaskConical,
   Settings,
   ShieldCheck,
-  ShoppingCart,
+  ExternalLink,
   LogOut,
   Menu,
   type LucideIcon,
 } from "lucide-react";
 import type { Network } from "@/lib/types";
 
-const sidebarItems: { key: string; label: string; href: string }[] = [
-  { key: "home", label: "Home", href: "/dashboard" },
-  { key: "payments", label: "Payments", href: "/dashboard/payments" },
-  { key: "agents", label: "Agents", href: "/dashboard/agents" },
-  { key: "merchants", label: "Merchants", href: "/dashboard/merchants" },
-  { key: "gas", label: "Gas Pools", href: "/dashboard/gas" },
-  { key: "checkout", label: "Checkout", href: "/dashboard/checkout" },
-  { key: "playground", label: "Playground", href: "/dashboard/playground" },
-  { key: "approvals", label: "Approvals", href: "/dashboard/approvals" },
-  { key: "settings", label: "Settings", href: "/dashboard/settings" },
-];
+interface NavItem {
+  key: string;
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
+}
 
-const iconByKey: Record<string, LucideIcon> = {
-  home: Home,
-  payments: HandCoins,
-  agents: Bot,
-  merchants: Store,
-  gas: Fuel,
-  checkout: ShoppingCart,
-  playground: FlaskConical,
-  approvals: ShieldCheck,
-  settings: Settings,
-};
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
+const navSections: NavSection[] = [
+  {
+    title: "Main",
+    items: [
+      { key: "overview", label: "Overview", href: "/dashboard", icon: Home },
+    ],
+  },
+  {
+    title: "Activity",
+    items: [
+      { key: "transactions", label: "Transactions", href: "/dashboard/transactions", icon: ArrowLeftRight },
+      { key: "payments", label: "Payments", href: "/dashboard/payments", icon: HandCoins },
+      { key: "approvals", label: "Approvals", href: "/dashboard/approvals", icon: ShieldCheck },
+    ],
+  },
+  {
+    title: "Manage",
+    items: [
+      { key: "agents", label: "Agents", href: "/dashboard/agents", icon: Bot },
+      { key: "merchants", label: "Merchants", href: "/dashboard/merchants", icon: Store },
+      { key: "gas", label: "Gas Pools", href: "/dashboard/gas", icon: Fuel },
+      { key: "wallets", label: "Wallets", href: "/dashboard/wallets", icon: Wallet },
+    ],
+  },
+  {
+    title: "Config",
+    items: [
+      { key: "apis", label: "APIs", href: "/dashboard/apis", icon: Globe },
+      { key: "checkout", label: "Checkout", href: "/dashboard/checkout", icon: ShoppingCart },
+      { key: "playground", label: "Playground", href: "/dashboard/playground", icon: FlaskConical },
+      { key: "settings", label: "Settings", href: "/dashboard/settings", icon: Settings },
+      { key: "docs", label: "Docs", href: "https://algodev-studio.github.io/algopay-sdk/", icon: ExternalLink, external: true },
+    ],
+  },
+];
 
 function truncateAddress(addr: string): string {
   return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -53,49 +82,84 @@ function truncateAddress(addr: string): string {
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname() ?? "";
 
-  return (
-    <aside className="flex h-full w-full flex-col bg-[#151515] p-0 rounded-xl">
-      <div className="space-y-1 p-2">
-        {sidebarItems.map((item, index) => {
-          const active =
-            item.href === "/dashboard"
-              ? pathname === "/dashboard" || pathname === "/dashboard/"
-              : pathname.startsWith(item.href);
-          const ItemIcon = iconByKey[item.key] ?? Home;
+  let itemIndex = 0;
 
-          return (
-            <motion.div
-              key={item.key}
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.04 }}
-            >
-              <Link
-                href={item.href}
-                onClick={onNavigate}
-                className={`group flex items-center gap-3 rounded-lg border px-4 py-3 text-sm uppercase tracking-wide transition ${
-                  active
-                    ? "border-amber-100/30 bg-btn-gradient text-slate-900"
-                    : "border-transparent text-slate-300 hover:border-white/20 hover:text-white"
-                }`}
-              >
-                <ItemIcon
-                  className={`h-5 w-5 shrink-0 ${
-                    active ? "text-slate-900" : "text-slate-400 group-hover:text-white"
-                  }`}
-                  strokeWidth={1.9}
-                />
-                <span>{item.label}</span>
-              </Link>
-            </motion.div>
-          );
-        })}
+  return (
+    <aside className="flex h-full w-full flex-col bg-surface rounded-xl">
+      <div className="flex-1 overflow-y-auto p-3 space-y-4">
+        {navSections.map((section) => (
+          <div key={section.title}>
+            <p className="neopop-section-title mb-1 px-3 text-[10px] uppercase tracking-widest text-text-muted">
+              {section.title}
+            </p>
+            <div className="space-y-0.5">
+              {section.items.map((item) => {
+                const idx = itemIndex++;
+                const active =
+                  item.href === "/dashboard"
+                    ? pathname === "/dashboard" || pathname === "/dashboard/"
+                    : pathname.startsWith(item.href);
+                const ItemIcon = item.icon;
+
+                if (item.external) {
+                  return (
+                    <motion.div
+                      key={item.key}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: idx * 0.03 }}
+                    >
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={onNavigate}
+                        className="group flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm tracking-wide transition text-text-secondary hover:text-text-primary hover:bg-surface-raised"
+                      >
+                        <ItemIcon className="h-4 w-4 shrink-0 text-text-secondary group-hover:text-text-primary" strokeWidth={1.9} />
+                        <span>{item.label}</span>
+                        <ExternalLink className="ml-auto h-3 w-3 opacity-50" />
+                      </a>
+                    </motion.div>
+                  );
+                }
+
+                return (
+                  <motion.div
+                    key={item.key}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.2, delay: idx * 0.03 }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={onNavigate}
+                      className={`group flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm tracking-wide transition ${
+                        active
+                          ? "border-l-2 border-l-neopop-yellow bg-neopop-yellow text-neopop-black font-bold"
+                          : "text-text-secondary hover:text-text-primary hover:bg-surface-raised"
+                      }`}
+                    >
+                      <ItemIcon
+                        className={`h-4 w-4 shrink-0 ${
+                          active ? "text-neopop-black" : "text-text-secondary group-hover:text-text-primary"
+                        }`}
+                        strokeWidth={1.9}
+                      />
+                      <span>{item.label}</span>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="mt-auto border-t border-slate-800 p-2">
+      <div className="mt-auto border-t border-border p-3">
         <Link
           href="/login"
-          className="flex w-full items-center gap-3 rounded-lg border border-transparent px-4 py-3 text-sm font-medium uppercase tracking-wide text-red-500 transition hover:border-red-900/30 hover:text-red-400"
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium uppercase tracking-wide text-red-500 transition hover:text-red-400 hover:bg-surface-raised"
         >
           <LogOut className="h-4 w-4" strokeWidth={1.9} />
           Log Out
@@ -145,30 +209,30 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const activeWallet = wallets?.find((w) => w.isActive);
 
   return (
-    <div className="h-screen overflow-hidden bg-[#151515]">
+    <div className="h-screen overflow-hidden bg-background">
       {/* Header */}
       <motion.header
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className="border-b border-slate-800/80"
+        className="border-b border-border bg-surface"
       >
         <div className="mx-auto flex max-w-[1700px] items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMobileOpen((v) => !v)}
               type="button"
-              className="grid h-10 w-10 place-items-center rounded-md border border-slate-700 text-slate-200 lg:hidden"
+              className="grid h-10 w-10 place-items-center rounded-md border border-border text-text-secondary lg:hidden"
               aria-label="Toggle navigation"
             >
               <Menu className="h-5 w-5" />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-xl text-[#bebf85]">✦</span>
-              <span className="font-impact text-xl uppercase tracking-wider text-slate-100">ALGOPAY</span>
+              <img src="/logos/logo-icon.png" alt="AlgoPay" width={20} height={20} className="invert brightness-200" />
+              <span className="font-impact text-xl uppercase tracking-wider text-text-primary">ALGOPAY</span>
             </div>
 
-            <div className="hidden items-center rounded-lg border border-slate-800 bg-[#212121] p-1 sm:flex">
+            <div className="hidden items-center rounded-lg bg-surface-raised p-1 sm:flex">
               {(["testnet", "mainnet"] as Network[]).map((n) => (
                 <button
                   key={n}
@@ -176,8 +240,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   onClick={() => setNetwork(n)}
                   className={`rounded-md px-4 py-1 text-sm capitalize transition ${
                     network === n
-                      ? "bg-slate-100 text-slate-900"
-                      : "text-slate-400 hover:text-slate-100"
+                      ? "bg-neopop-yellow text-neopop-black font-bold"
+                      : "text-text-secondary hover:text-text-primary"
                   }`}
                 >
                   {n}
@@ -186,19 +250,19 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="relative flex items-center gap-4 text-sm text-slate-300">
-            <a href="https://algodev-studio.github.io/algopay-sdk/" target="_blank" rel="noreferrer" className="hidden transition hover:text-white md:block">Docs</a>
+          <div className="relative flex items-center gap-4 text-sm text-text-secondary">
+            <a href="https://algodev-studio.github.io/algopay-sdk/" target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Docs</a>
 
             {activeAddress ? (
               <div className="flex items-center gap-3">
                 <div className="hidden flex-col items-end text-xs md:flex">
-                  <span className="text-slate-300">{algoBalance ?? "..."} ALGO</span>
-                  <span className="text-[#f2ad2d]">{usdcBalance ?? "..."} USDC</span>
+                  <span className="text-text-secondary">{algoBalance ?? "..."} ALGO</span>
+                  <span className="text-neopop-yellow">{usdcBalance ?? "..."} USDC</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowWallets((v) => !v)}
-                  className="rounded-md border border-slate-600 bg-[#212121] px-3 py-1.5 text-xs uppercase tracking-wide text-slate-200 transition hover:border-slate-400"
+                  className="rounded-md border border-border bg-surface-raised px-3 py-1.5 text-xs uppercase tracking-wide text-text-primary transition hover:border-text-muted"
                 >
                   {truncateAddress(activeAddress)}
                 </button>
@@ -208,7 +272,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 type="button"
                 disabled={!isReady}
                 onClick={() => setShowWallets((v) => !v)}
-                className="rounded-md border border-amber-100/20 bg-btn-gradient px-4 py-2 text-sm uppercase text-slate-900 disabled:opacity-50"
+                className="neopop-btn neopop-btn-primary px-4 py-2 text-sm uppercase disabled:opacity-50"
               >
                 Connect Wallet
               </button>
@@ -217,7 +281,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             {showWallets && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowWallets(false)} />
-                <div className="absolute right-0 top-full z-50 mt-2 w-60 rounded-md border border-slate-700 bg-[#1d1f22] p-3 shadow-xl">
+                <div className="absolute right-0 top-full z-50 mt-2 w-60 rounded-md border border-border bg-surface-raised p-3 shadow-xl">
                   {activeAddress ? (
                     <button
                       type="button"
@@ -228,13 +292,13 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                     </button>
                   ) : (
                     <div className="space-y-2">
-                      <p className="pb-1 text-xs uppercase tracking-wide text-slate-400">Select Wallet</p>
+                      <p className="pb-1 text-xs uppercase tracking-wide text-text-muted">Select Wallet</p>
                       {wallets?.map((wallet) => (
                         <button
                           key={wallet.id}
                           type="button"
                           onClick={() => wallet.connect().then(() => setShowWallets(false)).catch(() => {})}
-                          className="flex w-full items-center gap-3 rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-200 transition hover:border-slate-500 hover:bg-slate-800"
+                          className="flex w-full items-center gap-3 rounded-md border border-border px-3 py-2 text-sm text-text-primary transition hover:border-text-muted hover:bg-surface-raised"
                         >
                           {wallet.metadata.icon && (
                             <img src={wallet.metadata.icon} alt={wallet.metadata.name} className="h-5 w-5 rounded" />

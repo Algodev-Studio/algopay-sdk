@@ -12,25 +12,25 @@ import { api } from "@/lib/api-client";
 import type { AuditLog } from "@/lib/types";
 
 const ACTION_COLORS: Record<string, string> = {
-  "payment.created": "bg-blue-500/20 text-blue-300",
-  "payment.settled": "bg-emerald-500/20 text-emerald-300",
-  "payment.failed": "bg-rose-500/20 text-rose-300",
-  "agent.created": "bg-teal-500/20 text-teal-300",
-  "agent.updated": "bg-amber-500/20 text-amber-300",
-  "agent.suspended": "bg-rose-500/20 text-rose-300",
-  "merchant.created": "bg-teal-500/20 text-teal-300",
-  "merchant.deleted": "bg-rose-500/20 text-rose-300",
-  "pool.created": "bg-teal-500/20 text-teal-300",
-  "pool.topped_up": "bg-emerald-500/20 text-emerald-300",
-  "key.created": "bg-blue-500/20 text-blue-300",
-  "key.revoked": "bg-rose-500/20 text-rose-300",
-  "webhook.created": "bg-teal-500/20 text-teal-300",
-  "checkout.created": "bg-blue-500/20 text-blue-300",
-  "checkout.paid": "bg-emerald-500/20 text-emerald-300",
+  "payment.created": "bg-neopop-blue/20 text-neopop-blue",
+  "payment.settled": "bg-neopop-green/20 text-neopop-green",
+  "payment.failed": "bg-neopop-red/20 text-neopop-red",
+  "agent.created": "bg-neopop-green/20 text-neopop-green",
+  "agent.updated": "bg-neopop-yellow/20 text-neopop-yellow",
+  "agent.suspended": "bg-neopop-red/20 text-neopop-red",
+  "merchant.created": "bg-neopop-green/20 text-neopop-green",
+  "merchant.deleted": "bg-neopop-red/20 text-neopop-red",
+  "pool.created": "bg-neopop-green/20 text-neopop-green",
+  "pool.topped_up": "bg-neopop-green/20 text-neopop-green",
+  "key.created": "bg-neopop-blue/20 text-neopop-blue",
+  "key.revoked": "bg-neopop-red/20 text-neopop-red",
+  "webhook.created": "bg-neopop-green/20 text-neopop-green",
+  "checkout.created": "bg-neopop-blue/20 text-neopop-blue",
+  "checkout.paid": "bg-neopop-green/20 text-neopop-green",
 };
 
 function getActionColor(action: string): string {
-  return ACTION_COLORS[action] ?? "bg-slate-500/20 text-slate-300";
+  return ACTION_COLORS[action] ?? "bg-surface-raised text-text-secondary";
 }
 
 function formatTimestamp(iso: string): string {
@@ -95,67 +95,67 @@ export default function TransactionsPage() {
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: "easeOut" }} className="space-y-4">
       <div className="flex items-center gap-3">
-        <Activity size={24} className="text-teal-400" />
-        <h1 className="text-2xl font-bold text-slate-100">Activity Log</h1>
+        <Activity size={24} className="text-neopop-yellow" />
+        <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">Activity Log</h1>
       </div>
 
       <AnimatedSection>
-        <div className="flex items-center gap-3 rounded-lg bg-[#212121] p-3">
+        <div className="neopop-card-flat flex items-center gap-3 p-3">
           <div className="relative">
             <button type="button" onClick={() => setShowFilterMenu(!showFilterMenu)}
-              className="flex items-center gap-2 rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:border-slate-500">
+              className="neopop-btn neopop-btn-secondary flex items-center gap-2 px-3 py-2 text-sm">
               <Filter size={14} />
               {actionFilter === "All" ? "All Actions" : actionFilter}
               <ChevronDown size={14} />
             </button>
             {showFilterMenu && (
-              <div className="absolute left-0 top-full z-20 mt-1 max-h-64 w-56 overflow-y-auto rounded-lg border border-slate-700 bg-[#1d1f22] py-1 shadow-xl">
+              <div className="absolute left-0 top-full z-20 mt-1 max-h-64 w-56 overflow-y-auto rounded-lg border border-border bg-surface py-1 shadow-xl">
                 {ACTION_FILTER_OPTIONS.map((opt) => (
                   <button key={opt} type="button" onClick={() => { setActionFilter(opt); setShowFilterMenu(false); setPage(0); }}
-                    className={`block w-full px-3 py-1.5 text-left text-sm transition ${opt === actionFilter ? "bg-teal-500/20 text-teal-300" : "text-slate-300 hover:bg-slate-800"}`}>
+                    className={`block w-full px-3 py-1.5 text-left text-sm transition ${opt === actionFilter ? "bg-neopop-yellow/20 text-neopop-yellow" : "text-text-secondary hover:bg-surface-raised"}`}>
                     {opt === "All" ? "All Actions" : opt}
                   </button>
                 ))}
               </div>
             )}
           </div>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-text-secondary">
             {loading ? "Loading..." : `${logs.length} entries`}
           </p>
         </div>
       </AnimatedSection>
 
       <AnimatedSection>
-        <div className="overflow-hidden rounded-lg bg-[#212121]">
+        <div className="neopop-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-btn-gradient uppercase text-slate-900">
+            <table className="neopop-table text-left text-sm">
+              <thead className="bg-neopop-yellow text-neopop-black">
                 <tr>
-                  <th className="px-3 py-3">Action</th>
-                  <th className="px-3 py-3">Details</th>
-                  <th className="px-3 py-3">Timestamp</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Action</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Details</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Timestamp</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? Array.from({ length: 10 }).map((_, i) => (
-                  <tr key={i} className="border-t border-slate-800">
+                  <tr key={i} className="border-t border-border">
                     {Array.from({ length: 3 }).map((_, j) => (
-                      <td key={j} className="px-3 py-3"><div className="h-3 w-24 animate-pulse rounded bg-slate-800" /></td>
+                      <td key={j} className="px-3 py-3"><div className="h-3 w-24 animate-pulse rounded bg-surface-raised" /></td>
                     ))}
                   </tr>
                 )) : logs.length === 0 ? (
-                  <tr><td colSpan={3} className="px-3 py-10 text-center text-slate-400">No activity recorded yet.</td></tr>
+                  <tr><td colSpan={3} className="px-3 py-10 text-center text-text-muted">No activity recorded yet.</td></tr>
                 ) : logs.map((log) => (
-                  <tr key={log.id} className="border-t border-slate-800 text-slate-200 hover:bg-slate-800/40">
+                  <tr key={log.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
                     <td className="px-3 py-3">
                       <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${getActionColor(log.action)}`}>
                         {log.action}
                       </span>
                     </td>
-                    <td className="max-w-md truncate px-3 py-3 text-xs text-slate-400">
+                    <td className="max-w-md truncate px-3 py-3 text-xs text-text-secondary">
                       {formatMetadata(log.metadata)}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-3 text-slate-400">
+                    <td className="whitespace-nowrap px-3 py-3 text-text-secondary">
                       {formatTimestamp(log.createdAt)}
                     </td>
                   </tr>
@@ -163,10 +163,10 @@ export default function TransactionsPage() {
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between px-3 py-3 text-sm text-slate-400">
-            <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)} className="rounded-md border border-slate-700 px-3 py-1.5 disabled:opacity-40 hover:border-slate-500 hover:text-slate-200">Previous</button>
+          <div className="flex items-center justify-between px-3 py-3 text-sm text-text-secondary">
+            <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)} className="neopop-btn neopop-btn-secondary px-3 py-1.5 disabled:opacity-40">Previous</button>
             <span>Page {page + 1}</span>
-            <button type="button" disabled={logs.length < 20} onClick={() => setPage((p) => p + 1)} className="rounded-md border border-slate-700 px-3 py-1.5 disabled:opacity-40 hover:border-slate-500 hover:text-slate-200">Next</button>
+            <button type="button" disabled={logs.length < 20} onClick={() => setPage((p) => p + 1)} className="neopop-btn neopop-btn-secondary px-3 py-1.5 disabled:opacity-40">Next</button>
           </div>
         </div>
       </AnimatedSection>

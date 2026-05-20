@@ -8,10 +8,10 @@ import { api } from "@/lib/api-client";
 import type { Payment, GasPool } from "@/lib/types";
 
 const statusClasses: Record<string, string> = {
-  settled: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
-  pending: "bg-amber-500/20 text-amber-300 border-amber-400/30",
-  failed: "bg-rose-500/20 text-rose-300 border-rose-400/30",
-  processing: "bg-blue-500/20 text-blue-300 border-blue-400/30",
+  settled: "bg-neopop-green/15 text-neopop-green border-neopop-green/30",
+  pending: "bg-neopop-yellow/15 text-neopop-yellow border-neopop-yellow/30",
+  failed: "bg-neopop-red/15 text-neopop-red border-neopop-red/30",
+  processing: "bg-neopop-blue/15 text-neopop-blue border-neopop-blue/30",
 };
 
 const STATUS_FILTERS = ["All", "settled", "pending", "processing", "failed"];
@@ -71,90 +71,114 @@ export default function DashboardPage() {
   const totalVolumeCents = payments.reduce((s, p) => s + p.amountUsdCents, 0);
   const totalPoolBalance = pools.reduce((s, p) => s + Number(p.balanceUsdc), 0);
 
+  const kpiCards = [
+    { title: "Total Volume", value: formatUsd(totalVolumeCents), meta: `${payments.length} PAYMENTS`, accent: "border-l-neopop-yellow" },
+    { title: "Settled", value: String(settled), meta: `${payments.length ? Math.round((settled / payments.length) * 100) : 0}% SUCCESS`, accent: "border-l-neopop-green" },
+    { title: "Failed", value: String(failed), meta: `${payments.length ? Math.round((failed / payments.length) * 100) : 0}% FAILURE`, accent: "border-l-neopop-red" },
+    { title: "Pending", value: String(pending), meta: "AWAITING", accent: "border-l-neopop-blue" },
+  ];
+
   return (
     <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }} className="space-y-4">
+      <h1 className="font-impact text-2xl uppercase tracking-wider text-text-primary">Overview</h1>
+
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {[
-          { title: "Total Volume", value: formatUsd(totalVolumeCents), meta: `${payments.length} PAYMENTS` },
-          { title: "Settled", value: String(settled), meta: `${payments.length ? Math.round((settled / payments.length) * 100) : 0}% SUCCESS RATE` },
-          { title: "Failed", value: String(failed), meta: `${payments.length ? Math.round((failed / payments.length) * 100) : 0}% FAILURE RATE` },
-          { title: "Pending / Processing", value: String(pending), meta: "AWAITING CONFIRMATION" },
-        ].map((card) => (
+        {kpiCards.map((card) => (
           <AnimatedSection key={card.title}>
-            <div className="bg-[#212121] rounded-lg p-4">
-              <p className="text-sm uppercase tracking-wide text-slate-400">{card.title}</p>
-              <p className="mt-2 font-impact text-4xl uppercase leading-none text-slate-100">{loading ? "..." : card.value}</p>
-              <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-[#f2ad2d]">{card.meta}</p>
+            <div className={`neopop-card-flat border-l-4 ${card.accent} p-4`}>
+              <p className="neopop-section-title">{card.title}</p>
+              <p className="mt-2 font-impact text-4xl uppercase leading-none text-text-primary">{loading ? "..." : card.value}</p>
+              <p className="mt-2 text-xs font-bold uppercase tracking-widest text-neopop-yellow">{card.meta}</p>
             </div>
           </AnimatedSection>
         ))}
       </div>
 
       <AnimatedSection>
-        <div className="bg-[#212121] rounded-lg p-3">
+        <div className="neopop-card-flat p-3">
           <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               {STATUS_FILTERS.map((filter) => (
                 <button key={filter} type="button" onClick={() => { setStatusFilter(filter); setPage(0); }}
-                  className={`rounded-md px-3 py-2 text-sm uppercase tracking-wide transition ${filter === statusFilter ? "bg-teal-500/20 text-teal-300" : "text-slate-400 hover:bg-slate-800 hover:text-slate-100"}`}>
+                  className={`px-3 py-2 text-xs font-bold uppercase tracking-wider transition ${
+                    filter === statusFilter
+                      ? "bg-neopop-yellow text-neopop-black"
+                      : "text-text-muted hover:bg-surface-raised hover:text-text-primary"
+                  }`}>
                   {filter}
                 </button>
               ))}
             </div>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full rounded-md border border-slate-700 bg-white px-4 py-2 text-sm text-black placeholder:text-slate-500 sm:w-64" placeholder="Search Invoice ID" />
+            <input value={search} onChange={(e) => setSearch(e.target.value)}
+              className="neopop-input w-full sm:w-64" placeholder="Search Invoice ID" />
           </div>
         </div>
       </AnimatedSection>
 
       <div className="grid gap-4 xl:grid-cols-[1fr_325px]">
         <AnimatedSection>
-          <div className="overflow-hidden bg-[#212121] rounded-lg">
+          <div className="neopop-card overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead className="bg-btn-gradient uppercase text-slate-900">
-                  <tr>
-                    <th className="px-3 py-3">Invoice ID</th><th className="px-3 py-3">Amount</th><th className="px-3 py-3">Status</th><th className="px-3 py-3">Network</th><th className="px-3 py-3">Agent</th><th className="px-3 py-3">TxID</th><th className="px-3 py-3">Time</th>
+              <table className="neopop-table">
+                <thead>
+                  <tr className="bg-neopop-yellow text-neopop-black">
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Invoice ID</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Amount</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Status</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Network</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Agent</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">TxID</th>
+                    <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Time</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? Array.from({ length: 6 }).map((_, i) => (
-                    <tr key={i} className="border-t border-slate-800">{Array.from({ length: 7 }).map((_, j) => (<td key={j} className="px-3 py-3"><div className="h-3 w-16 animate-pulse rounded bg-slate-800" /></td>))}</tr>
+                    <tr key={i} className="border-t border-border">
+                      {Array.from({ length: 7 }).map((_, j) => (
+                        <td key={j} className="px-3 py-3"><div className="h-3 w-16 animate-pulse rounded bg-surface-raised" /></td>
+                      ))}
+                    </tr>
                   )) : filtered.length === 0 ? (
-                    <tr><td colSpan={7} className="px-3 py-10 text-center text-slate-400">No payments found.</td></tr>
+                    <tr><td colSpan={7} className="px-3 py-10 text-center text-text-muted">No payments found.</td></tr>
                   ) : filtered.map((p) => (
-                    <tr key={p.id} onClick={() => router.push(`/dashboard/payments`)} className="cursor-pointer border-t border-slate-800 text-slate-200 hover:bg-slate-800/40">
+                    <tr key={p.id} onClick={() => router.push(`/dashboard/payments`)}
+                      className="cursor-pointer border-t border-border text-text-primary transition hover:bg-surface-raised">
                       <td className="px-3 py-3 font-mono text-xs">{p.invoiceId}</td>
                       <td className="px-3 py-3 font-semibold">{formatUsd(p.amountUsdCents)}</td>
-                      <td className="px-3 py-3"><span className={`rounded-full border px-2 py-1 text-xs ${statusClasses[p.status]}`}>{p.status}</span></td>
-                      <td className="px-3 py-3 text-xs uppercase text-slate-400">{p.network}</td>
+                      <td className="px-3 py-3"><span className={`border px-2 py-0.5 text-xs font-bold uppercase ${statusClasses[p.status]}`}>{p.status}</span></td>
+                      <td className="px-3 py-3 text-xs uppercase text-text-muted">{p.network}</td>
                       <td className="px-3 py-3">{p.agent?.name ?? p.agentId.slice(0, 8)}</td>
-                      <td className="px-3 py-3 font-mono text-xs text-slate-400">{p.algoTxnId ? `${p.algoTxnId.slice(0, 6)}...` : "—"}</td>
-                      <td className="px-3 py-3 text-slate-400">{timeAgo(p.createdAt)}</td>
+                      <td className="px-3 py-3 font-mono text-xs text-text-muted">{p.algoTxnId ? `${p.algoTxnId.slice(0, 6)}...` : "—"}</td>
+                      <td className="px-3 py-3 text-text-muted">{timeAgo(p.createdAt)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <div className="flex items-center justify-between px-3 py-3 text-sm text-slate-400">
-              <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)} className="rounded-md border border-slate-700 px-3 py-1.5 disabled:opacity-40 hover:border-slate-500 hover:text-slate-200">Previous</button>
-              <span>Page {page + 1}</span>
-              <button type="button" disabled={payments.length < 9} onClick={() => setPage((p) => p + 1)} className="rounded-md border border-slate-700 px-3 py-1.5 disabled:opacity-40 hover:border-slate-500 hover:text-slate-200">Next</button>
+            <div className="flex items-center justify-between border-t border-border px-3 py-3 text-sm text-text-muted">
+              <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)}
+                className="neopop-btn neopop-btn-secondary px-3 py-1.5 text-xs disabled:opacity-40">Previous</button>
+              <span className="text-xs uppercase tracking-wider">Page {page + 1}</span>
+              <button type="button" disabled={payments.length < 9} onClick={() => setPage((p) => p + 1)}
+                className="neopop-btn neopop-btn-secondary px-3 py-1.5 text-xs disabled:opacity-40">Next</button>
             </div>
           </div>
         </AnimatedSection>
 
         <AnimatedSection>
-          <div className="rounded-lg bg-btn-gradient p-2 text-black">
-            <p className="text-sm uppercase tracking-wide">Gas Pool</p>
-            <p className="mt-1 font-impact text-5xl tracking-tight">{loading ? "..." : formatUsdc(String(totalPoolBalance))}</p>
-            <p className="text-right text-sm">{pools.length} pool{pools.length !== 1 ? "s" : ""}</p>
-            <div className="mt-2 flex flex-col rounded-lg bg-black p-4 text-white">
-              <div className="h-2 rounded-full bg-slate-800"><div className="h-2 rounded-full bg-[#d4d19d] transition-all" style={{ width: `${Math.min(pools.length > 0 ? 60 : 0, 100)}%` }} /></div>
-              <p className="mt-3 text-sm">{pools.length > 0 ? `${pools.filter(p => p.status !== "empty").length} active` : "No pools configured"}</p>
-              <div className="mt-2 grid grid-cols-3 gap-3 text-sm">
-                <div><p className="text-xs text-slate-400">Active</p><p className="font-medium">{pools.filter(p => p.status !== "empty").length}</p></div>
-                <div><p className="text-xs text-slate-400">Low/Critical</p><p className="font-medium">{pools.filter(p => p.status === "low" || p.status === "critical").length}</p></div>
-                <div><p className="text-xs text-slate-400">Empty</p><p className="font-medium">{pools.filter(p => p.status === "empty").length}</p></div>
+          <div className="neopop-card-raised p-4">
+            <p className="neopop-section-title">Gas Pool Balance</p>
+            <p className="mt-2 font-impact text-4xl tracking-tight text-neopop-yellow">{loading ? "..." : formatUsdc(String(totalPoolBalance))}</p>
+            <p className="mt-1 text-xs text-text-muted">{pools.length} pool{pools.length !== 1 ? "s" : ""}</p>
+            <div className="mt-4 rounded bg-background p-4">
+              <div className="h-2 rounded-full bg-border">
+                <div className="h-2 rounded-full bg-neopop-yellow transition-all" style={{ width: `${Math.min(pools.length > 0 ? 60 : 0, 100)}%` }} />
+              </div>
+              <p className="mt-3 text-sm text-text-secondary">{pools.length > 0 ? `${pools.filter(p => p.status !== "empty").length} active` : "No pools configured"}</p>
+              <div className="mt-3 grid grid-cols-3 gap-3 text-sm">
+                <div><p className="text-xs text-text-muted">Active</p><p className="font-bold text-neopop-green">{pools.filter(p => p.status !== "empty").length}</p></div>
+                <div><p className="text-xs text-text-muted">Low</p><p className="font-bold text-neopop-yellow">{pools.filter(p => p.status === "low" || p.status === "critical").length}</p></div>
+                <div><p className="text-xs text-text-muted">Empty</p><p className="font-bold text-neopop-red">{pools.filter(p => p.status === "empty").length}</p></div>
               </div>
             </div>
           </div>
