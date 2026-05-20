@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { CONSOLE_URL } from "@/lib/urls";
 
 const resourceLinks = [
-  { label: "App", href: "https://app.algopay.dev" },
+  { label: "App", href: CONSOLE_URL },
   { label: "Endpoints", href: "/docs/wrapped-apis" },
   { label: "Docs", href: "/docs" },
   { label: "GitHub", href: "https://github.com/Algodev-Studio/algopay-sdk" },

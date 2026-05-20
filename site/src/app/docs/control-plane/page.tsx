@@ -1,9 +1,16 @@
+import { CONSOLE_URL } from "@/lib/urls";
+
 export default function ControlPlanePage() {
   return (
     <article className="max-w-3xl">
       <h1 className="font-impact text-3xl uppercase tracking-wide text-text-primary">Control Plane</h1>
       <p className="mt-3 text-lg text-text-secondary">
         The AlgoPay dashboard — a hosted Next.js control plane for managing agents, wallets, and policies.
+        Open the hosted console at{" "}
+        <a href={CONSOLE_URL} className="text-neopop-yellow hover:underline" target="_blank" rel="noreferrer">
+          {CONSOLE_URL}
+        </a>
+        .
       </p>
 
       <section className="mt-10">

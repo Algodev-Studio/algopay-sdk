@@ -25,6 +25,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Network } from "@/lib/types";
+import { DOCS_URL, SITE_URL } from "@/lib/urls";
 
 interface NavItem {
   key: string;
@@ -70,7 +71,7 @@ const navSections: NavSection[] = [
       { key: "checkout", label: "Checkout", href: "/dashboard/checkout", icon: ShoppingCart },
       { key: "playground", label: "Playground", href: "/dashboard/playground", icon: FlaskConical },
       { key: "settings", label: "Settings", href: "/dashboard/settings", icon: Settings },
-      { key: "docs", label: "Docs", href: "https://algodev-studio.github.io/algopay-sdk/", icon: ExternalLink, external: true },
+      { key: "docs", label: "Docs", href: DOCS_URL, icon: ExternalLink, external: true },
     ],
   },
 ];
@@ -251,7 +252,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="relative flex items-center gap-4 text-sm text-text-secondary">
-            <a href="https://algodev-studio.github.io/algopay-sdk/" target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Docs</a>
+            <a href={DOCS_URL} target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Docs</a>
+            <a href={SITE_URL} target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Site</a>
 
             {activeAddress ? (
               <div className="flex items-center gap-3">

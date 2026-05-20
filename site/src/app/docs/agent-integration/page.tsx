@@ -1,3 +1,5 @@
+import { CONSOLE_URL } from "@/lib/urls";
+
 export default function AgentIntegrationPage() {
   return (
     <article className="max-w-3xl">
@@ -21,17 +23,17 @@ export default function AgentIntegrationPage() {
       <section className="mt-10">
         <h2 className="text-xl font-bold text-text-primary">Discover Available APIs</h2>
         <pre className="mt-3 overflow-x-auto neopop-card-flat p-4 font-mono text-sm text-text-primary"><code>{`# Fetch the catalog index
-curl -s https://api.algopay.dev/api/wrapped/md \\
+curl -s ${CONSOLE_URL}/api/wrapped/md \\
   -H "Authorization: Bearer YOUR_API_KEY"
 
 # Fetch details for a specific provider
-curl -s "https://api.algopay.dev/api/wrapped/md?provider=firecrawl" \\
+curl -s "${CONSOLE_URL}/api/wrapped/md?provider=firecrawl" \\
   -H "Authorization: Bearer YOUR_API_KEY"`}</code></pre>
       </section>
 
       <section className="mt-10">
         <h2 className="text-xl font-bold text-text-primary">Make a Call</h2>
-        <pre className="mt-3 overflow-x-auto neopop-card-flat p-4 font-mono text-sm text-text-primary"><code>{`curl -X POST https://api.algopay.dev/api/wrapped/firecrawl/scrape \\
+        <pre className="mt-3 overflow-x-auto neopop-card-flat p-4 font-mono text-sm text-text-primary"><code>{`curl -X POST ${CONSOLE_URL}/api/wrapped/firecrawl/scrape \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"url": "https://example.com", "formats": ["markdown"]}'`}</code></pre>
@@ -46,7 +48,7 @@ curl -s "https://api.algopay.dev/api/wrapped/md?provider=firecrawl" \\
   "success": true,
   "data": {
     "pending_approval_id": "uuid",
-    "approval_url": "https://app.algopay.dev/approve/uuid",
+    "approval_url": "${CONSOLE_URL}/dashboard/approvals",
     "status": "PENDING_APPROVAL",
     "estimated_cost_usdc": 0.50
   }

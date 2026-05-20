@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import DocsSidebar from "@/components/docs/DocsSidebar";
+import { CONSOLE_URL } from "@/lib/urls";
 
 export default function DocsLayout({
   children,
@@ -30,6 +31,13 @@ export default function DocsLayout({
               className="text-sm text-text-secondary transition hover:text-neopop-yellow"
             >
               Home
+            </Link>
+            <Link
+              href={CONSOLE_URL}
+              target="_blank"
+              className="text-sm text-text-secondary transition hover:text-neopop-yellow"
+            >
+              App
             </Link>
             <Link
               href="https://github.com/Algodev-Studio/algopay-sdk"

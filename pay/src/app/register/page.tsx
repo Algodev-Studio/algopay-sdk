@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { SITE_URL } from "@/lib/urls";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -43,8 +44,10 @@ export default function RegisterPage() {
         className="w-full max-w-sm"
       >
         <div className="mb-8 flex flex-col items-center">
-          <img src="/logos/logo-icon.png" alt="AlgoPay" width={36} height={36} className="invert brightness-200" />
-          <p className="mt-2 font-impact text-2xl uppercase tracking-wider text-text-primary">ALGOPAY</p>
+          <a href={SITE_URL} className="flex flex-col items-center transition hover:opacity-80">
+            <img src="/logos/logo-icon.png" alt="AlgoPay" width={36} height={36} className="invert brightness-200" />
+            <p className="mt-2 font-impact text-2xl uppercase tracking-wider text-text-primary">ALGOPAY</p>
+          </a>
         </div>
 
         <div className="neopop-card p-6">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONSOLE_URL } from "@/lib/urls";
 
 const providers = [
   { name: "OpenAI", slug: "openai", desc: "GPT chat, embeddings, image generation, text-to-speech, and moderation.", endpoints: 8 },
@@ -31,8 +32,8 @@ export default function WrappedApisPage() {
         <h2 className="text-xl font-bold text-text-primary">How it works</h2>
         <div className="mt-4 space-y-4">
           {[
-            { step: "1", title: "Discover available APIs", desc: "Fetch the catalog to see which providers and endpoints are available for your agent.", code: `curl -s https://api.algopay.dev/api/wrapped/md \\\n  -H "Authorization: Bearer YOUR_API_KEY"` },
-            { step: "2", title: "Call any endpoint", desc: "Send a POST request with the parameters the upstream API expects.", code: `curl -X POST https://api.algopay.dev/api/wrapped/firecrawl/scrape \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"url": "https://example.com", "formats": ["markdown"]}'` },
+            { step: "1", title: "Discover available APIs", desc: "Fetch the catalog to see which providers and endpoints are available for your agent.", code: `curl -s ${CONSOLE_URL}/api/wrapped/md \\\n  -H "Authorization: Bearer YOUR_API_KEY"` },
+            { step: "2", title: "Call any endpoint", desc: "Send a POST request with the parameters the upstream API expects.", code: `curl -X POST ${CONSOLE_URL}/api/wrapped/firecrawl/scrape \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{"url": "https://example.com", "formats": ["markdown"]}'` },
             { step: "3", title: "Get the response, pay automatically", desc: "The upstream API response is returned directly. The cost is deducted from your wallet in USDC.", code: `{\n  "success": true,\n  "data": { "...response from the upstream API..." }\n}` },
           ].map((s) => (
             <div key={s.step} className="neopop-card-flat border-l-4 border-l-neopop-yellow p-5">

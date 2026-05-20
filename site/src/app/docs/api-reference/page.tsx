@@ -1,9 +1,15 @@
+import { CONSOLE_URL } from "@/lib/urls";
+
 export default function ApiReferencePage() {
   return (
     <article className="max-w-3xl">
       <h1 className="font-impact text-3xl uppercase tracking-wide text-text-primary">API Reference</h1>
       <p className="mt-3 text-lg text-text-secondary">
-        REST API endpoints for the AlgoPay control plane.
+        REST API endpoints for the AlgoPay control plane at{" "}
+        <a href={CONSOLE_URL} className="text-neopop-yellow hover:underline" target="_blank" rel="noreferrer">
+          {CONSOLE_URL}
+        </a>
+        .
       </p>
 
       <section className="mt-10">
@@ -41,7 +47,7 @@ export default function ApiReferencePage() {
 
       <section className="mt-10">
         <h2 className="text-xl font-bold text-text-primary">Agent Pay</h2>
-        <pre className="mt-3 overflow-x-auto neopop-card-flat p-4 font-mono text-sm text-text-primary"><code>{`POST /api/agent/pay
+        <pre className="mt-3 overflow-x-auto neopop-card-flat p-4 font-mono text-sm text-text-primary"><code>{`POST ${CONSOLE_URL}/api/agent/pay
 Authorization: Bearer YOUR_API_KEY
 
 {

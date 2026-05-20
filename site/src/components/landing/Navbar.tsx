@@ -4,12 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { CONSOLE_URL } from "@/lib/urls";
 
 const navLinks = [
   { label: "Endpoints", href: "/docs/wrapped-apis" },
   { label: "Pricing", href: "/docs/wrapped-apis#pricing" },
   { label: "Docs", href: "/docs" },
-  { label: "App", href: "https://app.algopay.dev", external: true },
+  { label: "App", href: CONSOLE_URL, external: true },
 ];
 
 export default function Navbar() {
