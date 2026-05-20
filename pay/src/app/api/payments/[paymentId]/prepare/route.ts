@@ -46,10 +46,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pay
       where: { id: paymentId },
       data: {
         status: "processing",
-        timeline: JSON.stringify([
+        timeline: [
           { step: "initiated", status: "done", timestamp: payment.createdAt.getTime() },
           { step: "preparing", status: "done", timestamp: Date.now() },
-        ]),
+        ],
       },
     });
 

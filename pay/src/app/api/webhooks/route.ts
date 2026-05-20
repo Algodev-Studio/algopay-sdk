@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       data: {
         workspaceId: ws.id,
         url: body.url,
-        events: JSON.stringify(body.events ?? []),
+        events: body.events ?? [],
         secret: `whsec_${randomBytes(24).toString("hex")}`,
       },
     });

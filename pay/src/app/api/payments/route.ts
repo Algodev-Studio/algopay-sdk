@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     });
 
     await prisma.auditLog.create({
-      data: { workspaceId: ws.id, action: "payment_initiated", metadata: JSON.stringify({ paymentId: payment.id }) },
+      data: { workspaceId: ws.id, action: "payment_initiated", metadata: { paymentId: payment.id } },
     });
 
     return NextResponse.json(payment, { status: 201 });

@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     });
 
     await prisma.auditLog.create({
-      data: { workspaceId: ws.id, action: "agent_created", metadata: JSON.stringify({ agentId: agent.id }) },
+      data: { workspaceId: ws.id, action: "agent_created", metadata: { agentId: agent.id } },
     });
 
     return NextResponse.json(agent, { status: 201 });

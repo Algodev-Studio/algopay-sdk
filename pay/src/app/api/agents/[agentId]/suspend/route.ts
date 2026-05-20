@@ -12,7 +12,7 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ ag
     if (result.count === 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     await prisma.auditLog.create({
-      data: { workspaceId: ws.id, action: "agent_suspended", metadata: JSON.stringify({ agentId }) },
+      data: { workspaceId: ws.id, action: "agent_suspended", metadata: { agentId } },
     });
 
     return NextResponse.json({ ok: true });

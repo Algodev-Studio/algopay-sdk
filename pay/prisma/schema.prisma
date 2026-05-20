@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -25,7 +26,7 @@ model Workspace {
   maxSingleTxUsdc      String?
   approvalThresholdUsdc String?
   requireJustification Boolean          @default(false)
-  recipientAllowlist   String?
+  recipientAllowlist   Json?
   createdAt            DateTime         @default(now())
   walletSets           WalletSet[]
   apiKeys              ApiKey[]
@@ -145,7 +146,7 @@ model Payment {
   gasSponsored   Boolean   @default(true)
   gasFeeAlgo     String?
   network        String    @default("testnet")
-  timeline       String    @default("[]")
+  timeline       Json      @default("[]")
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -155,7 +156,7 @@ model Webhook {
   workspaceId String
   workspace   Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   url         String
-  events      String            @default("[]")
+  events      Json              @default("[]")
   secret      String
   active      Boolean           @default(true)
   createdAt   DateTime          @default(now())
@@ -172,7 +173,7 @@ model WebhookDelivery {
   httpStatus  Int?
   retries     Int       @default(0)
   success     Boolean   @default(false)
-  payload     String    @default("{}")
+  payload     Json      @default("{}")
   deliveredAt DateTime?
   createdAt   DateTime  @default(now())
 }
@@ -182,7 +183,7 @@ model AuditLog {
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   action      String
-  metadata    String?
+  metadata    Json?
   createdAt   DateTime  @default(now())
 }
 

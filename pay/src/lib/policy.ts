@@ -1,4 +1,5 @@
 import type { Workspace } from "@prisma/client";
+import type { JsonValue } from "@prisma/client/runtime/library";
 
 export function validatePayAgainstWorkspace(
   ws: Pick<
@@ -23,13 +24,8 @@ export function validatePayAgainstWorkspace(
   }
 
   if (ws.recipientAllowlist) {
-    let list: string[] = [];
-    try {
-      list = JSON.parse(ws.recipientAllowlist) as string[];
-    } catch {
-      return { ok: false, error: "invalid_workspace_allowlist_config" };
-    }
-    if (list.length && !list.includes(input.recipient.trim())) {
+    const list = ws.recipientAllowlist as JsonValue;
+    if (Array.isArray(list) && list.length && !list.includes(input.recipient.trim())) {
       return { ok: false, error: "recipient_not_in_allowlist" };
     }
   }

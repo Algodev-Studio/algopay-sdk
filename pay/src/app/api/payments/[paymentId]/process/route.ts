@@ -24,16 +24,16 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ pa
         status: "settled",
         algoTxnId: txnId,
         confirmedAt: new Date(),
-        timeline: JSON.stringify([
+        timeline: [
           { step: "initiated", status: "done", timestamp: payment.createdAt.getTime() },
           { step: "processing", status: "done", timestamp: Date.now() - 1000 },
           { step: "settled", status: "done", timestamp: Date.now() },
-        ]),
+        ],
       },
     });
 
     await prisma.auditLog.create({
-      data: { workspaceId: ws.id, action: "payment_settled", metadata: JSON.stringify({ paymentId, txnId }) },
+      data: { workspaceId: ws.id, action: "payment_settled", metadata: { paymentId, txnId } },
     });
 
     const updated = await prisma.payment.findUnique({ where: { id: paymentId }, include: { agent: true } });

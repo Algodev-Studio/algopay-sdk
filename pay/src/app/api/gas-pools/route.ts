@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     });
 
     await prisma.auditLog.create({
-      data: { workspaceId: ws.id, action: "gas_pool_created", metadata: JSON.stringify({ poolId: pool.id }) },
+      data: { workspaceId: ws.id, action: "gas_pool_created", metadata: { poolId: pool.id } },
     });
 
     return NextResponse.json(pool, { status: 201 });

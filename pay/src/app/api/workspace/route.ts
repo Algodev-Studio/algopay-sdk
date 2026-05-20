@@ -14,14 +14,6 @@ const patchSchema = z.object({
 export async function GET() {
   try {
     const ws = await requireWorkspace();
-    let allow: string[] | null = null;
-    if (ws.recipientAllowlist) {
-      try {
-        allow = JSON.parse(ws.recipientAllowlist) as string[];
-      } catch {
-        allow = [];
-      }
-    }
     return NextResponse.json({
       id: ws.id,
       name: ws.name,
@@ -30,7 +22,7 @@ export async function GET() {
       maxSingleTxUsdc: ws.maxSingleTxUsdc,
       approvalThresholdUsdc: ws.approvalThresholdUsdc,
       requireJustification: ws.requireJustification,
-      recipientAllowlist: allow,
+      recipientAllowlist: ws.recipientAllowlist as string[] | null,
     });
   } catch {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -58,8 +50,7 @@ export async function PATCH(req: Request) {
         ...(d.approvalThresholdUsdc !== undefined && { approvalThresholdUsdc: d.approvalThresholdUsdc }),
         ...(d.requireJustification !== undefined && { requireJustification: d.requireJustification }),
         ...(d.recipientAllowlist !== undefined && {
-          recipientAllowlist:
-            d.recipientAllowlist === null ? null : JSON.stringify(d.recipientAllowlist),
+          recipientAllowlist: d.recipientAllowlist,
         }),
       },
     });

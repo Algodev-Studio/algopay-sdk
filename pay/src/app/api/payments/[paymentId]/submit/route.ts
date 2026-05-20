@@ -32,11 +32,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pay
           status: "settled",
           algoTxnId: txid,
           confirmedAt: new Date(),
-          timeline: JSON.stringify([
+          timeline: [
             { step: "initiated", status: "done", timestamp: payment.createdAt.getTime() },
             { step: "processing", status: "done", timestamp: Date.now() - 2000 },
             { step: "settled", status: "done", timestamp: Date.now() },
-          ]),
+          ],
         },
       });
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pay
         data: {
           workspaceId: ws.id,
           action: "payment_settled",
-          metadata: JSON.stringify({ paymentId, txid, explorer: getExplorerUrl(txid, payment.network) }),
+          metadata: { paymentId, txid, explorer: getExplorerUrl(txid, payment.network) },
         },
       });
 
@@ -59,11 +59,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pay
         where: { id: paymentId },
         data: {
           status: "failed",
-          timeline: JSON.stringify([
+          timeline: [
             { step: "initiated", status: "done", timestamp: payment.createdAt.getTime() },
             { step: "processing", status: "done", timestamp: Date.now() - 2000 },
             { step: "submission", status: "failed", timestamp: Date.now(), detail: String(submitErr) },
-          ]),
+          ],
         },
       });
       return NextResponse.json({ error: "Transaction submission failed" }, { status: 500 });
