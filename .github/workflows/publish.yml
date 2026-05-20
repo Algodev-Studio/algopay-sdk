@@ -29,6 +29,9 @@ jobs:
       - name: Build
         working-directory: python
         run: python -m build
+      - name: Verify wheel contains algopay package
+        working-directory: python
+        run: python scripts/check_wheel.py
       - name: Check
         working-directory: python
         run: twine check dist/*

@@ -4,7 +4,7 @@ This document covers **both** distributables:
 
 | Artifact | Registry | Package name | Version source |
 | -------- | -------- | ------------ | -------------- |
-| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | **`python/pyproject.toml`** → **`0.1.0a2`** (PEP 440) |
+| Python SDK | [PyPI](https://pypi.org/) | **`algopay-sdk`** (`import algopay`) | **`python/pyproject.toml`** → **`0.1.0a3`** (PEP 440) |
 | TypeScript SDK | [npm](https://www.npmjs.com/) | **`@algodev-studio/algopay`** | **`typescript/package.json`** → **`0.1.0-alpha.2`** (semver) |
 
 Keep these **logically aligned** when cutting a release (same minor/patch story; Python `a1` ↔ npm `alpha.1`).
@@ -13,11 +13,11 @@ Keep these **logically aligned** when cutting a release (same minor/patch story;
 
 ## Python (PyPI)
 
-This package uses **PEP 440** pre-release versioning. **`0.1.0a2`** is the first **0.1.0 alpha** (`pip` treats it as older than `0.1.0` and requires an explicit pre-release pin unless using `--pre`).
+This package uses **PEP 440** pre-release versioning. **`0.1.0a3`** fixes a broken **`0.1.0a2`** PyPI wheel (empty package → `ModuleNotFoundError`). Always run **`python scripts/check_wheel.py`** after `python -m build` before upload.
 
 ### Current status
 
-- **Version:** `0.1.0a2` (see **`python/pyproject.toml`** and `algopay.__version__`)
+- **Version:** `0.1.0a3` (see **`python/pyproject.toml`** and `algopay.__version__`)
 - **Trove:** `Development Status :: 3 - Alpha` — APIs and behavior may change; test coverage is still growing ([testing roadmap](TESTING_ROADMAP.md)).
 
 ### Before the first upload
@@ -37,7 +37,13 @@ cd python
 python -m build
 ```
 
-This produces `python/dist/algopay_sdk-0.1.0a2-py3-none-any.whl` and `python/dist/algopay_sdk-0.1.0a2.tar.gz`.
+This produces `python/dist/algopay_sdk-0.1.0a3-py3-none-any.whl` and `python/dist/algopay_sdk-0.1.0a3.tar.gz`.
+
+**Wheel check (required):**
+
+```bash
+python scripts/check_wheel.py
+```
 
 Sanity check:
 
@@ -58,7 +64,7 @@ twine upload --repository testpypi dist/*
 Install from TestPyPI:
 
 ```bash
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "algopay-sdk==0.1.0a2"
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "algopay-sdk==0.1.0a3"
 ```
 
 (`--extra-index-url` pulls normal dependencies like `py-algorand-sdk` from PyPI.)
@@ -94,13 +100,13 @@ Replace the password value with your [PyPI API token](https://pypi.org/manage/ac
 Stable pin (alpha):
 
 ```bash
-pip install "algopay-sdk==0.1.0a2"
+pip install "algopay-sdk==0.1.0a3"
 ```
 
 Or allow pre-releases in a range:
 
 ```bash
-pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
+pip install --pre "algopay-sdk>=0.1.0a3,<0.2"
 ```
 
 ### After 1.0

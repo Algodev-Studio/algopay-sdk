@@ -35,7 +35,7 @@ export default function DocsIndex() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-neopop-yellow">Python (PyPI)</p>
             <pre className="mt-2 overflow-x-auto bg-background p-3 font-mono text-sm text-text-primary">
-              <code>pip install &quot;algopay-sdk==0.1.0a2&quot;</code>
+              <code>pip install &quot;algopay-sdk==0.1.0a3&quot;</code>
             </pre>
           </div>
           <div>

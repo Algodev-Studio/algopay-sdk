@@ -12,13 +12,13 @@ The published package name is **`algopay-sdk`**. You still **`import algopay`** 
 === "Pin alpha"
 
     ```bash
-    pip install "algopay-sdk==0.1.0a2"
+    pip install "algopay-sdk==0.1.0a3"
     ```
 
 === "Any pre-release in range"
 
     ```bash
-    pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
+    pip install --pre "algopay-sdk>=0.1.0a3,<0.2"
     ```
 
 === "From repository (editable)"

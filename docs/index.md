@@ -13,7 +13,7 @@ This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-
 
     Install **`algopay-sdk`**, import **`algopay`**:
 
-    [`pip install "algopay-sdk==0.1.0a2"`](https://pypi.org/project/algopay-sdk/0.1.0a2/)
+    [`pip install "algopay-sdk==0.1.0a3"`](https://pypi.org/project/algopay-sdk/)
 
 -   :material-language-typescript:{ .lg .middle } __npm (TypeScript)__
 
@@ -59,8 +59,8 @@ This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-
 ## Quick install
 
 ```bash
-pip install "algopay-sdk==0.1.0a2"
-# pre-releases: pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
+pip install "algopay-sdk==0.1.0a3"
+# pre-releases: pip install --pre "algopay-sdk>=0.1.0a3,<0.2"
 ```
 
 From a clone (development):

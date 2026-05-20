@@ -2,7 +2,22 @@
 
 All notable changes to this project are documented here. Python uses PEP 440 (`0.1.0a1`); TypeScript uses semver pre-release (`0.1.0-alpha.1`).
 
+## [0.1.0a3] - 2026-05-20
+
+### Fixed
+
+- **PyPI wheel:** `0.1.0a2` wheels contained no `algopay/` package (`ModuleNotFoundError` after `pip install`). Build config corrected; CI runs `scripts/check_wheel.py` before publish.
+- **Dependencies:** Removed unused `cryptography` (conflicted with Google Colab’s `pydrive2` / `pyOpenSSL`). Moved `redis` to optional extra `algopay-sdk[redis]` (default storage remains `memory`).
+
+### Added
+
+- `python/scripts/check_wheel.py` — fails the build if the wheel is missing `algopay/__init__.py`.
+
 ## [0.1.0a2] / [0.1.0-alpha.2] - 2026-05-19
+
+### Deprecated
+
+- **Do not use PyPI `0.1.0a2`** — broken empty wheel. Upgrade to **`0.1.0a3`** or newer.
 
 ### Changed
 

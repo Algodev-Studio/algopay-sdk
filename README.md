@@ -6,7 +6,7 @@ This repository ships **two client libraries** plus an optional hosted dashboard
 
 | Package | Registry | Install |
 | ------- | -------- | ------- |
-| **Python** | [PyPI `algopay-sdk`](https://pypi.org/project/algopay-sdk/) | `pip install "algopay-sdk==0.1.0a2"` |
+| **Python** | [PyPI `algopay-sdk`](https://pypi.org/project/algopay-sdk/) | `pip install "algopay-sdk==0.1.0a3"` |
 | **TypeScript** | [npm `@algodev-studio/algopay`](https://www.npmjs.com/package/@algodev-studio/algopay) | `npm install @algodev-studio/algopay@0.1.0-alpha.2` |
 
 > **Status: 0.1.0 alpha** — APIs and behavior may change. See [Testing roadmap](docs/TESTING_ROADMAP.md) before production use.  
@@ -74,9 +74,9 @@ Wallet **keys** live in an in-process `WalletRepository` unless you plug in your
 PyPI distribution name is **`algopay-sdk`**; import **`algopay`** in code.
 
 ```bash
-pip install "algopay-sdk==0.1.0a2"
-# or pre-releases in range:
-pip install --pre "algopay-sdk>=0.1.0a2,<0.2"
+pip install "algopay-sdk==0.1.0a3"
+# or pre-releases in range (avoid 0.1.0a2 — broken PyPI wheel):
+pip install --pre "algopay-sdk>=0.1.0a3,<0.2"
 ```
 
 **From a clone (development):**

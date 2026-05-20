@@ -14,8 +14,8 @@ This document describes every environment variable used by the **AlgoPay** SDK a
 | **`INDEXER_URL`** | No | AlgoNode public indexer for the chosen network | HTTP(S) URL of the **Indexer** API. Used for account balances, transaction lookup (`sync_transaction`), and history. **`ALGOPAY_INDEXER_URL`** is an alias. |
 | **`ALGOPAY_INDEXER_URL`** | No | Same as `INDEXER_URL` | Alternate name for the Indexer URL. |
 | **`ALGOPAY_USDC_ASA_ID`** | No | Network default (e.g. mainnet USDCa) | Integer **ASA ID** for USDC on that network. Override if you use a different USDC ASA, a sandbox asset, or a non-standard deployment. |
-| **`ALGOPAY_STORAGE_BACKEND`** | No | `memory` | Where guard/ledger/intent metadata is stored: `memory` (process-local) or `redis` (shared across processes). Wallet **key material** uses `WalletRepository` in memory unless you implement persistence separately. |
-| **`ALGOPAY_REDIS_URL`** | If using Redis | None | Redis connection string (e.g. `redis://localhost:6379/0`) when `ALGOPAY_STORAGE_BACKEND=redis`. |
+| **`ALGOPAY_STORAGE_BACKEND`** | No | `memory` | Where guard/ledger/intent metadata is stored: `memory` (process-local) or `redis` (shared across processes). Wallet **key material** uses `WalletRepository` in memory unless you implement persistence separately. For Redis, install **`pip install "algopay-sdk[redis]"`**. |
+| **`ALGOPAY_REDIS_URL`** | If using Redis | None | Redis connection string (e.g. `redis://localhost:6379/0`) when `ALGOPAY_STORAGE_BACKEND=redis`. Requires the **`[redis]`** extra since **0.1.0a3**. |
 | **`ALGOPAY_LOG_LEVEL`** | No | `INFO` | Logging verbosity for the SDK (`DEBUG`, `INFO`, `WARNING`, …). Also read when constructing `AlgoPay` if log level is not passed explicitly. |
 | **`ALGOPAY_DEFAULT_WALLET`** | No | None | Optional default **wallet ID** string so calls can omit the wallet when a single agent wallet is standard for the process. |
 | **`ALGOPAY_ENV`** | No | `development` | Arbitrary environment label (e.g. `production`) for logging or future behavior switches; does not change chain RPC by itself. |

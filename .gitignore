@@ -34,5 +34,8 @@ python/*.egg-info/
 python/dist/
 .turbo/
 
+# Local wheel inspection / debug (not for commit)
+.tmp-pkg/
+.tmp-pkg-local/
 
 Algopay-main/

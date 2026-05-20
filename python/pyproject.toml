@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "algopay-sdk"
-version = "0.1.0a2"
+version = "0.1.0a3"
 description = "AlgoPay SDK — payment infrastructure for AI agents on Algorand (x402, USDC/ASA, guards)"
 readme = "../README.md"
 license = "MIT"
@@ -28,11 +28,10 @@ dependencies = [
     "pydantic>=2.12.0",
     "httpx>=0.28.0",
     "python-dotenv>=1.2.0",
-    "cryptography>=44.0.0",
-    "redis>=7.1.0",
 ]
 
 [project.optional-dependencies]
+redis = ["redis>=7.1.0"]
 docs = [
     "mkdocs-material>=9.5.0",
     "mkdocstrings[python]>=0.27.0",
@@ -44,6 +43,7 @@ dev = [
     "ruff>=0.14.0",
     "mypy>=1.19.0",
     "fakeredis[lua]>=2.23.0",
+    "redis>=7.1.0",
     "respx>=0.22.0",
 ]
 
@@ -53,14 +53,13 @@ Documentation = "https://algodev-studio.github.io/algopay-sdk/"
 Repository = "https://github.com/Algodev-Studio/algopay-sdk"
 Issues = "https://github.com/Algodev-Studio/algopay-sdk/issues"
 
+# src layout: wheel must ship top-level `algopay/` (import algopay).
+# Do not add [tool.hatch.build] sources without packages — empty wheels shipped on 0.1.0a2.
 [tool.hatch.build.targets.wheel]
 packages = ["src/algopay"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/algopay"]
-
-[tool.hatch.build]
-sources = ["src"]
+only-include = ["src/algopay"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

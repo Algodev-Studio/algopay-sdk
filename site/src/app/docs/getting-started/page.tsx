@@ -16,7 +16,7 @@ export default function GettingStartedPage() {
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="neopop-card-flat p-4">
             <p className="text-xs font-bold uppercase tracking-widest text-neopop-yellow">Python</p>
-            <pre className="mt-2 overflow-x-auto bg-background p-3 font-mono text-sm text-text-primary"><code>{`pip install "algopay-sdk==0.1.0a2"`}</code></pre>
+            <pre className="mt-2 overflow-x-auto bg-background p-3 font-mono text-sm text-text-primary"><code>{`pip install "algopay-sdk==0.1.0a3"`}</code></pre>
           </div>
           <div className="neopop-card-flat p-4">
             <p className="text-xs font-bold uppercase tracking-widest text-neopop-yellow">TypeScript</p>
