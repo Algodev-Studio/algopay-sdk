@@ -14,11 +14,12 @@ venv/
 local/
 .coverage
 htmlcov/
-site/
 
 # Node / monorepo
 node_modules/
 pay/.next/
+site/.next/
+site/out/
 pay/dev.db
 pay/dev.db-journal
 pay/prisma/*.db

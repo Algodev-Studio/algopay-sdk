@@ -1,0 +1,33 @@
+# Next.js build output
+.next/
+out/
+.vercel/
+
+# Environment
+.env
+.env*.local
+
+# Dependencies (monorepo hoists to root; ignore if installed locally)
+node_modules/
+
+# TypeScript
+*.tsbuildinfo
+
+# MkDocs default output dir is also `site/` — ignore generated static docs if mkdocs build runs here
+/404.html
+/index.html
+/objects.inv
+/sitemap.xml
+/sitemap.xml.gz
+/assets/
+/search/
+/DOCUMENTATION_MAP/
+/ecosystem/
+/ENVIRONMENT/
+/getting-started/
+/guides/
+/PLATFORM_FEATURE_MATRIX/
+/PUBLISHING/
+/reference/
+/REFERENCE_LEGACY_OMNIAGENTPAY_AND_ARC_MERCHANT/
+/TESTING_ROADMAP/

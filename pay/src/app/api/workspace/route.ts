@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma, requireWorkspace } from "@/lib/workspace";
@@ -50,7 +51,8 @@ export async function PATCH(req: Request) {
         ...(d.approvalThresholdUsdc !== undefined && { approvalThresholdUsdc: d.approvalThresholdUsdc }),
         ...(d.requireJustification !== undefined && { requireJustification: d.requireJustification }),
         ...(d.recipientAllowlist !== undefined && {
-          recipientAllowlist: d.recipientAllowlist,
+          recipientAllowlist:
+            d.recipientAllowlist === null ? Prisma.DbNull : d.recipientAllowlist,
         }),
       },
     });
