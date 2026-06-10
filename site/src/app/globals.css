@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Impact Local";
+  src: url("/fonts/impact.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #FAFAFA;
+  --foreground: #111111;
+  --surface: #FFFFFF;
+  --surface-raised: #F0F0F0;
+  --surface-overlay: #E8E8E8;
+  --border: #E0E0E0;
+  --border-strong: #C8C8C8;
+
+  --neopop-yellow: #F5C542;
+  --neopop-white: #FFFFFF;
+  --neopop-black: #111111;
+  --neopop-red: #EE4D37;
+  --neopop-green: #06C270;
+  --neopop-blue: #3D6DFF;
+  --neopop-purple: #8B5CF6;
+
+  --plunk-yellow: #C9A033;
+  --plunk-white: #D0D0D0;
+  --plunk-red: #B83A2A;
+  --plunk-blue: #2A4AB3;
+
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+
+  --font-inter: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-impact: "Impact Local", "Impact", "Haettenschweiler", "Arial Narrow Bold", sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-neopop-yellow: var(--neopop-yellow);
+  --color-neopop-white: var(--neopop-white);
+  --color-neopop-black: var(--neopop-black);
+  --color-neopop-red: var(--neopop-red);
+  --color-neopop-green: var(--neopop-green);
+  --color-neopop-blue: var(--neopop-blue);
+  --color-neopop-purple: var(--neopop-purple);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-inter);
+  --font-inter: var(--font-inter);
+  --font-impact: var(--font-impact);
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+
+/* NeoPOP 3D Buttons — light theme */
+.neopop-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  border: none;
+  outline: none;
+}
+
+.neopop-btn-primary {
+  background-color: var(--neopop-yellow);
+  color: var(--neopop-black);
+  box-shadow:
+    4px 4px 0 0 var(--plunk-yellow),
+    4px 0 0 0 var(--plunk-yellow),
+    0 4px 0 0 var(--plunk-yellow);
+}
+.neopop-btn-primary:hover {
+  transform: translate(1px, 1px);
+  box-shadow:
+    3px 3px 0 0 var(--plunk-yellow),
+    3px 0 0 0 var(--plunk-yellow),
+    0 3px 0 0 var(--plunk-yellow);
+}
+.neopop-btn-primary:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.neopop-btn-white {
+  background-color: var(--neopop-black);
+  color: var(--neopop-white);
+  box-shadow:
+    4px 4px 0 0 rgba(0, 0, 0, 0.25),
+    4px 0 0 0 rgba(0, 0, 0, 0.15),
+    0 4px 0 0 rgba(0, 0, 0, 0.15);
+}
+.neopop-btn-white:hover {
+  transform: translate(1px, 1px);
+  box-shadow:
+    3px 3px 0 0 rgba(0, 0, 0, 0.25),
+    3px 0 0 0 rgba(0, 0, 0, 0.15),
+    0 3px 0 0 rgba(0, 0, 0, 0.15);
+}
+.neopop-btn-white:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.neopop-btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-strong);
+}
+.neopop-btn-secondary:hover {
+  border-color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* NeoPOP Cards — light theme */
+.neopop-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    4px 4px 0 0 rgba(0, 0, 0, 0.06),
+    4px 0 0 0 rgba(0, 0, 0, 0.03),
+    0 4px 0 0 rgba(0, 0, 0, 0.03);
+}
+
+.neopop-card-flat {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

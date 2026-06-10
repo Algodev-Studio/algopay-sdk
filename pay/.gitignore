@@ -1,0 +1,21 @@
+# Next.js
+.next/
+out/
+
+# Local env (examples stay tracked)
+.env
+.env*.local
+
+# Playwright e2e
+playwright-report/
+test-results/
+blob-report/
+
+# Prisma / SQLite local dev
+dev.db
+dev.db-journal
+prisma/*.db
+prisma/*.db-journal
+
+# Vercel project link metadata
+.vercel/

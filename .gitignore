@@ -1,44 +1,83 @@
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Environment (keep *.example committed) ---
+.env
+.env.local
+.env.*.local
+!.env.example
+!**/.env.example
+
+# --- Python ---
 __pycache__/
 *.py[cod]
 *.egg-info/
 .eggs/
-dist/
 build/
+dist/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .venv/
 venv/
-.env
-.env.local
-local/
 .coverage
 htmlcov/
+local/
 
-# Node / monorepo
+# Python workspace (editable install / wheel output)
+python/.eggs/
+python/*.egg-info/
+python/dist/
+python/.pytest_cache/
+python/.mypy_cache/
+python/.ruff_cache/
+python/.coverage
+python/htmlcov/
+
+# --- Node / monorepo ---
 node_modules/
+*.tsbuildinfo
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Next.js
 pay/.next/
+pay/out/
+site/.next/
+site/out/
+
+# Playwright (pay dashboard e2e)
 pay/playwright-report/
 pay/test-results/
 pay/blob-report/
-site/.next/
-site/out/
+
+# Vercel
+.vercel/
+site/.vercel/
+
+# MkDocs static site output
+mkdocs-site/
+
+# TypeScript SDK
+typescript/dist/
+typescript/coverage/
+
+# Prisma / SQLite (pay local dev)
 pay/dev.db
 pay/dev.db-journal
 pay/prisma/*.db
 pay/prisma/*.db-journal
 
+# IDE / tooling
 .cursor/
-typescript/dist/
-
-# Python workspace (editable install artifacts)
-python/.eggs/
-python/*.egg-info/
-python/dist/
-.turbo/
 
 # Local wheel inspection / debug (not for commit)
 .tmp-pkg/
 .tmp-pkg-local/
 
+# Unrelated local checkout (do not commit)
 Algopay-main/

@@ -25,7 +25,7 @@
 | Hosted dashboard | `pay/` | workspace **`algopay-console`** | Next.js: vault, API keys, policies, `POST /api/agent/pay`. Env: **`pay/.env.example`**. |
 | User & ecosystem docs | `docs/` | MkDocs site | Entry `docs/index.md`. |
 
-**Monorepo npm:** Root **`package.json`** workspaces: **`typescript`**, **`pay`**. Commands: **`npm run build`**, **`npm run dev`**.
+**Monorepo npm:** Root **`package.json`** workspaces: **`typescript`**, **`pay`**, **`site`**. Commands: **`npm run build`**, **`npm run dev`** (dashboard).
 
 ---
 

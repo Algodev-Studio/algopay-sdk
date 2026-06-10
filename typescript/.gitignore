@@ -1,0 +1,9 @@
+# Build output
+dist/
+
+# Vitest / coverage reports
+coverage/
+
+# Local env
+.env
+.env*.local

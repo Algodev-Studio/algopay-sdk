@@ -14,9 +14,10 @@ algopay-sdk/
 │   ├── src/                  # client, guards, ledger, intents, storage, payment
 │   └── package.json
 ├── pay/                      # Next.js dashboard (workspace algopay-console)
+├── site/                     # Next.js marketing site (workspace algopay-site)
 ├── docs/                     # MkDocs
 ├── mkdocs.yml
-├── package.json              # npm workspaces (typescript + pay)
+├── package.json              # npm workspaces (typescript + pay + site)
 └── README.md
 ```
 

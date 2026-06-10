@@ -15,6 +15,7 @@ Use this file as the **fastest orientation** for automated helpers. Humans can i
 | Python tests · examples · scripts | **`python/tests/`**, **`python/examples/`**, **`python/scripts/`** |
 | TypeScript SDK | **`typescript/`** → npm **`@algodev-studio/algopay`** |
 | Hosted dashboard | **`pay/`** → workspace **`algopay-console`** |
+| Marketing site | **`site/`** → workspace **`algopay-site`** |
 
 ## Common mistakes to avoid
 

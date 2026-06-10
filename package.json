@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "typescript",
-    "pay"
+    "pay",
+    "site"
   ],
   "scripts": {
     "build": "npm run build --workspace=@algodev-studio/algopay && npm run build --workspace=algopay-console",

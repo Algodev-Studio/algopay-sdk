@@ -1,0 +1,15 @@
+# Build / packaging
+dist/
+*.egg-info/
+.eggs/
+
+# Test & lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtualenvs (usually at repo root, but common here too)
+.venv/
+venv/

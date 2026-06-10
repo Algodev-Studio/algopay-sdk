@@ -13,7 +13,10 @@ node_modules/
 # TypeScript
 *.tsbuildinfo
 
-# MkDocs default output dir is also `site/` — ignore generated static docs if mkdocs build runs here
+# MkDocs output at repo root (see mkdocs.yml site_dir)
+/mkdocs-site/
+
+# Legacy MkDocs output when site_dir was `site/` — ignore stale local builds
 /404.html
 /index.html
 /objects.inv

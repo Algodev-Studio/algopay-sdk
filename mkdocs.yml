@@ -1,6 +1,7 @@
 site_name: AlgoPay SDK
 site_description: Payment infrastructure for AI agents on Algorand — USDC, x402, guards, ledger.
 site_url: https://algodev-studio.github.io/algopay-sdk/
+site_dir: mkdocs-site
 repo_url: https://github.com/Algodev-Studio/algopay-sdk
 repo_name: Algodev-Studio/algopay-sdk
 edit_uri: edit/main/docs/
