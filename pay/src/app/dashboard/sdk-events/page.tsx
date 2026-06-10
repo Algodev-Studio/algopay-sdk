@@ -2,10 +2,16 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Radio, Filter, RefreshCw } from "lucide-react";
+import { Radio, Filter, RefreshCw, ExternalLink } from "lucide-react";
 import AnimatedSection from "@/components/animations/AnimatedSection";
 import { api } from "@/lib/api-client";
 import type { SdkEvent } from "@/lib/types";
+import { useNetwork } from "@/components/providers/NetworkProvider";
+
+function explorerUrl(txId: string, network: string): string {
+  const base = network === "mainnet" ? "https://allo.info/tx" : "https://testnet.explorer.perawallet.app/tx";
+  return `${base}/${txId}`;
+}
 
 const EVENT_COLORS: Record<string, string> = {
   "payment.initiated": "bg-neopop-blue/20 text-neopop-blue border-neopop-blue/30",
@@ -34,6 +40,7 @@ function timeAgo(iso: string): string {
 }
 
 export default function SdkEventsPage() {
+  const { network } = useNetwork();
   const [events, setEvents] = useState<SdkEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
@@ -258,8 +265,18 @@ export default function SdkEventsPage() {
                               <span className="text-xs text-text-muted">—</span>
                             )}
                           </td>
-                          <td className="px-3 py-3 font-mono text-xs text-text-muted">
-                            {evt.txHash ? `${evt.txHash.slice(0, 8)}...` : "—"}
+                          <td className="px-3 py-3 font-mono text-xs">
+                            {evt.txHash ? (
+                              <a
+                                href={explorerUrl(evt.txHash, network)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center gap-1 text-neopop-blue hover:underline"
+                                title={evt.txHash}
+                              >
+                                {evt.txHash.slice(0, 8)}… <ExternalLink size={10} />
+                              </a>
+                            ) : <span className="text-text-muted">—</span>}
                           </td>
                           <td className="px-3 py-3 text-xs text-text-muted">
                             {timeAgo(evt.timestamp)}

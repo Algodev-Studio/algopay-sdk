@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma, requireWorkspace } from "@/lib/workspace";
 import { vaultEncrypt } from "@/lib/vault";
-import { getUsdcBalance } from "@/lib/algorand";
+import { getUsdcBalance, getAlgoBalance, fundFromFaucet, optInToUsdc } from "@/lib/algorand";
 
 export async function GET() {
   try {
@@ -14,9 +14,13 @@ export async function GET() {
     });
     const withBal = await Promise.all(
       wallets.map(async (w) => {
-        let balance = "0.000000";
+        let usdcBalance = "0.000000";
+        let algoBalance = "0.000000";
         try {
-          balance = await getUsdcBalance(w.address, workspace.network);
+          [usdcBalance, algoBalance] = await Promise.all([
+            getUsdcBalance(w.address, workspace.network),
+            getAlgoBalance(w.address, workspace.network),
+          ]);
         } catch {
           /* indexer miss */
         }
@@ -25,7 +29,8 @@ export async function GET() {
           address: w.address,
           walletSetId: w.walletSetId,
           walletSetName: w.set.name,
-          usdcBalance: balance,
+          usdcBalance,
+          algoBalance,
         };
       }),
     );
@@ -59,19 +64,39 @@ export async function POST(req: Request) {
 
     const acc = algosdk.generateAccount();
     const mnemonic = algosdk.secretKeyToMnemonic(acc.sk);
+    const address = acc.addr.toString();
     const vaultBlob = vaultEncrypt(mnemonic);
 
     const w = await prisma.wallet.create({
       data: {
         walletSetId: set.id,
-        address: acc.addr.toString(),
+        address,
         vaultBlob,
       },
     });
+
+    // Auto opt-in to USDC ASA. On testnet, fund from faucet first.
+    let optInTxId: string | null = null;
+    let optInStatus: "success" | "pending" = "pending";
+    try {
+      if (workspace.network === "testnet") {
+        await fundFromFaucet(address, workspace.network);
+        // Wait one block (~4 s) for faucet to confirm before opting in
+        await new Promise((r) => setTimeout(r, 4500));
+      }
+      const result = await optInToUsdc({ mnemonic, network: workspace.network });
+      optInTxId = result.txId;
+      optInStatus = "success";
+    } catch {
+      // No ALGO balance yet (mainnet) or faucet delay — user can opt in manually
+    }
+
     return NextResponse.json({
       id: w.id,
       address: w.address,
       walletSetId: w.walletSetId,
+      optInTxId,
+      optInStatus,
     });
   } catch {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });

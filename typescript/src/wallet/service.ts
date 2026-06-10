@@ -103,6 +103,30 @@ export class WalletService {
     return rec.secretMnemonic;
   }
 
+  /**
+   * Opt in to the configured USDC ASA. Must be called once per wallet before
+   * receiving USDC. Submits a 0-amount self-transfer of the USDC asset.
+   * Returns the transaction ID of the opt-in transaction.
+   */
+  async optInUsdc(walletId: string): Promise<{ txId: string }> {
+    const rec = this._repo.getWallet(walletId);
+    if (!rec) throw new Error(`Wallet not found: ${walletId}`);
+    const suggested = await this._chain.algod.getTransactionParams().do();
+
+    const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+      sender: rec.address,
+      receiver: rec.address,
+      amount: 0n,
+      assetIndex: this._config.usdcAsaId,
+      suggestedParams: suggested,
+    });
+
+    const sk = algosdk.mnemonicToSecretKey(rec.secretMnemonic).sk;
+    const signed = txn.signTxn(sk);
+    const submitted = await this._chain.algod.sendRawTransaction(signed).do();
+    return { txId: submitted.txid };
+  }
+
   async submitAssetTransfer(params: {
     walletId: string;
     to: string;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Wallet, RefreshCw } from "lucide-react";
+import { Wallet, RefreshCw, Loader2, ExternalLink } from "lucide-react";
 import AnimatedSection from "@/components/animations/AnimatedSection";
 
 type WalletSet = { id: string; name: string; walletCount: number };
@@ -12,6 +12,7 @@ type WalletEntry = {
   walletSetId: string;
   walletSetName: string;
   usdcBalance: string;
+  algoBalance: string;
 };
 
 export default function WalletsPage() {
@@ -20,6 +21,8 @@ export default function WalletsPage() {
   const [setName, setSetName] = useState("agents");
   const [selectedSet, setSelectedSet] = useState("");
   const [err, setErr] = useState<string | null>(null);
+  const [optInLoading, setOptInLoading] = useState<string | null>(null);
+  const [optInMsg, setOptInMsg] = useState<{ id: string; msg: string; ok: boolean } | null>(null);
 
   async function refresh() {
     setErr(null);
@@ -72,6 +75,25 @@ export default function WalletsPage() {
       return;
     }
     await refresh();
+  }
+
+  async function handleOptIn(walletId: string) {
+    setOptInLoading(walletId);
+    setOptInMsg(null);
+    try {
+      const res = await fetch(`/api/wallets/${walletId}/opt-in`, { method: "POST" });
+      const j = (await res.json()) as { txId?: string; error?: string };
+      if (res.ok && j.txId) {
+        setOptInMsg({ id: walletId, msg: `Opted in — tx: ${j.txId.slice(0, 12)}…`, ok: true });
+      } else {
+        setOptInMsg({ id: walletId, msg: j.error ?? "Opt-in failed", ok: false });
+      }
+    } catch {
+      setOptInMsg({ id: walletId, msg: "Network error", ok: false });
+    } finally {
+      setOptInLoading(null);
+      await refresh();
+    }
   }
 
   return (
@@ -136,25 +158,58 @@ export default function WalletsPage() {
               <RefreshCw size={12} /> Refresh balances
             </button>
           </div>
+          {optInMsg && (
+            <div className={`mx-4 mb-3 rounded px-3 py-2 text-xs ${optInMsg.ok ? "bg-neopop-green/10 text-neopop-green" : "bg-neopop-red/10 text-neopop-red"}`}>
+              {optInMsg.msg}
+              {optInMsg.ok && (
+                <a
+                  href={`https://testnet.explorer.perawallet.app/tx/${optInMsg.msg.split("tx: ")[1]?.replace("…", "")}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ml-2 inline-flex items-center gap-1 underline"
+                >
+                  View <ExternalLink size={10} />
+                </a>
+              )}
+            </div>
+          )}
           <div className="overflow-x-auto">
             <table className="neopop-table text-left text-sm">
               <thead className="bg-neopop-yellow text-neopop-black">
                 <tr>
                   <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Set</th>
                   <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Address</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">ALGO</th>
                   <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">USDC</th>
-                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Id</th>
+                  <th className="px-3 py-3 text-xs font-bold uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {wallets.length === 0 ? (
-                  <tr><td colSpan={4} className="px-3 py-10 text-center text-text-muted">No wallets created yet.</td></tr>
+                  <tr><td colSpan={5} className="px-3 py-10 text-center text-text-muted">No wallets created yet.</td></tr>
                 ) : wallets.map((w) => (
                   <tr key={w.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
                     <td className="px-3 py-3">{w.walletSetName}</td>
-                    <td className="px-3 py-3 font-mono text-xs">{w.address}</td>
-                    <td className="px-3 py-3">{w.usdcBalance}</td>
-                    <td className="px-3 py-3 font-mono text-xs text-text-muted">{w.id}</td>
+                    <td className="px-3 py-3 font-mono text-xs">
+                      <span title={w.address}>{w.address.slice(0, 8)}…{w.address.slice(-4)}</span>
+                    </td>
+                    <td className="px-3 py-3 tabular-nums">{w.algoBalance} <span className="text-xs text-text-muted">ALGO</span></td>
+                    <td className="px-3 py-3 tabular-nums">{w.usdcBalance} <span className="text-xs text-text-muted">USDC</span></td>
+                    <td className="px-3 py-3">
+                      <button
+                        type="button"
+                        onClick={() => void handleOptIn(w.id)}
+                        disabled={optInLoading === w.id}
+                        className="neopop-btn neopop-btn-secondary flex items-center gap-1 px-2.5 py-1 text-xs disabled:opacity-50"
+                        title="Opt in to USDC ASA (required before receiving USDC)"
+                      >
+                        {optInLoading === w.id ? (
+                          <><Loader2 size={10} className="animate-spin" /> Opting in…</>
+                        ) : (
+                          "Opt in USDC"
+                        )}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

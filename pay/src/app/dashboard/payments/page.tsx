@@ -11,7 +11,13 @@ import {
   X,
   Search,
   Loader2,
+  ExternalLink,
 } from "lucide-react";
+
+function explorerUrl(txId: string, network: string): string {
+  const base = network === "mainnet" ? "https://allo.info/tx" : "https://testnet.explorer.perawallet.app/tx";
+  return `${base}/${txId}`;
+}
 import AnimatedSection from "@/components/animations/AnimatedSection";
 import { api, ApiError } from "@/lib/api-client";
 import type { Payment, Agent, GasPool, Merchant, Network } from "@/lib/types";
@@ -233,7 +239,19 @@ export default function PaymentsPage() {
                     </td>
                     <td className="px-3 py-3 text-xs uppercase text-text-muted">{p.network}</td>
                     <td className="px-3 py-3">{p.agent?.name ?? p.agentId.slice(0, 8)}</td>
-                    <td className="px-3 py-3 font-mono text-xs text-text-muted">{p.algoTxnId ? `${p.algoTxnId.slice(0, 6)}...` : "—"}</td>
+                    <td className="px-3 py-3 font-mono text-xs">
+                      {p.algoTxnId ? (
+                        <a
+                          href={explorerUrl(p.algoTxnId, p.network)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-1 text-neopop-blue hover:underline"
+                          title={p.algoTxnId}
+                        >
+                          {p.algoTxnId.slice(0, 8)}… <ExternalLink size={10} />
+                        </a>
+                      ) : "—"}
+                    </td>
                     <td className="px-3 py-3 text-text-secondary">{timeAgo(p.createdAt)}</td>
                   </tr>
                 ))}

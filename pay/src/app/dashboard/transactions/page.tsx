@@ -6,6 +6,7 @@ import {
   Activity,
   Filter,
   ChevronDown,
+  ExternalLink,
 } from "lucide-react";
 import AnimatedSection from "@/components/animations/AnimatedSection";
 import { api } from "@/lib/api-client";
@@ -44,14 +45,42 @@ function formatTimestamp(iso: string): string {
   });
 }
 
-function formatMetadata(meta: Record<string, unknown> | null): string {
-  if (!meta) return "—";
+function explorerUrl(txId: string, network?: string): string {
+  const base = network === "mainnet" ? "https://allo.info/tx" : "https://testnet.explorer.perawallet.app/tx";
+  return `${base}/${txId}`;
+}
+
+function MetaCell({ meta }: { meta: Record<string, unknown> | null }) {
+  if (!meta) return <span className="text-text-muted">—</span>;
   const entries = Object.entries(meta);
-  if (entries.length === 0) return "—";
-  return entries
-    .slice(0, 4)
-    .map(([k, v]) => `${k}: ${typeof v === "string" ? v : JSON.stringify(v)}`)
-    .join(" · ");
+  if (entries.length === 0) return <span className="text-text-muted">—</span>;
+
+  const txId = (meta.txId ?? meta.txHash ?? meta.algoTxnId) as string | undefined;
+  const explorerLink = (meta.explorerUrl as string | undefined) ?? (txId ? explorerUrl(txId, meta.network as string | undefined) : undefined);
+
+  return (
+    <span className="flex flex-wrap items-center gap-1">
+      {entries
+        .filter(([k]) => !["txId", "txHash", "algoTxnId", "explorerUrl"].includes(k))
+        .slice(0, 3)
+        .map(([k, v]) => (
+          <span key={k} className="text-xs text-text-secondary">
+            {k}: {typeof v === "string" ? v : JSON.stringify(v)}
+          </span>
+        ))}
+      {explorerLink && txId && (
+        <a
+          href={explorerLink}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-0.5 font-mono text-xs text-neopop-blue hover:underline"
+          title={txId}
+        >
+          {txId.slice(0, 8)}… <ExternalLink size={10} />
+        </a>
+      )}
+    </span>
+  );
 }
 
 const ACTION_FILTER_OPTIONS = [
@@ -152,8 +181,8 @@ export default function TransactionsPage() {
                         {log.action}
                       </span>
                     </td>
-                    <td className="max-w-md truncate px-3 py-3 text-xs text-text-secondary">
-                      {formatMetadata(log.metadata)}
+                    <td className="max-w-md px-3 py-3 text-xs text-text-secondary">
+                      <MetaCell meta={log.metadata} />
                     </td>
                     <td className="whitespace-nowrap px-3 py-3 text-text-secondary">
                       {formatTimestamp(log.createdAt)}
