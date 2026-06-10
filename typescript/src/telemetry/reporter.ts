@@ -4,7 +4,7 @@
  */
 
 const EVENTS_PATH = "/api/sdk/events";
-const SDK_VERSION = "0.1.0-alpha.2";
+const SDK_VERSION = "0.1.0-alpha.3";
 
 export interface TelemetryEvent {
   eventType: string;

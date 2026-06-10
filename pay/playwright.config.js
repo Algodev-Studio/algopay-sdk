@@ -1,17 +1,17 @@
-import { defineConfig, devices } from "@playwright/test";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+const { defineConfig, devices } = require("@playwright/test");
+const path = require("node:path");
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
+const root = __dirname;
 
-export default defineConfig({
+/** @type {import("@playwright/test").PlaywrightTestConfig} */
+module.exports = defineConfig({
   testDir: "./e2e",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
   reporter: [["list"], ["html", { open: "never" }]],
-  globalSetup: "./e2e/global-setup.ts",
+  globalSetup: require.resolve("./e2e/global-setup.js"),
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
     trace: "on-first-retry",

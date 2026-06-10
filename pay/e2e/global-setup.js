@@ -1,10 +1,8 @@
-import { execSync } from "node:child_process";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+const { execSync } = require("node:child_process");
+const path = require("node:path");
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-
-export default async function globalSetup() {
+module.exports = async function globalSetup() {
+  const root = path.resolve(__dirname, "..");
   const dbUrl =
     process.env.DATABASE_URL ??
     "postgresql://algopay_e2e:algopay_e2e@localhost:5433/algopay_e2e?schema=public";
@@ -22,4 +20,4 @@ export default async function globalSetup() {
     env,
     stdio: "inherit",
   });
-}
+};
