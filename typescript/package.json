@@ -18,6 +18,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "prepublishOnly": "npm run build"
   },
   "engines": {
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^3.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },

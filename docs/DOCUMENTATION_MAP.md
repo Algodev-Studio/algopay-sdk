@@ -38,10 +38,15 @@
 | Guards, budgets, confirmations | [Guards](guides/guards.md) | [API — types](reference/api.md) |
 | TypeScript agent client | [TypeScript SDK guide](guides/typescript.md) · **`typescript/README.md`** | Full parity with Python `AlgoPay`; `@x402-avm/*` for x402 |
 | Hosted dashboard / vault / API keys | [Control plane](ecosystem/CONTROL_PLANE.md) | [Platform feature matrix](PLATFORM_FEATURE_MATRIX.md), **`pay/`** |
+| Monetization / open-core pricing | [MONETIZATION](ecosystem/MONETIZATION.md) | Semifinal prep: **`judging/semifinal/`** |
+| Community demo integrations | **`python/examples/community/README.md`** | BudgetBot, receipts, crew tracker, MCP weather, blog checkout |
 | Product capabilities vs typical agent-payment platforms | [PLATFORM_FEATURE_MATRIX.md](PLATFORM_FEATURE_MATRIX.md) | — |
+| Future scope (marketplace, ANS, enterprise) | [FUTURE_SCOPE.md](FUTURE_SCOPE.md) | [Monetization](ecosystem/MONETIZATION.md) |
+| SDK telemetry to dashboard | [Control plane](ecosystem/CONTROL_PLANE.md) | `ALGOPAY_CONSOLE_URL`, `ALGOPAY_API_KEY` env vars |
 | All env vars (Python SDK) | [ENVIRONMENT.md](ENVIRONMENT.md) | Dashboard vars: Control plane + **`pay/.env.example`** |
 | Release Python / TypeScript SDKs | [PUBLISHING.md](PUBLISHING.md) | **`python/pyproject.toml`**, **`typescript/package.json`**, **`.github/workflows/publish.yml`** |
-| Test strategy & CI scope | [TESTING_ROADMAP.md](TESTING_ROADMAP.md) | — |
+| Test report & E2E metrics | [TESTING.md](TESTING.md) | [TESTING_ROADMAP.md](TESTING_ROADMAP.md) |
+| Test strategy & CI scope | [TESTING_ROADMAP.md](TESTING_ROADMAP.md) | [TESTING.md](TESTING.md) |
 | Repo layout rationale | **[Repository layout](https://github.com/Algodev-Studio/algopay-sdk/blob/main/REPOSITORY_LAYOUT.md)** (repo root) | This file |
 
 ---

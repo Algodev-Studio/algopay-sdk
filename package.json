@@ -9,7 +9,9 @@
   "scripts": {
     "build": "npm run build --workspace=@algodev-studio/algopay && npm run build --workspace=algopay-console",
     "dev": "npm run dev --workspace=algopay-console",
-    "test:js": "npm run test --workspace=@algodev-studio/algopay"
+    "test:js": "npm run test --workspace=@algodev-studio/algopay",
+    "test:e2e": "npm run test:e2e --workspace=algopay-console",
+    "smoke:community": "python python/scripts/smoke_community_examples.py"
   },
   "engines": {
     "node": ">=20"

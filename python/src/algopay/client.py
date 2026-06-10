@@ -37,6 +37,7 @@ from algopay.payment.router import PaymentRouter
 from algopay.protocols.transfer import TransferAdapter
 from algopay.protocols.x402 import X402Adapter
 from algopay.storage import get_storage
+from algopay.telemetry.reporter import TelemetryReporter
 from algopay.wallet.service import WalletService
 
 
@@ -90,6 +91,7 @@ class AlgoPay:
 
         self._intent_service = PaymentIntentService(self._storage)
         self._batch_processor = BatchProcessor(self._router)
+        self._telemetry = TelemetryReporter()
 
     @property
     def config(self) -> Config:
@@ -106,6 +108,10 @@ class AlgoPay:
     @property
     def ledger(self) -> Ledger:
         return self._ledger
+
+    @property
+    def telemetry(self) -> TelemetryReporter:
+        return self._telemetry
 
     async def __aenter__(self) -> AlgoPay:
         """Async context manager entry."""
@@ -239,6 +245,15 @@ class AlgoPay:
         )
         await self._ledger.record(ledger_entry)
 
+        _telem_base = {
+            "walletId": wallet_id,
+            "recipient": recipient,
+            "amount": str(amount_decimal),
+            "purpose": purpose,
+            "idempotencyKey": idempotency_key,
+        }
+        self._telemetry.emit("payment.initiated", _telem_base)
+
         guards_chain = None
         reservation_tokens = []
         guards_passed: list[str] = []
@@ -250,11 +265,23 @@ class AlgoPay:
             try:
                 reservation_tokens = await guards_chain.reserve(context)
                 guards_passed = [g.name for g in guards_chain]
+                self._telemetry.emit(
+                    "payment.guard_passed",
+                    {**_telem_base, "guardsPassed": guards_passed},
+                )
             except ValueError as e:
                 await self._ledger.update_status(
                     ledger_entry.id,
                     LedgerEntryStatus.BLOCKED,
                     tx_hash=None,
+                )
+                self._telemetry.emit(
+                    "payment.guard_blocked",
+                    {
+                        **_telem_base,
+                        "guardsPassed": guards_passed,
+                        "guardBlockReason": str(e),
+                    },
                 )
 
                 return PaymentResult(
@@ -297,6 +324,15 @@ class AlgoPay:
 
                 if guards_chain:
                     await guards_chain.commit(reservation_tokens)
+
+                self._telemetry.emit(
+                    "payment.completed",
+                    {
+                        **_telem_base,
+                        "guardsPassed": guards_passed,
+                        "txHash": result.blockchain_tx,
+                    },
+                )
             else:
                 await self._ledger.update_status(
                     ledger_entry.id,
@@ -304,6 +340,15 @@ class AlgoPay:
                 )
                 if guards_chain:
                     await guards_chain.release(reservation_tokens)
+
+                self._telemetry.emit(
+                    "payment.failed",
+                    {
+                        **_telem_base,
+                        "guardsPassed": guards_passed,
+                        "guardBlockReason": result.error,
+                    },
+                )
 
             return result
 

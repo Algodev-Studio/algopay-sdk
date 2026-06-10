@@ -120,3 +120,21 @@ export interface AuditLog {
   metadata: Record<string, unknown> | null;
   createdAt: string;
 }
+
+export interface SdkEvent {
+  id: string;
+  workspaceId: string;
+  eventType: string;
+  walletId: string | null;
+  recipient: string | null;
+  amount: string | null;
+  purpose: string | null;
+  guardsPassed: string[];
+  guardBlockReason: string | null;
+  txHash: string | null;
+  sdkVersion: string | null;
+  sdkLanguage: string | null;
+  idempotencyKey: string | null;
+  timestamp: string;
+  createdAt: string;
+}

@@ -1,0 +1,11 @@
+flowchart TB
+  Agent[AI_Agent] --> SDK[AlgoPay_SDK_Python_or_TS]
+  SDK --> Guards[Guards_Budget_Allowlist_RateLimit]
+  SDK --> Ledger[Ledger_and_Intents]
+  SDK --> Router[PaymentRouter]
+  Router --> USDC[USDC_axfer_Algod]
+  Router --> X402[x402_HTTP_402_x402_avm]
+  Agent2[Agent_via_API_key] --> Console[pay_Control_Plane]
+  Console --> Vault[Encrypted_Vault]
+  Console --> Policy[Workspace_Policies]
+  Console --> USDC

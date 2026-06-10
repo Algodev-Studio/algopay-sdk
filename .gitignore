@@ -18,6 +18,9 @@ htmlcov/
 # Node / monorepo
 node_modules/
 pay/.next/
+pay/playwright-report/
+pay/test-results/
+pay/blob-report/
 site/.next/
 site/out/
 pay/dev.db

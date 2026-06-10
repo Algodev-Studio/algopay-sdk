@@ -15,6 +15,7 @@ import { configureLogging, getLogger } from "./logging.js";
 import { BatchProcessor } from "./payment/batch.js";
 import { PaymentRouter } from "./payment/router.js";
 import { getStorage } from "./storage/index.js";
+import { TelemetryReporter } from "./telemetry/reporter.js";
 import {
   FeeLevel,
   Network,
@@ -40,6 +41,7 @@ export class AlgoPay {
   private readonly _ledger: Ledger;
   private readonly _intentService: PaymentIntentService;
   private readonly _batchProcessor: BatchProcessor;
+  private readonly _telemetry: TelemetryReporter;
   private readonly _logger;
 
   constructor(options: ConfigOptions & { logLevel?: string } = {}) {
@@ -58,6 +60,7 @@ export class AlgoPay {
     this._router = new PaymentRouter(this._config, this._walletService);
     this._intentService = new PaymentIntentService(storage);
     this._batchProcessor = new BatchProcessor(this._router);
+    this._telemetry = new TelemetryReporter();
   }
 
   get config(): Config {
@@ -78,6 +81,10 @@ export class AlgoPay {
 
   get intents(): PaymentIntentService {
     return this._intentService;
+  }
+
+  get telemetry(): TelemetryReporter {
+    return this._telemetry;
   }
 
   // ---- Wallet methods ----
@@ -159,6 +166,15 @@ export class AlgoPay {
     });
     await this._ledger.record(ledgerEntry);
 
+    const _telemBase = {
+      walletId,
+      recipient,
+      amount: amountStr,
+      purpose: options.purpose ?? null,
+      idempotencyKey: idempotencyKey,
+    };
+    this._telemetry.emit("payment.initiated", _telemBase);
+
     let guardsChain: Awaited<ReturnType<GuardManager["getGuardChain"]>> | null = null;
     let reservationTokens: [string, string | null][] = [];
     const guardsPassed: string[] = [];
@@ -168,8 +184,15 @@ export class AlgoPay {
       try {
         reservationTokens = await guardsChain.reserve(context);
         for (const g of guardsChain) guardsPassed.push(g.name);
+        this._telemetry.emit("payment.guard_passed", { ..._telemBase, guardsPassed });
       } catch (e) {
         await this._ledger.updateStatus(ledgerEntry.id, LedgerEntryStatus.BLOCKED);
+        const reason = e instanceof Error ? e.message : String(e);
+        this._telemetry.emit("payment.guard_blocked", {
+          ..._telemBase,
+          guardsPassed,
+          guardBlockReason: reason,
+        });
         return {
           success: false,
           transactionId: null,
@@ -178,9 +201,9 @@ export class AlgoPay {
           recipient,
           method: PaymentMethod.TRANSFER,
           status: PaymentStatus.BLOCKED,
-          error: `Blocked by guard: ${e instanceof Error ? e.message : String(e)}`,
+          error: `Blocked by guard: ${reason}`,
           guardsPassed,
-          metadata: { guard_reason: String(e instanceof Error ? e.message : e) },
+          metadata: { guard_reason: reason },
         };
       }
     }
@@ -204,9 +227,19 @@ export class AlgoPay {
           { transaction_id: result.transactionId },
         );
         if (guardsChain) await guardsChain.commit(reservationTokens);
+        this._telemetry.emit("payment.completed", {
+          ..._telemBase,
+          guardsPassed,
+          txHash: result.blockchainTx,
+        });
       } else {
         await this._ledger.updateStatus(ledgerEntry.id, LedgerEntryStatus.FAILED);
         if (guardsChain) await guardsChain.release(reservationTokens);
+        this._telemetry.emit("payment.failed", {
+          ..._telemBase,
+          guardsPassed,
+          guardBlockReason: result.error,
+        });
       }
 
       return result;

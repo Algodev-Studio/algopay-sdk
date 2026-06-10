@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AlgoPay — One Pager</title>
+  <style>
+    @page { size: A4; margin: 10mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 8.2pt;
+      line-height: 1.28;
+      color: #111;
+      max-width: 190mm;
+      margin: 0 auto;
+      padding: 8mm 10mm;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    header h1 { font-size: 16pt; font-weight: 700; letter-spacing: -0.02em; }
+    header .tagline { font-size: 8.5pt; color: #444; text-align: right; max-width: 55%; }
+    h2 {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #0066cc;
+      margin: 5px 0 2px;
+      border-bottom: 1px solid #ddd;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .box { background: #f7f9fc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px 6px; }
+    .box strong { display: block; font-size: 7.5pt; margin-bottom: 1px; }
+    ul { padding-left: 12px; margin: 1px 0; }
+    li { margin-bottom: 1px; }
+    .diagram-wrap {
+      margin: 4px 0 2px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 4px;
+      background: #fafbfc;
+    }
+    svg { width: 100%; height: auto; display: block; }
+    footer {
+      margin-top: 4px;
+      font-size: 6.8pt;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>AlgoPay</h1>
+      <div style="font-size:8pt;color:#555;">by AlgoDev Studio · Agent payment infrastructure on Algorand</div>
+    </div>
+    <div class="tagline">
+      Python &amp; TypeScript SDKs + hosted console — USDC, x402, guards, ledger<br />
+      algodev-studio.github.io/algopay-sdk · algopay-sdk-pay-b17a.vercel.app
+    </div>
+  </header>
+
+  <div class="grid-2">
+    <div>
+      <h2>Target users</h2>
+      <ul>
+        <li><strong>AI / agent builders</strong> — teams shipping autonomous agents (Python/TS) that must pay for APIs, data, and on-chain services in USDC.</li>
+        <li><strong>Platform &amp; ops teams</strong> — need vault custody, API keys, spending policies, and audit trails without embedding mnemonics in agent code.</li>
+        <li><strong>Algorand-native developers</strong> — already using AlgoDev Studio MCP / Raycast for wallets &amp; chain ops; extending into agentic commerce.</li>
+      </ul>
+
+      <h2>Problem &amp; wedge</h2>
+      <p>Agents need to spend money autonomously, but raw wallets expose keys, lack policy enforcement, and don’t speak HTTP 402. AlgoPay unifies <em>one <code>pay()</em> call</em> — Algorand address or x402 URL — with guards, ledger, and optional hosted signing.</p>
+
+      <h2>Why Algorand</h2>
+      <ul>
+        <li><strong>Fast, low-fee finality</strong> — suitable for high-frequency micro-payments and agent loops.</li>
+        <li><strong>Native USDC (ASA)</strong> — stablecoin settlement without wrapping bridges.</li>
+        <li><strong>x402 on AVM</strong> — official Algorand agentic-commerce stack (<code>x402-avm</code>, scheme_exact_algo); AlgoPay is aligned with Foundation guidance.</li>
+        <li><strong>Ecosystem fit</strong> — complements AlgoDev Studio’s 55+ MCP tools (wallet bootstrap, swaps, docs) with a dedicated payments layer.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>GTM strategy</h2>
+      <ul>
+        <li><strong>Developer-led, open-core</strong> — PyPI <code>algopay-sdk</code> + npm <code>@algodev-studio/algopay</code>; Colab demo, MkDocs, GitHub.</li>
+        <li><strong>Ecosystem cross-sell</strong> — AlgoDev Studio MCP / Raycast users → AlgoPay for agent spend; Algorand hackathons &amp; x402 workshops.</li>
+        <li><strong>Console land-and-expand</strong> — free tier on hosted dashboard (vault, keys, policies); upsell teams needing managed signing &amp; catalog.</li>
+        <li><strong>Content &amp; demos</strong> — 5-min SDK + console demo script; testnet-first proof (explorer links, x402 weather endpoint).</li>
+      </ul>
+
+      <h2>Revenue model &amp; monetization hypothesis</h2>
+      <div class="grid-3">
+        <div class="box">
+          <strong>SaaS console</strong>
+          Per-workspace tiers: vault wallets, API keys, policy engine, audit log retention, SSO (future).
+        </div>
+        <div class="box">
+          <strong>Transaction / proxy fee</strong>
+          Small % or per-call fee on wrapped x402 catalog &amp; <code>/api/agent/pay</code> volume (Phase 2 gateway).
+        </div>
+        <div class="box">
+          <strong>Enterprise</strong>
+          KMS/HSM vault, custom SLAs, on-prem control plane, gas-pool sponsorship for agent fleets.
+        </div>
+      </div>
+      <p style="margin-top:3px;"><em>Hypothesis:</em> Teams will pay for <strong>policy + custody + observability</strong> once agents move from demo to production spend; SDK stays free to drive adoption.</p>
+
+      <h2>Scalability vision</h2>
+      <ul>
+        <li><strong>Horizontally</strong> — stateless SDK in every agent; Redis-backed guard counters; Postgres + vault for console.</li>
+        <li><strong>Product</strong> — wrapped API gateway, checkout/merchants, approval queues, fee-payer / gas pools for ALGO-less agents.</li>
+        <li><strong>Ecosystem</strong> — AlgoDev Studio (build &amp; operate on-chain) + AlgoPay (pay &amp; govern spend) = full stack for Algorand agentic apps; mainnet rollout after testnet validation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Ecosystem — agentic payments stack</h2>
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#555"/>
+        </marker>
+      </defs>
+      <!-- Row labels -->
+      <text x="8" y="18" font-size="9" fill="#666" font-weight="600">BUILD</text>
+      <text x="8" y="88" font-size="9" fill="#666" font-weight="600">PAY</text>
+      <text x="8" y="158" font-size="9" fill="#666" font-weight="600">SETTLE</text>
+
+      <!-- AlgoDev Studio -->
+      <rect x="60" y="4" width="130" height="44" rx="4" fill="#eef4ff" stroke="#0066cc" stroke-width="1.2"/>
+      <text x="125" y="22" text-anchor="middle" font-size="9" font-weight="700" fill="#0066cc">AlgoDev Studio</text>
+      <text x="125" y="34" text-anchor="middle" font-size="7" fill="#444">MCP · Raycast · 55+ tools</text>
+      <text x="125" y="44" text-anchor="middle" font-size="6.5" fill="#666">wallets · swaps · docs</text>
+
+      <!-- AI Agents -->
+      <rect x="220" y="4" width="100" height="44" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="270" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="#16a34a">AI Agents</text>
+      <text x="270" y="36" text-anchor="middle" font-size="7" fill="#444">Cursor · Claude · custom</text>
+
+      <!-- SDKs -->
+      <rect x="60" y="68" width="95" height="52" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"/>
+      <text x="107" y="86" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ea580c">Python SDK</text>
+      <text x="107" y="98" text-anchor="middle" font-size="6.5" fill="#444">algopay-sdk</text>
+      <text x="107" y="110" text-anchor="middle" font-size="6" fill="#666">guards · ledger · x402</text>
+
+      <rect x="165" y="68" width="95" height="52" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"/>
+      <text x="212" y="86" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ea580c">TypeScript SDK</text>
+      <text x="212" y="98" text-anchor="middle" font-size="6.5" fill="#444">@algodev-studio/algopay</text>
+      <text x="212" y="110" text-anchor="middle" font-size="6" fill="#666">pay() · simulate · intents</text>
+
+      <!-- Console -->
+      <rect x="280" y="68" width="120" height="52" rx="4" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.2"/>
+      <text x="340" y="86" text-anchor="middle" font-size="8.5" font-weight="700" fill="#7c3aed">AlgoPay Console</text>
+      <text x="340" y="98" text-anchor="middle" font-size="6.5" fill="#444">vault · API keys · policies</text>
+      <text x="340" y="110" text-anchor="middle" font-size="6" fill="#666">x402 catalog · agent/pay</text>
+
+      <!-- x402 APIs -->
+      <rect x="430" y="68" width="95" height="52" rx="4" fill="#ecfeff" stroke="#0891b2" stroke-width="1.2"/>
+      <text x="477" y="86" text-anchor="middle" font-size="8.5" font-weight="700" fill="#0891b2">x402 APIs</text>
+      <text x="477" y="98" text-anchor="middle" font-size="6.5" fill="#444">HTTP 402 resources</text>
+      <text x="477" y="110" text-anchor="middle" font-size="6" fill="#666">weather · data · LLM</text>
+
+      <!-- Algorand -->
+      <rect x="200" y="138" width="320" height="48" rx="4" fill="#f1f5f9" stroke="#334155" stroke-width="1.2"/>
+      <text x="360" y="158" text-anchor="middle" font-size="10" font-weight="700" fill="#334155">Algorand · USDC · x402-avm settlement</text>
+      <text x="360" y="172" text-anchor="middle" font-size="7" fill="#555">testnet → mainnet · Indexer audit · low fees · instant finality</text>
+
+      <!-- Arrows -->
+      <line x1="190" y1="26" x2="218" y2="26" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <text x="204" y="20" font-size="6" fill="#666">bootstrap</text>
+
+      <line x1="270" y1="48" x2="107" y2="66" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="290" y1="48" x2="212" y2="66" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="300" y1="48" x2="340" y2="66" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+      <line x1="107" y1="120" x2="280" y2="158" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="212" y1="120" x2="320" y2="158" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="340" y1="120" x2="360" y2="136" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+      <line x1="477" y1="120" x2="420" y2="148" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+
+      <!-- Legend -->
+      <rect x="545" y="8" width="165" height="115" rx="4" fill="#fff" stroke="#ddd"/>
+      <text x="555" y="24" font-size="7.5" font-weight="700" fill="#333">Flow</text>
+      <text x="555" y="38" font-size="6.5" fill="#444">1. Dev tools create &amp; fund wallets</text>
+      <text x="555" y="50" font-size="6.5" fill="#444">2. Agents pay via SDK or Console API</text>
+      <text x="555" y="62" font-size="6.5" fill="#444">3. Guards + policies block bad spend</text>
+      <text x="555" y="74" font-size="6.5" fill="#444">4. USDC / x402 settles on Algorand</text>
+      <text x="555" y="92" font-size="7" font-weight="600" fill="#0066cc">algodevstudio.vercel.app</text>
+      <text x="555" y="104" font-size="6.5" fill="#444">→ MCP + Raycast (build layer)</text>
+      <text x="555" y="116" font-size="6.5" fill="#444">→ AlgoPay (payments layer)</text>
+    </svg>
+  </div>
+
+  <footer>
+    <span>AlgoDev Studio · MIT OSS · 0.1.0 alpha</span>
+    <span>May 2026 · Confidential one-pager</span>
+  </footer>
+</body>
+</html>

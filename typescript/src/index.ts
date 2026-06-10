@@ -61,5 +61,8 @@ export type { StorageBackend } from "./storage/base.js";
 export { InMemoryStorage } from "./storage/memory.js";
 export { getStorage, registerStorageBackend } from "./storage/index.js";
 
+// Telemetry
+export { TelemetryReporter, type TelemetryEvent } from "./telemetry/index.js";
+
 // Constants
 export { USDC_MAINNET_ASA_ID, USDC_TESTNET_ASA_ID } from "./constants.js";

@@ -1,0 +1,4 @@
+timestamp,wallet_id,recipient,amount_usdc,status,purpose,tx_hash,method
+2026-06-11T00:31:26.071010,17ee8511-2d9e-4d29-9c09-03c8bcbf129f,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ,0.01,completed,Citation graph expansion,MOCK-TX,
+2026-06-11T00:31:26.069489,17ee8511-2d9e-4d29-9c09-03c8bcbf129f,https://example.com/paid-research-api,0.05,completed,x402 research API — market signals,MOCK-TX,
+2026-06-11T00:31:26.068394,17ee8511-2d9e-4d29-9c09-03c8bcbf129f,AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ,0.02,completed,Academic paper metadata lookup,MOCK-TX,

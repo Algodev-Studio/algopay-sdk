@@ -40,6 +40,7 @@ model Workspace {
   checkoutSessions     CheckoutSession[]
   wrappedApiProviders  WrappedApiProvider[]
   customEndpoints      CustomEndpoint[]
+  sdkEvents            SdkEvent[]
 }
 
 model WalletSet {
@@ -232,4 +233,23 @@ model CustomEndpoint {
   createdAt   DateTime  @default(now())
 
   @@unique([workspaceId, slug])
+}
+
+model SdkEvent {
+  id               String    @id @default(cuid())
+  workspaceId      String
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  eventType        String
+  walletId         String?
+  recipient        String?
+  amount           String?
+  purpose          String?
+  guardsPassed     Json      @default("[]")
+  guardBlockReason String?
+  txHash           String?
+  sdkVersion       String?
+  sdkLanguage      String?
+  idempotencyKey   String?
+  timestamp        DateTime  @default(now())
+  createdAt        DateTime  @default(now())
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#333"/>
+    </marker>
+    <style>
+      .box { fill:#f7f9fc; stroke:#1a3a5c; stroke-width:2; rx:8; }
+      .sdk { fill:#e8f4fd; stroke:#0078d4; }
+      .chain { fill:#fff4e5; stroke:#d48806; }
+      .console { fill:#f0fff4; stroke:#237804; }
+      .title { font-size:18px; font-weight:700; fill:#1a3a5c; }
+      .label { font-size:13px; fill:#333; }
+      .small { font-size:11px; fill:#555; }
+    </style>
+  </defs>
+  <text x="460" y="28" text-anchor="middle" class="title">AlgoPay architecture</text>
+
+  <!-- SDK path -->
+  <rect x="40" y="60" width="130" height="48" class="box"/>
+  <text x="105" y="88" text-anchor="middle" class="label">AI Agent</text>
+
+  <line x1="170" y1="84" x2="210" y2="84" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="210" y="50" width="180" height="68" class="box sdk"/>
+  <text x="300" y="78" text-anchor="middle" class="label">AlgoPay SDK</text>
+  <text x="300" y="96" text-anchor="middle" class="small">Python / TypeScript</text>
+
+  <line x1="300" y1="118" x2="300" y2="148" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="210" y="148" width="180" height="52" class="box sdk"/>
+  <text x="300" y="178" text-anchor="middle" class="label">Guards + Ledger</text>
+
+  <line x1="300" y1="200" x2="300" y2="230" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="210" y="230" width="180" height="52" class="box sdk"/>
+  <text x="300" y="260" text-anchor="middle" class="label">PaymentRouter</text>
+
+  <line x1="300" y1="282" x2="300" y2="312" stroke="#333" stroke-width="2"/>
+  <line x1="300" y1="312" x2="180" y2="312" stroke="#333" stroke-width="2"/>
+  <line x1="300" y1="312" x2="420" y2="312" stroke="#333" stroke-width="2"/>
+  <line x1="180" y1="312" x2="180" y2="340" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="420" y1="312" x2="420" y2="340" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="80" y="340" width="200" height="56" class="box chain"/>
+  <text x="180" y="368" text-anchor="middle" class="label">USDC axfer</text>
+  <text x="180" y="384" text-anchor="middle" class="small">Algod / Algorand</text>
+
+  <rect x="340" y="340" width="200" height="56" class="box chain"/>
+  <text x="440" y="368" text-anchor="middle" class="label">x402 HTTP 402</text>
+  <text x="440" y="384" text-anchor="middle" class="small">x402-avm / @x402-avm</text>
+
+  <!-- Control plane path -->
+  <rect x="600" y="60" width="150" height="48" class="box"/>
+  <text x="675" y="88" text-anchor="middle" class="label">Agent via API key</text>
+
+  <line x1="675" y1="108" x2="675" y2="138" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="580" y="138" width="190" height="68" class="box console"/>
+  <text x="675" y="166" text-anchor="middle" class="label">pay/ Control Plane</text>
+  <text x="675" y="184" text-anchor="middle" class="small">Next.js dashboard</text>
+
+  <line x1="625" y1="206" x2="625" y2="236" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="725" y1="206" x2="725" y2="236" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="560" y="236" width="120" height="48" class="box console"/>
+  <text x="620" y="264" text-anchor="middle" class="small">Encrypted vault</text>
+
+  <rect x="700" y="236" width="140" height="48" class="box console"/>
+  <text x="770" y="264" text-anchor="middle" class="small">Workspace policies</text>
+
+  <line x1="675" y1="284" x2="675" y2="340" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="675" y1="340" x2="180" y2="368" stroke="#333" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+
+  <text x="460" y="470" text-anchor="middle" class="small">Policy enforced before chain spend - Ledger records every attempt</text>
+  <text x="460" y="492" text-anchor="middle" class="small">Open source SDK (free) - Hosted console (paid tiers)</text>
+</svg>

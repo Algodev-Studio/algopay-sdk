@@ -51,6 +51,8 @@ nav:
   - Ecosystem:
       - Platform feature matrix: PLATFORM_FEATURE_MATRIX.md
       - Control plane (hosted web): ecosystem/CONTROL_PLANE.md
+      - Monetization (open-core): ecosystem/MONETIZATION.md
+      - Future scope: FUTURE_SCOPE.md
       - Algorand wallet UX: ecosystem/algorand-wallet-ux.md
       - Checkout & facilitator: ecosystem/checkout-and-facilitator.md
       - Wrapped APIs strategy: ecosystem/wrapped-apis.md
@@ -58,6 +60,7 @@ nav:
       - On-chain policy (AlgoKit): ecosystem/on-chain-policy.md
   - Project:
       - Publishing (PyPI): PUBLISHING.md
+      - Testing report: TESTING.md
       - Testing roadmap: TESTING_ROADMAP.md
       - Legacy OmniAgentPay / arc-merchant: REFERENCE_LEGACY_OMNIAGENTPAY_AND_ARC_MERCHANT.md
 

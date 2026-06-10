@@ -22,6 +22,7 @@ import {
   ExternalLink,
   LogOut,
   Menu,
+  Radio,
   type LucideIcon,
 } from "lucide-react";
 import type { Network } from "@/lib/types";
@@ -53,6 +54,7 @@ const navSections: NavSection[] = [
       { key: "transactions", label: "Transactions", href: "/dashboard/transactions", icon: ArrowLeftRight },
       { key: "payments", label: "Payments", href: "/dashboard/payments", icon: HandCoins },
       { key: "approvals", label: "Approvals", href: "/dashboard/approvals", icon: ShieldCheck },
+      { key: "sdk-events", label: "SDK Events", href: "/dashboard/sdk-events", icon: Radio },
     ],
   },
   {

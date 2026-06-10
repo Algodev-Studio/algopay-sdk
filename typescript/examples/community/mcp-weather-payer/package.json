@@ -1,0 +1,21 @@
+{
+  "name": "mcp-weather-payer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MCP-style tool that pays for weather data via AlgoPay x402",
+  "scripts": {
+    "start": "node --import tsx weather-tool.ts",
+    "mcp": "node --import tsx server.ts"
+  },
+  "dependencies": {
+    "@algodev-studio/algopay": "file:../../.."
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "optionalDependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}

@@ -1,0 +1,2276 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Payment infrastructure for AI agents on Algorand — USDC, x402, guards, ledger.">
+      
+      
+      
+        <link rel="canonical" href="https://algodev-studio.github.io/algopay-sdk/DEMO/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>AlgoPay live demo guide - AlgoPay SDK</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#algopay-live-demo-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AlgoPay SDK" class="md-header__button md-logo" aria-label="AlgoPay SDK" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AlgoPay SDK
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AlgoPay live demo guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Algodev-Studio/algopay-sdk" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Algodev-Studio/algopay-sdk
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../DOCUMENTATION_MAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Documentation map
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../guides/wallets/" class="md-tabs__link">
+          
+  
+  
+  User guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/api/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PLATFORM_FEATURE_MATRIX/" class="md-tabs__link">
+          
+  
+  
+  Ecosystem
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../PUBLISHING/" class="md-tabs__link">
+          
+  
+  
+  Project
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AlgoPay SDK" class="md-nav__button md-logo" aria-label="AlgoPay SDK" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AlgoPay SDK
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Algodev-Studio/algopay-sdk" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Algodev-Studio/algopay-sdk
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DOCUMENTATION_MAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/wallets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wallets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/payments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payments & routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/x402/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    x402 HTTP payments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/guards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/intents-batch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intents & batch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/ledger-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ledger & storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENVIRONMENT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PLATFORM_FEATURE_MATRIX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform feature matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/CONTROL_PLANE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control plane (hosted web)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/MONETIZATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monetization (open-core)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FUTURE_SCOPE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Future scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/algorand-wallet-ux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorand wallet UX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/checkout-and-facilitator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checkout & facilitator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/wrapped-apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrapped APIs strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/x402-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    x402 stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ecosystem/on-chain-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On-chain policy (AlgoKit)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLISHING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Publishing (PyPI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TESTING_ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFERENCE_LEGACY_OMNIAGENTPAY_AND_ARC_MERCHANT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy OmniAgentPay / arc-merchant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-to-show-priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to show (priority order)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prep-checklist-do-this-before-the-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prep checklist (do this before the demo)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#console-prep-before-the-ui-segment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Console prep (before the UI segment)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#console-showcase-ui-only-no-on-chain-tx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Console showcase (UI only — no on-chain tx)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Console showcase (UI only — no on-chain tx)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-to-show-vs-skip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to show vs skip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-step walkthrough
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console-talk-track-short" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Console talk track (short)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Console troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suggested-flow-17-minutes-sdk-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suggested flow (~17 minutes: SDK + console)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suggested flow (~17 minutes: SDK + console)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-hook-30-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Hook (30 s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-architecture-60-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architecture (60 s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-live-sdk-wallet-balance-90-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Live SDK — wallet + balance (90 s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-live-sdk-on-chain-usdc-transfer-2-min-must-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Live SDK — on-chain USDC transfer (2 min) — must-have
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-x402-pay-per-call-2-min-strong-second-act" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. x402 pay-per-call (2 min) — strong second act
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-guards-90-s-optional-but-high-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Guards (90 s) — optional but high impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-console-showcase-56-min-ui-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Console showcase (5–6 min) — UI only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-close-30-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Close (30 s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demo-script-verbatim-lines-you-can-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo script (verbatim lines you can read)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands quick reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-during-a-live-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting during a live demo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recording-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recording tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="algopay-live-demo-guide">AlgoPay live demo guide<a class="headerlink" href="#algopay-live-demo-guide" title="Permanent link">&para;</a></h1>
+<p>Use this document as your <strong>talk track</strong> and <strong>runbook</strong> for demos (recordings, investors, workshops).</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>5-minute voiceover script</strong></td>
+<td><a href="../DEMO_SCRIPT_5MIN/">DEMO_SCRIPT_5MIN.md</a> — what to say, timed for SDK + console</td>
+</tr>
+<tr>
+<td><strong>Google Colab (SDK voiceover)</strong></td>
+<td><a href="../notebooks/AlgoPay_SDK_Demo.ipynb"><code>notebooks/AlgoPay_SDK_Demo.ipynb</code></a> — <code>pip install "algopay-sdk==0.1.0a3"</code> (<a href="https://pypi.org/project/algopay-sdk/">PyPI</a>; <strong>do not use 0.1.0a2</strong>)</td>
+</tr>
+<tr>
+<td><strong>Local terminal (explorer link)</strong></td>
+<td><a href="../python/scripts/live_demo_tx.py"><code>python/scripts/live_demo_tx.py</code></a></td>
+</tr>
+<tr>
+<td><strong>Hosted console (UI only)</strong></td>
+<td><a href="#console-showcase-ui-only--no-on-chain-tx">Console showcase</a> below</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="what-to-show-priority-order">What to show (priority order)<a class="headerlink" href="#what-to-show-priority-order" title="Permanent link">&para;</a></h2>
+<p>Focus on capabilities that are <strong>shipped</strong> and <strong>visually verifiable</strong> on testnet. Skip stubs (orders, approvals inbox UI, wrapped API gateway).</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Feature</th>
+<th>Why show it</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>Agent wallet on Algorand</strong></td>
+<td>Establishes “this is real chain custody”</td>
+<td>Generate address, show balance, copy address</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>USDC transfer (<code>pay</code> → address)</strong></td>
+<td>Core value: agents pay in stablecoin</td>
+<td>Self-transfer 0.01–0.02 USDC; open explorer link</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>x402 pay-per-call (<code>pay</code> → URL)</strong></td>
+<td>Differentiator vs “just a wallet”</td>
+<td>Pay <code>https://x402.goplausible.xyz/examples/weather</code>; show <code>resource_data</code></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>Guards block a payment</strong></td>
+<td>Trust / policy story</td>
+<td>Whitelist guard → pay to random address → <code>BLOCKED</code></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>Ledger + <code>sync_transaction</code></strong></td>
+<td>Audit trail for agents</td>
+<td>Show ledger row after pay; sync from Indexer</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong><code>simulate</code> / <code>can_pay</code></strong></td>
+<td>Safe agent loops</td>
+<td>Simulate before spend; no chain tx</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>Payment intent</strong> (optional)</td>
+<td>Authorize → capture pattern</td>
+<td><code>create_payment_intent</code> → <code>confirm_payment_intent</code></td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td><strong>Hosted console</strong> (UI showcase)</td>
+<td>Teams, API keys, vault wallets — <strong>no chain tx required</strong></td>
+<td>See <a href="#console-showcase-ui-only--no-on-chain-tx">Console showcase</a> below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not spend time on:</strong> mainnet unless you have production keys, <strong>Gas pool “Top Up”</strong> (marked coming soon), deep <strong>Checkout</strong> flows unless you already have merchants/sessions.</p>
+<p><strong>SDK vs console in one recording:</strong> Do the <strong>terminal / testnet block first</strong> (real explorer link), then switch to the <strong>dashboard</strong> for “how operators manage agents” — no second funding step needed for the UI part.</p>
+<hr />
+<h2 id="prep-checklist-do-this-before-the-demo">Prep checklist (do this before the demo)<a class="headerlink" href="#prep-checklist-do-this-before-the-demo" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Install SDK (from repo root)</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;./python[dev]&quot;</span>
+</code></pre></div>
+<ol>
+<li><strong>Create a persistent demo wallet</strong> (secrets go to <code>local/</code>, gitignored):</li>
+</ol>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>python/scripts/generate_live_demo_wallet.py
+</code></pre></div>
+<ol>
+<li><strong>Fund testnet ALGO</strong> (fees + opt-in):</li>
+<li>Open <a href="https://bank.testnet.algorand.network/">TestNet dispenser</a> and paste the printed address, <strong>or</strong></li>
+<li>
+<p>Use the AWS faucet (same as console): <code>POST https://dispenser.testnet.aws.algodev.network/faucet?account=&lt;ADDRESS&gt;</code></p>
+</li>
+<li>
+<p><strong>Opt in to testnet USDC</strong> (one-time per wallet):</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nb">set</span><span class="w"> </span><span class="nv">OPT_IN_USDC</span><span class="o">=</span><span class="m">1</span>
+python<span class="w"> </span>python/scripts/live_demo_tx.py
+</code></pre></div>
+<p>(On Unix: <code>OPT_IN_USDC=1 python python/scripts/live_demo_tx.py</code>.)</p>
+<ol>
+<li>
+<p><strong>Acquire testnet USDC</strong> on that address (ASA ID <code>10458941</code> — printed by the generate script). Use your org’s tap or a documented testnet USDC faucet. You need roughly <strong>0.05 USDC</strong> for a safe demo (transfer + x402).</p>
+</li>
+<li>
+<p><strong>Dry run</strong> (must print <code>Explorer:</code> with a real tx id):</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>python/scripts/live_demo_tx.py
+</code></pre></div>
+<ol>
+<li><strong>Console (UI segment)</strong> — see <a href="#console-prep-before-the-ui-segment">Console prep</a> if you are showing the dashboard.</li>
+</ol>
+<hr />
+<h2 id="console-prep-before-the-ui-segment">Console prep (before the UI segment)<a class="headerlink" href="#console-prep-before-the-ui-segment" title="Permanent link">&para;</a></h2>
+<p>From the <strong>repository root</strong>:</p>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install
+cp<span class="w"> </span>pay/.env.example<span class="w"> </span>pay/.env
+</code></pre></div>
+<p>Edit <code>pay/.env</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>How to set</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td>SQLite for local demo: <code>file:./dev.db</code> (or use your Postgres URLs from the example)</td>
+</tr>
+<tr>
+<td><code>SESSION_SECRET</code></td>
+<td>Any random string <strong>≥ 32 characters</strong></td>
+</tr>
+<tr>
+<td><code>ALGOPAY_VAULT_MASTER_KEY</code></td>
+<td><code>openssl rand -base64 32</code> (PowerShell: <code>[Convert]::ToBase64String((1..32|%{Get-Random -Max 256})))</code></td>
+</tr>
+</tbody>
+</table>
+<p>Then:</p>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>run<span class="w"> </span>db:push<span class="w"> </span>--workspace<span class="o">=</span>algopay-console
+npm<span class="w"> </span>run<span class="w"> </span>dev
+</code></pre></div>
+<p>Open <strong>http://localhost:3000/register</strong>, create a demo account (e.g. <code>demo@yourcompany.test</code> — use a password you will reuse). You stay logged in for the recording.</p>
+<p><strong>Optional seed data (makes Overview / Agents prettier, still no on-chain tx):</strong></p>
+<ol>
+<li><strong>Gas Pools → Create</strong> — e.g. balance <code>100</code> USDC, daily cap <code>100000</code> cents, alert <code>10</code> USDC.</li>
+<li>Copy a <strong>pool id</strong> from the Gas Pools list (you need it for Create Agent).</li>
+</ol>
+<hr />
+<h2 id="console-showcase-ui-only-no-on-chain-tx">Console showcase (UI only — no on-chain tx)<a class="headerlink" href="#console-showcase-ui-only-no-on-chain-tx" title="Permanent link">&para;</a></h2>
+<p><strong>Goal:</strong> Show the <strong>hosted control plane</strong> — workspace, policies, API keys, vault wallets, x402 endpoint catalog, and API playground. <strong>Do not</strong> submit agent pays or fund wallets on-chain during this segment unless you want to.</p>
+<p><strong>Length:</strong> ~5–6 minutes.</p>
+<h3 id="what-to-show-vs-skip">What to show vs skip<a class="headerlink" href="#what-to-show-vs-skip" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Show</th>
+<th>Route</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API key for agents</strong></td>
+<td><code>/dashboard/settings</code></td>
+<td>Clear “agent authenticates with Bearer token” story</td>
+</tr>
+<tr>
+<td><strong>Workspace spending caps</strong></td>
+<td><code>/dashboard/settings</code> (Spending Policies)</td>
+<td>Mirrors SDK guards at workspace level</td>
+</tr>
+<tr>
+<td><strong>Vault wallets</strong></td>
+<td><code>/dashboard/wallets</code></td>
+<td>Create set + wallet; show Algorand address (encrypted server-side)</td>
+</tr>
+<tr>
+<td><strong>Register x402 API</strong></td>
+<td><code>/dashboard/apis</code></td>
+<td>Add custom paid endpoint; toggle catalog providers</td>
+</tr>
+<tr>
+<td><strong>Agent registry</strong></td>
+<td><code>/dashboard/agents</code> + <code>/dashboard/agents/create</code></td>
+<td>Name, address, daily limit, gas pool</td>
+</tr>
+<tr>
+<td><strong>Gas pool</strong></td>
+<td><code>/dashboard/gas/create</code></td>
+<td>Fee/subsidy pool for agent spends (UI only)</td>
+</tr>
+<tr>
+<td><strong>API playground</strong></td>
+<td><code>/dashboard/playground</code></td>
+<td>Run <strong>List Agents</strong> (GET) — proves REST without paying</td>
+</tr>
+<tr>
+<td><strong>Overview</strong></td>
+<td><code>/dashboard</code></td>
+<td>KPI cards + recent payments table (fine if empty)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Skip or one glance only</th>
+<th>Route</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Approvals</td>
+<td><code>/dashboard/approvals</code></td>
+<td>Only interesting if you have <strong>pending</strong> payments</td>
+</tr>
+<tr>
+<td>Payments “Settle”</td>
+<td><code>/dashboard/payments</code></td>
+<td>Implies real settlement — skip in UI-only demo</td>
+</tr>
+<tr>
+<td>Checkout sessions</td>
+<td><code>/dashboard/checkout</code></td>
+<td>Longer commerce flow; mention as roadmap</td>
+</tr>
+<tr>
+<td>Gas <strong>Top Up</strong> button</td>
+<td><code>/dashboard/gas</code></td>
+<td>UI says “coming soon”</td>
+</tr>
+<tr>
+<td>Connect Pera wallet in header</td>
+<td>Shell</td>
+<td>Optional; not required for vault demo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-by-step-walkthrough">Step-by-step walkthrough<a class="headerlink" href="#step-by-step-walkthrough" title="Permanent link">&para;</a></h3>
+<p><strong>Transition from SDK (15 s)</strong></p>
+<blockquote>
+<p>“Agents can embed the SDK in-process. Teams that want a vault, API keys, and a dashboard use the AlgoPay console — same policies, server-assisted signing when you call the agent pay API.”</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Where</th>
+<th>Action</th>
+<th>Say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>/login</code> or already in app</td>
+<td>Log in as demo user</td>
+<td>“Each workspace is isolated — testnet by default.”</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>/dashboard</code></td>
+<td>Point at KPI row + payments table</td>
+<td>“Overview is volume and settlement health for the workspace.”</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>/dashboard/settings</code></td>
+<td><strong>API Keys:</strong> name <code>Demo Agent Key</code> → <strong>Generate</strong> → show full key once → Copy</td>
+<td>“The agent uses this once — we only store a hash. This is how your bot calls <code>POST /api/agent/pay</code> without holding mnemonics in your repo.”</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>/dashboard/settings</code></td>
+<td><strong>Spending Policies:</strong> set e.g. max daily <code>100</code>, max single tx <code>25</code>, approval <code>50</code> → Save</td>
+<td>“Workspace-level caps align with SDK budget and confirm guards.”</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>/dashboard/wallets</code></td>
+<td>Create set <code>demo-agents</code> → Create wallet in that set</td>
+<td>“Keys are created in the vault — address appears immediately; funding is a separate ops step.”</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>/dashboard/gas/create</code></td>
+<td>Pool: balance <code>100</code>, daily cap <code>100000</code>, alert <code>10</code></td>
+<td>“Gas pools budget ALGO/USDC spend for agents.”</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>/dashboard/agents/create</code></td>
+<td>Name <code>Purchase Bot</code>, paste any valid 58-char test address (or your SDK demo address), daily limit <code>50000</code>, select pool → Create</td>
+<td>“Agents are registered spenders tied to a pool and daily USD cap.”</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>/dashboard/apis</code></td>
+<td><strong>Add Custom x402 Endpoint</strong> — see sample values below → <strong>Validate &amp; Add</strong></td>
+<td>“Catalog of paid HTTP APIs your agents can call via the console proxy slug.”</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>/dashboard/apis</code></td>
+<td>Toggle a <strong>wrapped provider</strong> on/off (if listed)</td>
+<td>“Curated providers can be enabled per workspace.”</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>/dashboard/playground</code></td>
+<td><strong>Agents → List Agents</strong> → Run</td>
+<td>“Operators and integrators can probe APIs without leaving the browser.”</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>/dashboard/transactions</code></td>
+<td>Quick scroll</td>
+<td>“Activity feed ties back to payments and settlement state.”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample values for “Add Custom x402 Endpoint” (no payment required to save):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Endpoint URL</td>
+<td><code>https://x402.goplausible.xyz/examples/weather</code></td>
+</tr>
+<tr>
+<td>Slug</td>
+<td><code>demo-weather</code></td>
+</tr>
+<tr>
+<td>Name</td>
+<td><code>Demo Weather API</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>x402 weather example for AlgoPay demo</code></td>
+</tr>
+<tr>
+<td>HTTP Method</td>
+<td><code>GET</code></td>
+</tr>
+</tbody>
+</table>
+<p>After save, point at the hint: agents can call <code>POST /api/x402/demo-weather</code> (slug from your form).</p>
+<h3 id="console-talk-track-short">Console talk track (short)<a class="headerlink" href="#console-talk-track-short" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>“Settings is where security starts — API keys and workspace-wide USDC limits. Wallets are server-vaulted Algorand identities for agents that should not hold mnemonics in your codebase. APIs is where you register x402 endpoints so agents pay per call through your workspace. Agents and gas pools are how you attach spend limits and subsidy pools. Playground is for trying the REST surface without wiring curl.”</p>
+</blockquote>
+<h3 id="console-troubleshooting">Console troubleshooting<a class="headerlink" href="#console-troubleshooting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registration fails</td>
+<td>Check <code>SESSION_SECRET</code> length and <code>DATABASE_URL</code>; run <code>db:push</code> again</td>
+</tr>
+<tr>
+<td>Generate API key errors</td>
+<td>Ensure logged in; refresh session</td>
+</tr>
+<tr>
+<td>Create agent fails “pool”</td>
+<td>Create a gas pool first and select it in the form</td>
+</tr>
+<tr>
+<td>Wallets balance <code>0</code></td>
+<td>Expected without funding — say “balance reads chain; funding is ops”</td>
+</tr>
+<tr>
+<td>Custom endpoint validation error</td>
+<td>Use a reachable <code>https://</code> URL; check slug is unique</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="suggested-flow-17-minutes-sdk-console">Suggested flow (~17 minutes: SDK + console)<a class="headerlink" href="#suggested-flow-17-minutes-sdk-console" title="Permanent link">&para;</a></h2>
+<h3 id="0-hook-30-s">0. Hook (30 s)<a class="headerlink" href="#0-hook-30-s" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>“AI agents need to pay APIs and other agents autonomously, but operators need limits and an audit trail. AlgoPay is payment infrastructure on Algorand: local agent wallets, USDC, spending guards, and HTTP 402 x402 pay-per-call — in Python or TypeScript.”</p>
+</blockquote>
+<h3 id="1-architecture-60-s">1. Architecture (60 s)<a class="headerlink" href="#1-architecture-60-s" title="Permanent link">&para;</a></h3>
+<p>Show the README diagram or say:</p>
+<ul>
+<li><strong><code>pay()</code></strong> runs <strong>guards</strong> → writes <strong>ledger</strong> → routes recipient:</li>
+<li>58-char address → <strong>USDC asset transfer</strong></li>
+<li><code>https://</code> URL → <strong>x402</strong> discovery + payment</li>
+<li>Keys live in-process unless you use the <strong>hosted console</strong> vault.</li>
+</ul>
+<h3 id="2-live-sdk-wallet-balance-90-s">2. Live SDK — wallet + balance (90 s)<a class="headerlink" href="#2-live-sdk-wallet-balance-90-s" title="Permanent link">&para;</a></h3>
+<p><strong>Terminal:</strong> run generate (if not done) or restore:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>python/scripts/live_demo_tx.py<span class="w"> </span>--check-only
+</code></pre></div>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“We create a wallet set and wallet — this is the agent’s Algorand identity. Balance is USDC on the testnet ASA, not ALGO.”</p>
+</blockquote>
+<p><strong>Show:</strong> address, USDC balance, Algod connectivity.</p>
+<h3 id="3-live-sdk-on-chain-usdc-transfer-2-min-must-have">3. Live SDK — on-chain USDC transfer (2 min) — <strong>must-have</strong><a class="headerlink" href="#3-live-sdk-on-chain-usdc-transfer-2-min-must-have" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>python/scripts/live_demo_tx.py
+</code></pre></div>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>pay()</code> with an Algorand address sends USDC. We use a tiny self-transfer so the receiver is already opted in. Guards can be on or off; for the first tx we skip guards to keep the demo predictable.”</p>
+</blockquote>
+<p><strong>Show on screen:</strong></p>
+<ul>
+<li><code>success: True</code></li>
+<li><code>blockchain_tx: &lt;TXID&gt;</code></li>
+<li><strong><code>Explorer: https://testnet.explorer.perawallet.app/tx/&lt;TXID&gt;</code></strong> ← bookmark this tab before the call</li>
+</ul>
+<h3 id="4-x402-pay-per-call-2-min-strong-second-act">4. x402 pay-per-call (2 min) — <strong>strong second act</strong><a class="headerlink" href="#4-x402-pay-per-call-2-min-strong-second-act" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">set</span><span class="w"> </span><span class="nv">ALGOPAY_X402_URL</span><span class="o">=</span>https://x402.goplausible.xyz/examples/weather
+python<span class="w"> </span>python/scripts/live_demo_tx.py<span class="w"> </span>--x402-only
+</code></pre></div>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“The same <code>pay()</code> API accepts an HTTPS URL. The SDK runs x402: the server returns 402, we pay in USDC, then we get the resource — weather JSON here.”</p>
+</blockquote>
+<p><strong>Show:</strong> <code>resource_data</code> snippet; second explorer link if x402 returns <code>blockchain_tx</code>.</p>
+<h3 id="5-guards-90-s-optional-but-high-impact">5. Guards (90 s) — optional but high impact<a class="headerlink" href="#5-guards-90-s-optional-but-high-impact" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>python/scripts/live_demo_exhaustive.py
+</code></pre></div>
+<p>Or narrate from code: <code>add_recipient_guard</code> whitelist → pay to non-listed address → status <strong><code>BLOCKED</code></strong>, ledger records it.</p>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Budget caps, per-tx limits, allowlists, rate limits, human confirm, and required justification — all run before we hit the chain.”</p>
+</blockquote>
+<h3 id="6-console-showcase-56-min-ui-only">6. Console showcase (5–6 min) — UI only<a class="headerlink" href="#6-console-showcase-56-min-ui-only" title="Permanent link">&para;</a></h3>
+<p>Follow <a href="#console-showcase-ui-only--no-on-chain-tx">Console showcase</a>. <strong>Highlight:</strong> Settings → API key, Wallets, APIs → add endpoint, Agents, Playground list.</p>
+<h3 id="7-close-30-s">7. Close (30 s)<a class="headerlink" href="#7-close-30-s" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>“Same surface in TypeScript on npm, Python on PyPI, optional hosted control plane. Testnet links prove settlement on Algorand; production is mainnet with the same APIs.”</p>
+</blockquote>
+<hr />
+<h2 id="demo-script-verbatim-lines-you-can-read">Demo script (verbatim lines you can read)<a class="headerlink" href="#demo-script-verbatim-lines-you-can-read" title="Permanent link">&para;</a></h2>
+<p><strong>Opening</strong></p>
+<blockquote>
+<p>“I’ll show an AI agent wallet on Algorand testnet, a real USDC transfer you can verify on-chain, and an x402 payment to an HTTP API — all through one <code>pay()</code> method with spending policies behind it.”</p>
+</blockquote>
+<p><strong>Wallet</strong></p>
+<blockquote>
+<p>“This address is the agent. Fund it with testnet ALGO for fees and testnet USDC for spend. The SDK tracks USDC balance via the ASA AlgoPay configures for testnet.”</p>
+</blockquote>
+<p><strong>Transfer</strong></p>
+<blockquote>
+<p>“I’m calling <code>pay(wallet_id, address, amount)</code>. Under the hood that’s an Algorand asset transfer for USDC. Here’s the transaction on Pera’s testnet explorer.”</p>
+</blockquote>
+<p><strong>x402</strong></p>
+<blockquote>
+<p>“For machine-to-machine APIs, the recipient string can be a URL. AlgoPay implements the Algorand x402 ‘exact’ scheme: discover, pay, retry the request. The agent gets the paid resource in <code>resource_data</code>.”</p>
+</blockquote>
+<p><strong>Guards</strong></p>
+<blockquote>
+<p>“Before any of that, guards enforce policy — for example only whitelisted recipients or a daily USDC budget. Failed policy shows up as blocked in the ledger, not as a failed on-chain tx.”</p>
+</blockquote>
+<p><strong>Closing</strong></p>
+<blockquote>
+<p>“You get auditability from the ledger, safety from guards, and one client in your agent process — or the hosted console if you want team policies and API keys without embedding keys in the agent.”</p>
+</blockquote>
+<p><strong>Console — API key</strong></p>
+<blockquote>
+<p>“This key is what your agent sends on every server-side pay request. We show it once; after that you only see the prefix in the list.”</p>
+</blockquote>
+<p><strong>Console — x402 API</strong></p>
+<blockquote>
+<p>“You register paid HTTP endpoints here so the workspace knows which x402 resources agents are allowed to hit — same pay-per-call model as the SDK, managed from the UI.”</p>
+</blockquote>
+<hr />
+<h2 id="commands-quick-reference">Commands quick reference<a class="headerlink" href="#commands-quick-reference" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create demo wallet</td>
+<td><code>python python/scripts/generate_live_demo_wallet.py</code></td>
+</tr>
+<tr>
+<td><strong>One guaranteed explorer link (USDC transfer)</strong></td>
+<td><code>python python/scripts/live_demo_tx.py</code></td>
+</tr>
+<tr>
+<td>x402 only (after wallet funded)</td>
+<td><code>python python/scripts/live_demo_tx.py --x402-only</code></td>
+</tr>
+<tr>
+<td>Balance / chain check only</td>
+<td><code>python python/scripts/live_demo_tx.py --check-only</code></td>
+</tr>
+<tr>
+<td>Full SDK tour</td>
+<td><code>python python/scripts/live_demo_exhaustive.py</code></td>
+</tr>
+<tr>
+<td>Skip x402 in tour</td>
+<td><code>set LIVE_SKIP_X402=1</code> then exhaustive script</td>
+</tr>
+<tr>
+<td>Start console locally</td>
+<td><code>npm run dev</code> (after <code>db:push</code> and <code>pay/.env</code>)</td>
+</tr>
+<tr>
+<td>Console register</td>
+<td>http://localhost:3000/register</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Explorer base URL (testnet):</strong> <code>https://testnet.explorer.perawallet.app/tx/&lt;TXID&gt;</code></p>
+<hr />
+<h2 id="troubleshooting-during-a-live-demo">Troubleshooting during a live demo<a class="headerlink" href="#troubleshooting-during-a-live-demo" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Missing local/live_demo_wallet.json</code></td>
+<td>Run <code>generate_live_demo_wallet.py</code></td>
+</tr>
+<tr>
+<td><code>insufficient balance</code> / pay fails</td>
+<td>Fund USDC; run opt-in (<code>OPT_IN_USDC=1</code>)</td>
+</tr>
+<tr>
+<td>Opt-in fails</td>
+<td>Fund ALGO first (dispenser)</td>
+</tr>
+<tr>
+<td>x402 fails, transfer works</td>
+<td>Set <code>SKIP_X402=1</code> on smoke script or use <code>--transfer-only</code> on <code>live_demo_tx.py</code></td>
+</tr>
+<tr>
+<td>Slow confirmation</td>
+<td>Script uses <code>wait_for_completion=True</code> with 180s timeout; mention testnet block times</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="recording-tips">Recording tips<a class="headerlink" href="#recording-tips" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Two-act structure:</strong> Terminal first (explorer link), then browser tab on <code>localhost:3000/dashboard</code> (pre-logged-in).</li>
+<li>Zoom terminal to 18–20pt; open explorer link in browser <strong>before</strong> saying “on-chain”.</li>
+<li>Pre-copy wallet address to clipboard for dispenser.</li>
+<li>Run <code>live_demo_tx.py</code> once off-camera; keep the explorer tab from the dry run as fallback if live network is slow.</li>
+<li>For console: pre-create API key is <strong>not</strong> possible (shown once) — either blur the key in post or generate a throwaway key live.</li>
+<li>Widen browser to ~1280px so the sidebar (Overview, Agents, APIs, Settings) is visible in one frame.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; AlgoPay contributors — MIT License
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/algopay-sdk/" target="_blank" rel="noopener" title="algopay-sdk on PyPI" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
