@@ -179,6 +179,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const [showWallets, setShowWallets] = useState(false);
   const [algoBalance, setAlgoBalance] = useState<string | null>(null);
   const [usdcBalance, setUsdcBalance] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!activeAddress) {
@@ -257,7 +262,16 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <a href={DOCS_URL} target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Docs</a>
             <a href={SITE_URL} target="_blank" rel="noreferrer" className="hidden transition hover:text-text-primary md:block">Site</a>
 
-            {activeAddress ? (
+            {!mounted || !activeAddress ? (
+              <button
+                type="button"
+                disabled={!mounted || !isReady}
+                onClick={() => setShowWallets((v) => !v)}
+                className="neopop-btn neopop-btn-primary px-4 py-2 text-sm uppercase disabled:opacity-50"
+              >
+                Connect Wallet
+              </button>
+            ) : (
               <div className="flex items-center gap-3">
                 <div className="hidden flex-col items-end text-xs md:flex">
                   <span className="text-text-secondary">{algoBalance ?? "..."} ALGO</span>
@@ -271,22 +285,13 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   {truncateAddress(activeAddress)}
                 </button>
               </div>
-            ) : (
-              <button
-                type="button"
-                disabled={!isReady}
-                onClick={() => setShowWallets((v) => !v)}
-                className="neopop-btn neopop-btn-primary px-4 py-2 text-sm uppercase disabled:opacity-50"
-              >
-                Connect Wallet
-              </button>
             )}
 
             {showWallets && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowWallets(false)} />
                 <div className="absolute right-0 top-full z-50 mt-2 w-60 rounded-md border border-border bg-surface-raised p-3 shadow-xl">
-                  {activeAddress ? (
+                  {mounted && activeAddress ? (
                     <button
                       type="button"
                       onClick={() => { activeWallet?.disconnect(); setShowWallets(false); }}

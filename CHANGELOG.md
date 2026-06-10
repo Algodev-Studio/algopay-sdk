@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here. Python uses PEP 440 (`0.1.0a1`); TypeScript uses semver pre-release (`0.1.0-alpha.1`).
 
+## [0.1.0a4] / [0.1.0-alpha.4] - 2026-06-11
+
+### Added
+
+- **TypeScript:** `WalletService.optInUsdc()` — opt a wallet into the configured USDC ASA before receiving transfers.
+- **SDK telemetry** (both languages): optional fire-and-forget event reporting to the hosted console via `ALGOPAY_CONSOLE_URL` + `ALGOPAY_API_KEY`.
+- **TypeScript tests:** Vitest coverage for guards, router, client, and telemetry.
+
 ## [0.1.0a3] - 2026-05-20
 
 ### Fixed

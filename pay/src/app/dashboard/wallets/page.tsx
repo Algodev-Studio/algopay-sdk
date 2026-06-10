@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Wallet, RefreshCw, Loader2, ExternalLink } from "lucide-react";
+import { Wallet, RefreshCw, Loader2, ExternalLink, Copy, Check } from "lucide-react";
 import AnimatedSection from "@/components/animations/AnimatedSection";
+import { useNetwork } from "@/components/providers/NetworkProvider";
 
 type WalletSet = { id: string; name: string; walletCount: number };
 type WalletEntry = {
@@ -15,7 +16,33 @@ type WalletEntry = {
   algoBalance: string;
 };
 
+function CopyButton({ text, label = "Copy address" }: { text: string; label?: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        void navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }}
+      className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs text-text-muted transition hover:bg-surface-raised hover:text-text-primary"
+      title={label}
+      aria-label={label}
+    >
+      {copied ? <Check size={12} className="text-neopop-green" /> : <Copy size={12} />}
+    </button>
+  );
+}
+
+function addressExplorerUrl(address: string, network: "testnet" | "mainnet"): string {
+  return network === "mainnet"
+    ? `https://allo.info/account/${address}`
+    : `https://testnet.explorer.perawallet.app/address/${address}`;
+}
+
 export default function WalletsPage() {
+  const { network } = useNetwork();
   const [sets, setSets] = useState<WalletSet[]>([]);
   const [wallets, setWallets] = useState<WalletEntry[]>([]);
   const [setName, setSetName] = useState("agents");
@@ -158,6 +185,9 @@ export default function WalletsPage() {
               <RefreshCw size={12} /> Refresh balances
             </button>
           </div>
+          <p className="px-4 pb-3 text-xs text-text-muted">
+            Copy a wallet address to fund it with {network === "mainnet" ? "MainNet" : "TestNet"} ALGO, then opt in to USDC before receiving stablecoins.
+          </p>
           {optInMsg && (
             <div className={`mx-4 mb-3 rounded px-3 py-2 text-xs ${optInMsg.ok ? "bg-neopop-green/10 text-neopop-green" : "bg-neopop-red/10 text-neopop-red"}`}>
               {optInMsg.msg}
@@ -191,7 +221,20 @@ export default function WalletsPage() {
                   <tr key={w.id} className="border-t border-border text-text-primary hover:bg-surface-raised">
                     <td className="px-3 py-3">{w.walletSetName}</td>
                     <td className="px-3 py-3 font-mono text-xs">
-                      <span title={w.address}>{w.address.slice(0, 8)}…{w.address.slice(-4)}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span title={w.address}>{w.address.slice(0, 8)}…{w.address.slice(-4)}</span>
+                        <CopyButton text={w.address} />
+                        <a
+                          href={addressExplorerUrl(w.address, network)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex rounded-md p-0.5 text-text-muted transition hover:bg-surface-raised hover:text-text-primary"
+                          title="View on explorer"
+                          aria-label="View address on explorer"
+                        >
+                          <ExternalLink size={12} />
+                        </a>
+                      </div>
                     </td>
                     <td className="px-3 py-3 tabular-nums">{w.algoBalance} <span className="text-xs text-text-muted">ALGO</span></td>
                     <td className="px-3 py-3 tabular-nums">{w.usdcBalance} <span className="text-xs text-text-muted">USDC</span></td>
