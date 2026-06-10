@@ -105,13 +105,18 @@ SDK stays **free and open source** — we charge for the hosted control plane (s
 
 **Title:** Agent-first today. Enterprise-ready tomorrow. AlgoPay gives operators control before spend and proof after.
 
-**Roadmap (6 milestones, horizontal timeline):**
-- **M1** Human-in-the-loop approval queues in dashboard
-- **M2** Hosted x402 endpoint (pay any x402 API through our console)
-- **M3** Wrapped API gateway — agents discover and pay third-party data in one place
-- **M4** Facilitator + checkout flows (Locus-style escrow payouts)
-- **M5** Enterprise audit export + compliance tooling
-- **M6** Redis shared guards · multi-region · SSO
+**Roadmap (6 milestones, horizontal timeline — ordered per [FUTURE_SCOPE](../../docs/FUTURE_SCOPE.md)):**
+- **M1** Redis shared guards · MCP server · LangChain/CrewAI adapters *(near-term: horizontal agents, same policy everywhere)*
+- **M2** Wrapped API gateway — Algorand-first x402 catalog + proxy billing *(near-term: gateway revenue, one place to discover and pay APIs)*
+- **M3** Facilitator network + gas sponsorship on Algorand mainnet *(medium-term: agents pay in USDC, we cover ALGO fees)*
+- **M4** Agent Marketplace v1 — on-chain registration, trust scores, pay-per-call *(medium-term: govern discovery + monetization, not just spend)*
+- **M5** Enterprise governance — approval queues · SSO/SAML · audit export · KMS *(medium-term: Team → Enterprise tier upsell)*
+- **M6** Cross-chain settlement + sanctions screening *(long-term: Wormhole/CCTP reach + regulated deployments)*
+
+**Growth & infra (one line under timeline):**
+- **Users:** first 100 from Algorand + MCP/LangChain communities → 1,000 via enterprise design partners on Team/Enterprise tiers
+- **From Algorand:** x402-avm co-marketing, ARC metadata guidance for marketplace ASAs, mainnet facilitator ALGO pool best practices
+- **Infra at scale:** Redis guard state · Postgres + signing job queue · indexer for reads (~$150–400/mo at 1K workspaces)
 
 **Why now:**
 - x402 cumulative volume on Base already **$35M+** — Algorand governance tooling is underserved
@@ -126,4 +131,4 @@ SDK stays **free and open source** — we charge for the hosted control plane (s
 - algopay-sdk-pay.vercel.app
 - dorahacks.io/buidl/42990
 
-**Speaker note:** End on the closing line verbatim — it's the thesis in one sentence. Pause after "proof after" before "thank you."
+**Speaker note:** Walk milestones left-to-right in ~30s total. M1–M2 are shipped-path engineering (see FUTURE_SCOPE near-term). M3–M5 are monetization (facilitator tx fees, gateway markup, enterprise contracts). M6 is optional reach for EVM x402 volume without leaving Algorand as home chain. If asked "why not approval first?" — approval ships in M5 with enterprise RBAC; Redis + gateway unblock scale before compliance sales. End on the closing line verbatim — pause after "proof after" before "thank you."
