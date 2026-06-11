@@ -41,6 +41,7 @@ Practice until **2:50–3:00**. *[Brackets]* = stage directions, not spoken.
 >
 > **Agent payments are the exact same story.**
 >
+> Today's payment rails, AC, wire transfers, ISO2022 data, Visa, Mastercard, and more, they're built for humans and not agents.
 > x402 tells us *how* an agent pays. It does not tell us *who is accountable* when something goes wrong. When a runaway agent loop drains a wallet in minutes — when an agent pays a scam endpoint — when your CFO asks 'who authorized this?'
 >
 > Is it **you**, the developer? Your **company**? Your **AI provider**? The **API seller**?
