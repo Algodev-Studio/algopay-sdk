@@ -5,6 +5,7 @@ Use this document as your **talk track** and **runbook** for demos (recordings, 
 | Format | Resource |
 | ------ | -------- |
 | **5-minute voiceover script** | [DEMO_SCRIPT_5MIN.md](DEMO_SCRIPT_5MIN.md) — what to say, timed for SDK + console |
+| **Google Colab (full SDK + dashboard demo)** | [`python/examples/demo_colab.ipynb`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/examples/demo_colab.ipynb) — guards, payments, intents, batch, ledger, and live telemetry to the hosted console |
 | **Google Colab (SDK voiceover)** | [`notebooks/AlgoPay_SDK_Demo.ipynb`](../notebooks/AlgoPay_SDK_Demo.ipynb) — `pip install "algopay-sdk==0.1.0a3"` ([PyPI](https://pypi.org/project/algopay-sdk/); **do not use 0.1.0a2**) |
 | **Local terminal (explorer link)** | [`python/scripts/live_demo_tx.py`](../python/scripts/live_demo_tx.py) |
 | **Hosted console (UI only)** | [Console showcase](#console-showcase-ui-only--no-on-chain-tx) below |

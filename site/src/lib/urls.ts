@@ -6,4 +6,4 @@ export const SITE_URL =
 /** Deployed AlgoPay console (dashboard + REST API). */
 export const CONSOLE_URL =
   process.env.NEXT_PUBLIC_CONSOLE_URL?.replace(/\/$/, "") ??
-  "https://algopay-sdk-pay.vercel.app";
+  "https://algopay-sdk-pay-b17a.vercel.app";

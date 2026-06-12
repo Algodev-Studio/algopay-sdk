@@ -34,6 +34,7 @@
 | Goal | Start here | Related |
 | ---- | ---------- | ------- |
 | Install & first Python `pay()` | [Getting started](getting-started.md) | [Payments](guides/payments.md), [ENVIRONMENT](ENVIRONMENT.md) |
+| Google Colab demo (guards, telemetry, dashboard) | [`python/examples/demo_colab.ipynb`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/examples/demo_colab.ipynb) | [Live demo guide](DEMO.md), [Control plane](ecosystem/CONTROL_PLANE.md) |
 | x402 HTTP 402 flows (Python) | [x402 guide](guides/x402.md) | [x402 stack](ecosystem/x402-stack.md), **`python/examples/x402_client_demo.py`** |
 | Guards, budgets, confirmations | [Guards](guides/guards.md) | [API — types](reference/api.md) |
 | TypeScript agent client | [TypeScript SDK guide](guides/typescript.md) · **`typescript/README.md`** | Full parity with Python `AlgoPay`; `@x402-avm/*` for x402 |

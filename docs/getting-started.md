@@ -58,6 +58,14 @@ client = AlgoPay(
 )
 ```
 
+## Try it in Google Colab
+
+For a **hands-on walkthrough** of guards, payments, intents, batch transfers, ledger queries, and **live dashboard telemetry**, open the demo notebook in Colab:
+
+**[python/examples/demo_colab.ipynb](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/examples/demo_colab.ipynb)**
+
+The notebook installs `algopay-sdk`, creates a TestNet wallet, runs guard blocks and successful payments, then streams events to the hosted console at [algopay-sdk-pay-b17a.vercel.app](https://algopay-sdk-pay-b17a.vercel.app/).
+
 ## Create a wallet and pay USDC
 
 1. **Create** a wallet set and wallet (keys live in the in-process `WalletRepository` unless you plug in persistence).

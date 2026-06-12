@@ -27,16 +27,27 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              target={link.external ? "_blank" : undefined}
-              className="text-sm text-text-secondary transition hover:text-neopop-yellow"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-text-secondary transition hover:text-neopop-yellow"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-sm text-text-secondary transition hover:text-neopop-yellow"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <Link href="/docs/getting-started" className="neopop-btn neopop-btn-primary px-5 py-2 text-xs">
             Get Started
           </Link>
@@ -53,16 +64,29 @@ export default function Navbar() {
 
       {open && (
         <div className="border-t border-border bg-surface px-6 pb-6 pt-4 md:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block py-3 text-sm text-text-secondary transition hover:text-neopop-yellow"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+                className="block py-3 text-sm text-text-secondary transition hover:text-neopop-yellow"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="block py-3 text-sm text-text-secondary transition hover:text-neopop-yellow"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <Link
             href="/docs/getting-started"
             onClick={() => setOpen(false)}

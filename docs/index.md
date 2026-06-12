@@ -27,6 +27,12 @@ This repository is a **polyglot monorepo**: **`python/`** ships **PyPI `algopay-
 
     [Getting started](getting-started.md) · [Wallets](guides/wallets.md) · [Payments](guides/payments.md) · [x402](guides/x402.md)
 
+-   :material-notebook:{ .lg .middle } __Google Colab demo__
+
+    ---
+
+    Hands-on notebook: guards, payments, intents, ledger, and live dashboard telemetry — [`python/examples/demo_colab.ipynb`](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/examples/demo_colab.ipynb)
+
 -   :material-api:{ .lg .middle } __Reference__
 
     ---
@@ -88,6 +94,7 @@ asyncio.run(main())
 
 ## Links
 
+- **Google Colab demo:** [python/examples/demo_colab.ipynb](https://github.com/Algodev-Studio/algopay-sdk/blob/main/python/examples/demo_colab.ipynb)
 - **Source:** [github.com/Algodev-Studio/algopay-sdk](https://github.com/Algodev-Studio/algopay-sdk)
 - **PyPI:** [pypi.org/project/algopay-sdk](https://pypi.org/project/algopay-sdk/)
 - **Algorand x402 scheme:** [scheme_exact_algo.md](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md)

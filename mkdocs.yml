@@ -60,6 +60,7 @@ nav:
       - x402 stack: ecosystem/x402-stack.md
       - On-chain policy (AlgoKit): ecosystem/on-chain-policy.md
   - Project:
+      - Live demo guide: DEMO.md
       - Publishing (PyPI): PUBLISHING.md
       - Testing report: TESTING.md
       - Testing roadmap: TESTING_ROADMAP.md

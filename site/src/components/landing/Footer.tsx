@@ -46,12 +46,23 @@ export default function Footer() {
           <ul className="mt-4 space-y-2">
             {resourceLinks.map((link) => (
               <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="text-sm text-text-secondary transition hover:text-neopop-yellow"
-                >
-                  {link.label}
-                </Link>
+                {link.label === "App" ? (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-text-secondary transition hover:text-neopop-yellow"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className="text-sm text-text-secondary transition hover:text-neopop-yellow"
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

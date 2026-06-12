@@ -32,13 +32,14 @@ export default function DocsLayout({
             >
               Home
             </Link>
-            <Link
+            <a
               href={CONSOLE_URL}
               target="_blank"
+              rel="noreferrer"
               className="text-sm text-text-secondary transition hover:text-neopop-yellow"
             >
               App
-            </Link>
+            </a>
             <Link
               href="https://github.com/Algodev-Studio/algopay-sdk"
               target="_blank"
