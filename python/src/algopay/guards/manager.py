@@ -53,6 +53,8 @@ class GuardConfig:
     # Recipient guard params
     recipient_mode: str = "whitelist"  # "whitelist" or "blacklist"
     recipient_addresses: list[str] = field(default_factory=list)
+    recipient_domains: list[str] = field(default_factory=list)
+    recipient_patterns: list[str] = field(default_factory=list)
 
     # Rate limit guard params
     max_per_minute: int | None = None
@@ -81,6 +83,8 @@ class GuardConfig:
             # Recipient
             "recipient_mode": self.recipient_mode,
             "recipient_addresses": self.recipient_addresses,
+            "recipient_domains": self.recipient_domains,
+            "recipient_patterns": self.recipient_patterns,
             # Rate limit
             "max_per_minute": self.max_per_minute,
             "max_per_hour": self.max_per_hour,
@@ -108,6 +112,8 @@ class GuardConfig:
             # Recipient
             recipient_mode=data.get("recipient_mode", "whitelist"),
             recipient_addresses=data.get("recipient_addresses", []),
+            recipient_domains=data.get("recipient_domains", []),
+            recipient_patterns=data.get("recipient_patterns", []),
             # Rate limit
             max_per_minute=data.get("max_per_minute"),
             max_per_hour=data.get("max_per_hour"),
@@ -150,6 +156,10 @@ class GuardConfig:
             config.recipient_mode = guard._mode
         if hasattr(guard, "_addresses"):
             config.recipient_addresses = list(guard._addresses)
+        if hasattr(guard, "_domains"):
+            config.recipient_domains = list(guard._domains)
+        if hasattr(guard, "_patterns"):
+            config.recipient_patterns = [p.pattern for p in guard._patterns]
 
         # Rate limit guard
         if hasattr(guard, "_max_per_minute"):
@@ -211,6 +221,8 @@ class GuardConfig:
                 name=self.name,
                 mode=self.recipient_mode,
                 addresses=self.recipient_addresses,
+                domains=self.recipient_domains,
+                patterns=self.recipient_patterns,
             )
         elif self.guard_type == GuardType.RATE_LIMIT:
             guard = RateLimitGuard(
